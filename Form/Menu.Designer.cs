@@ -310,7 +310,7 @@
             this.button13.TabIndex = 16;
             this.button13.Text = "Công việc";
             this.button13.UseVisualStyleBackColor = false;
-//            this.button13.Click += new System.EventHandler(this.button13_Click);
+            this.button13.Click += new System.EventHandler(this.button13_Click);
             // 
             // button14
             // 
@@ -352,7 +352,7 @@
             this.button15.TabIndex = 20;
             this.button15.Text = "Nước sản xuất";
             this.button15.UseVisualStyleBackColor = false;
-//            this.button15.Click += new System.EventHandler(this.button15_Click);
+            this.button15.Click += new System.EventHandler(this.button15_Click);
             // 
             // button16
             // 
