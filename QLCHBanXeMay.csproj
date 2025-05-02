@@ -66,6 +66,12 @@
     <Compile Include="form\frmChitietHDN.Designer.cs">
       <DependentUpon>frmChitietHDN.cs</DependentUpon>
     </Compile>
+    <Compile Include="form\frmCongviec.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="form\frmCongviec.Designer.cs">
+      <DependentUpon>frmCongviec.cs</DependentUpon>
+    </Compile>
     <Compile Include="form\frmDondathang.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -113,6 +119,12 @@
     </Compile>
     <Compile Include="form\frmNhanvien.Designer.cs">
       <DependentUpon>frmNhanvien.cs</DependentUpon>
+    </Compile>
+    <Compile Include="form\frmNuocSX.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="form\frmNuocSX.Designer.cs">
+      <DependentUpon>frmNuocSX.cs</DependentUpon>
     </Compile>
     <Compile Include="form\frmPhanhxe.cs">
       <SubType>Form</SubType>

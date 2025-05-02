@@ -188,5 +188,17 @@ namespace QLCHBanXeMay.form
         {
             this.Close();
         }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+            frmCongviec frmCongviec = new frmCongviec();
+            frmCongviec.ShowDialog();
+        }
+
+        private void button15_Click(object sender, EventArgs e)
+        {
+            frmNuocSX frmNuocSX = new frmNuocSX();
+            frmNuocSX.ShowDialog();
+        }
     }
 }
