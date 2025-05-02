@@ -426,5 +426,132 @@ namespace QLCHBanXeMay.form
             btnXoa.Enabled = true;
             btnBoqua.Enabled = true;
         }
+
+        private void dgvMausac_Click_1(object sender, EventArgs e)
+        {
+            if (btnThem.Enabled == false)
+            {
+                MessageBox.Show("Đang ở chế độ thêm mới!", "Thông báo",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtMamau.Focus();
+                return;
+            }
+            if (tblMauSac.Rows.Count == 0)
+            {
+                MessageBox.Show("Không có dữ liệu!", "Thông báo", MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+                return;
+            }
+            txtMamau.Text = dgvMausac.CurrentRow.Cells["MaMau"].Value.ToString();
+            txtTenmau.Text = dgvMausac.CurrentRow.Cells["TenMau"].Value.ToString();
+            btnSua.Enabled = true;
+            btnXoa.Enabled = true;
+            btnBoqua.Enabled = true;
+        }
+
+        private void btnThem_Click_2(object sender, EventArgs e)
+        {
+            btnSua.Enabled = false;
+            btnXoa.Enabled = false;
+            btnBoqua.Enabled = true;
+            btnLuu.Enabled = true;
+            btnThem.Enabled = false;
+            ResetValues();
+            txtMamau.Enabled = true;
+            txtMamau.Focus();
+        }
+
+        private void btnXoa_Click_2(object sender, EventArgs e)
+        {
+            string sql;
+            if (tblMauSac.Rows.Count == 0)
+            {
+                MessageBox.Show("Không còn dữ liệu!", "Thông báo", MessageBoxButtons.OK,
+            MessageBoxIcon.Information);
+                return;
+            }
+            if (txtMamau.Text == "")
+            {
+                MessageBox.Show("Bạn chưa chọn bản ghi nào", "Thông báo",
+            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            if (MessageBox.Show("Bạn có muốn xóa không?", "Thông báo",
+            MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+            {
+                sql = "DELETE tblMauSac WHERE MaMau=N'" + txtMamau.Text + "'";
+                Class.Functions.Runsqldel(sql);
+                Load_DataGridView();
+                ResetValues();
+            }
+        }
+
+        private void btnLuu_Click_2(object sender, EventArgs e)
+        {
+            string sql;
+            if (txtMamau.Text == "")
+            {
+                MessageBox.Show("Bạn phải nhập mã", "Thông báo",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtMamau.Focus();
+                return;
+            }
+            if (txtTenmau.Text.Trim().Length == 0)
+            {
+                MessageBox.Show("Bạn phải nhập tên", "Thông báo",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTenmau.Focus();
+                return;
+            }
+            sql = "SELECT MaMau FROM tblMauSac WHERE MaMau=N'" +
+            txtMamau.Text.Trim() + "'";
+            if (Class.Functions.Checkkey(sql))
+            {
+                MessageBox.Show("Mã chất liệu này đã có, bạn phải nhập mã khác", "Thông báo",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtMamau.Focus();
+                txtMamau.Text = "";
+                return;
+            }
+            sql = "INSERT INTO tblMauSac(MaMau,TenMau) VALUES(N'" +
+            txtMamau.Text + "',N'" + txtTenmau.Text + "')";
+            Class.Functions.Runsql(sql);
+            Load_DataGridView();
+            ResetValues();
+            btnXoa.Enabled = true;
+            btnThem.Enabled = true;
+            btnSua.Enabled = true;
+            btnBoqua.Enabled = false;
+            btnLuu.Enabled = false;
+            txtMamau.Enabled = false;
+        }
+
+        private void btnBoqua_Click_2(object sender, EventArgs e)
+        {
+            ResetValues();
+            btnBoqua.Enabled = false;
+            btnThem.Enabled = true;
+            btnXoa.Enabled = true;
+            btnSua.Enabled = true;
+            btnLuu.Enabled = false;
+            txtMamau.Enabled = false;
+        }
+
+        private void btnDong_Click_2(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void txtMamau_KeyUp_2(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                SendKeys.Send("{TAB}");
+        }
+
+        private void txtTenmau_KeyUp_2(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                SendKeys.Send("{TAB}");
+        }
     }
 }

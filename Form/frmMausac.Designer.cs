@@ -52,6 +52,7 @@
             this.btnDong.TabIndex = 10;
             this.btnDong.Text = "Đóng";
             this.btnDong.UseVisualStyleBackColor = false;
+            this.btnDong.Click += new System.EventHandler(this.btnDong_Click_2);
             // 
             // btnBoqua
             // 
@@ -62,6 +63,7 @@
             this.btnBoqua.TabIndex = 11;
             this.btnBoqua.Text = "Bỏ qua";
             this.btnBoqua.UseVisualStyleBackColor = false;
+            this.btnBoqua.Click += new System.EventHandler(this.btnBoqua_Click_2);
             // 
             // btnLuu
             // 
@@ -72,6 +74,7 @@
             this.btnLuu.TabIndex = 12;
             this.btnLuu.Text = "Lưu";
             this.btnLuu.UseVisualStyleBackColor = false;
+            this.btnLuu.Click += new System.EventHandler(this.btnLuu_Click_2);
             // 
             // btnSua
             // 
@@ -95,6 +98,7 @@
             this.btnXoa.TabIndex = 14;
             this.btnXoa.Text = "Xóa";
             this.btnXoa.UseVisualStyleBackColor = false;
+            this.btnXoa.Click += new System.EventHandler(this.btnXoa_Click_2);
             // 
             // btnThem
             // 
@@ -106,6 +110,7 @@
             this.btnThem.TabIndex = 15;
             this.btnThem.Text = "Thêm";
             this.btnThem.UseVisualStyleBackColor = false;
+            this.btnThem.Click += new System.EventHandler(this.btnThem_Click_2);
             // 
             // dgvMausac
             // 
@@ -117,6 +122,7 @@
             this.dgvMausac.Size = new System.Drawing.Size(711, 150);
             this.dgvMausac.TabIndex = 9;
             this.dgvMausac.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMausac_CellContentClick_1);
+            this.dgvMausac.Click += new System.EventHandler(this.dgvMausac_Click_1);
             // 
             // txtTenmau
             // 
@@ -124,6 +130,7 @@
             this.txtTenmau.Name = "txtTenmau";
             this.txtTenmau.Size = new System.Drawing.Size(100, 22);
             this.txtTenmau.TabIndex = 7;
+            this.txtTenmau.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtTenmau_KeyUp_2);
             // 
             // txtMamau
             // 
@@ -131,6 +138,7 @@
             this.txtMamau.Name = "txtMamau";
             this.txtMamau.Size = new System.Drawing.Size(100, 22);
             this.txtMamau.TabIndex = 8;
+            this.txtMamau.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtMamau_KeyUp_2);
             // 
             // label3
             // 
