@@ -83,6 +83,7 @@
             this.btnSua.TabIndex = 13;
             this.btnSua.Text = "Sửa";
             this.btnSua.UseVisualStyleBackColor = false;
+            this.btnSua.Click += new System.EventHandler(this.btnSua_Click_2);
             // 
             // btnXoa
             // 
@@ -115,6 +116,7 @@
             this.dgvMausac.RowTemplate.Height = 24;
             this.dgvMausac.Size = new System.Drawing.Size(711, 150);
             this.dgvMausac.TabIndex = 9;
+            this.dgvMausac.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMausac_CellContentClick_1);
             // 
             // txtTenmau
             // 
