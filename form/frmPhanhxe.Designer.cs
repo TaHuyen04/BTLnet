@@ -1,6 +1,6 @@
 ﻿namespace QLCHBanXeMay.form
 {
-    partial class frmNuocSX
+    partial class frmPhanhxe
     {
         /// <summary>
         /// Required designer variable.
@@ -34,13 +34,13 @@
             this.btnSua = new System.Windows.Forms.Button();
             this.btnXoa = new System.Windows.Forms.Button();
             this.btnThem = new System.Windows.Forms.Button();
-            this.dgvNuocsanxuat = new System.Windows.Forms.DataGridView();
-            this.txtTennuocsanxuat = new System.Windows.Forms.TextBox();
-            this.txtManuocsanxuat = new System.Windows.Forms.TextBox();
+            this.dgvPhanhxe = new System.Windows.Forms.DataGridView();
+            this.txtTenphanh = new System.Windows.Forms.TextBox();
+            this.txtMaphanh = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvNuocsanxuat)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvPhanhxe)).BeginInit();
             this.SuspendLayout();
             // 
             // btnDong
@@ -52,18 +52,18 @@
             this.btnDong.TabIndex = 10;
             this.btnDong.Text = "Đóng";
             this.btnDong.UseVisualStyleBackColor = false;
-            this.btnDong.Click += new System.EventHandler(this.btnDong_Click_2);
+            this.btnDong.Click += new System.EventHandler(this.btnDong_Click_1);
             // 
             // btnBoqua
             // 
             this.btnBoqua.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.btnBoqua.Location = new System.Drawing.Point(544, 393);
+            this.btnBoqua.Location = new System.Drawing.Point(538, 393);
             this.btnBoqua.Name = "btnBoqua";
-            this.btnBoqua.Size = new System.Drawing.Size(86, 33);
+            this.btnBoqua.Size = new System.Drawing.Size(92, 33);
             this.btnBoqua.TabIndex = 11;
             this.btnBoqua.Text = "Bỏ qua";
             this.btnBoqua.UseVisualStyleBackColor = false;
-            this.btnBoqua.Click += new System.EventHandler(this.btnBoqua_Click_2);
+            this.btnBoqua.Click += new System.EventHandler(this.btnBoqua_Click_1);
             // 
             // btnLuu
             // 
@@ -74,7 +74,7 @@
             this.btnLuu.TabIndex = 12;
             this.btnLuu.Text = "Lưu";
             this.btnLuu.UseVisualStyleBackColor = false;
-            this.btnLuu.Click += new System.EventHandler(this.btnLuu_Click_2);
+            this.btnLuu.Click += new System.EventHandler(this.btnLuu_Click_1);
             // 
             // btnSua
             // 
@@ -86,7 +86,7 @@
             this.btnSua.TabIndex = 13;
             this.btnSua.Text = "Sửa";
             this.btnSua.UseVisualStyleBackColor = false;
-            this.btnSua.Click += new System.EventHandler(this.btnSua_Click_2);
+            this.btnSua.Click += new System.EventHandler(this.btnSua_Click_1);
             // 
             // btnXoa
             // 
@@ -98,7 +98,7 @@
             this.btnXoa.TabIndex = 14;
             this.btnXoa.Text = "Xóa";
             this.btnXoa.UseVisualStyleBackColor = false;
-            this.btnXoa.Click += new System.EventHandler(this.btnXoa_Click_2);
+            this.btnXoa.Click += new System.EventHandler(this.btnXoa_Click_1);
             // 
             // btnThem
             // 
@@ -112,50 +112,50 @@
             this.btnThem.UseVisualStyleBackColor = false;
             this.btnThem.Click += new System.EventHandler(this.btnThem_Click_1);
             // 
-            // dgvNuocsanxuat
+            // dgvPhanhxe
             // 
-            this.dgvNuocsanxuat.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvNuocsanxuat.Location = new System.Drawing.Point(45, 198);
-            this.dgvNuocsanxuat.Name = "dgvNuocsanxuat";
-            this.dgvNuocsanxuat.RowHeadersWidth = 51;
-            this.dgvNuocsanxuat.RowTemplate.Height = 24;
-            this.dgvNuocsanxuat.Size = new System.Drawing.Size(711, 150);
-            this.dgvNuocsanxuat.TabIndex = 9;
-            this.dgvNuocsanxuat.Click += new System.EventHandler(this.dgvNuocsanxuat_Click);
+            this.dgvPhanhxe.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvPhanhxe.Location = new System.Drawing.Point(45, 198);
+            this.dgvPhanhxe.Name = "dgvPhanhxe";
+            this.dgvPhanhxe.RowHeadersWidth = 51;
+            this.dgvPhanhxe.RowTemplate.Height = 24;
+            this.dgvPhanhxe.Size = new System.Drawing.Size(711, 150);
+            this.dgvPhanhxe.TabIndex = 9;
+            this.dgvPhanhxe.Click += new System.EventHandler(this.dgvPhanhxe_Click);
             // 
-            // txtTennuocsanxuat
+            // txtTenphanh
             // 
-            this.txtTennuocsanxuat.Location = new System.Drawing.Point(184, 131);
-            this.txtTennuocsanxuat.Name = "txtTennuocsanxuat";
-            this.txtTennuocsanxuat.Size = new System.Drawing.Size(100, 22);
-            this.txtTennuocsanxuat.TabIndex = 7;
-            this.txtTennuocsanxuat.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtTennuocsanxuat_KeyUp);
+            this.txtTenphanh.Location = new System.Drawing.Point(152, 131);
+            this.txtTenphanh.Name = "txtTenphanh";
+            this.txtTenphanh.Size = new System.Drawing.Size(100, 22);
+            this.txtTenphanh.TabIndex = 7;
+            this.txtTenphanh.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtTenphanh_KeyUp);
             // 
-            // txtManuocsanxuat
+            // txtMaphanh
             // 
-            this.txtManuocsanxuat.Location = new System.Drawing.Point(184, 89);
-            this.txtManuocsanxuat.Name = "txtManuocsanxuat";
-            this.txtManuocsanxuat.Size = new System.Drawing.Size(100, 22);
-            this.txtManuocsanxuat.TabIndex = 8;
-            this.txtManuocsanxuat.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtManuocsanxuat_KeyUp);
+            this.txtMaphanh.Location = new System.Drawing.Point(152, 89);
+            this.txtMaphanh.Name = "txtMaphanh";
+            this.txtMaphanh.Size = new System.Drawing.Size(100, 22);
+            this.txtMaphanh.TabIndex = 8;
+            this.txtMaphanh.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtMaphanh_KeyUp);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(57, 133);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(115, 16);
+            this.label3.Size = new System.Drawing.Size(71, 16);
             this.label3.TabIndex = 4;
-            this.label3.Text = "Tên nước sản xuất";
+            this.label3.Text = "Tên phanh";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(57, 95);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(110, 16);
+            this.label2.Size = new System.Drawing.Size(66, 16);
             this.label2.TabIndex = 5;
-            this.label2.Text = "Mã nước sản xuất";
+            this.label2.Text = "Mã phanh";
             // 
             // label1
             // 
@@ -164,11 +164,11 @@
             this.label1.ForeColor = System.Drawing.Color.MidnightBlue;
             this.label1.Location = new System.Drawing.Point(204, 24);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(412, 33);
+            this.label1.Size = new System.Drawing.Size(318, 33);
             this.label1.TabIndex = 6;
-            this.label1.Text = "DANH MỤC NƯỚC SẢN XUẤT";
+            this.label1.Text = "DANH MỤC PHANH XE";
             // 
-            // frmNuocSX
+            // frmPhanhxe
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -179,16 +179,16 @@
             this.Controls.Add(this.btnSua);
             this.Controls.Add(this.btnXoa);
             this.Controls.Add(this.btnThem);
-            this.Controls.Add(this.dgvNuocsanxuat);
-            this.Controls.Add(this.txtTennuocsanxuat);
-            this.Controls.Add(this.txtManuocsanxuat);
+            this.Controls.Add(this.dgvPhanhxe);
+            this.Controls.Add(this.txtTenphanh);
+            this.Controls.Add(this.txtMaphanh);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Name = "frmNuocSX";
-            this.Text = "frmNuocSX";
-            this.Load += new System.EventHandler(this.frmNuocSX_Load_1);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvNuocsanxuat)).EndInit();
+            this.Name = "frmPhanhxe";
+            this.Text = "frmPhanhxe";
+            this.Load += new System.EventHandler(this.frmPhanhxe_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvPhanhxe)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -202,9 +202,9 @@
         private System.Windows.Forms.Button btnSua;
         private System.Windows.Forms.Button btnXoa;
         private System.Windows.Forms.Button btnThem;
-        private System.Windows.Forms.DataGridView dgvNuocsanxuat;
-        private System.Windows.Forms.TextBox txtTennuocsanxuat;
-        private System.Windows.Forms.TextBox txtManuocsanxuat;
+        private System.Windows.Forms.DataGridView dgvPhanhxe;
+        private System.Windows.Forms.TextBox txtTenphanh;
+        private System.Windows.Forms.TextBox txtMaphanh;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;

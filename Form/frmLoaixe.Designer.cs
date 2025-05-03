@@ -57,9 +57,9 @@
             // btnBoqua
             // 
             this.btnBoqua.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.btnBoqua.Location = new System.Drawing.Point(566, 393);
+            this.btnBoqua.Location = new System.Drawing.Point(541, 393);
             this.btnBoqua.Name = "btnBoqua";
-            this.btnBoqua.Size = new System.Drawing.Size(64, 33);
+            this.btnBoqua.Size = new System.Drawing.Size(89, 33);
             this.btnBoqua.TabIndex = 23;
             this.btnBoqua.Text = "Bỏ qua";
             this.btnBoqua.UseVisualStyleBackColor = false;
