@@ -34,13 +34,13 @@
             this.btnSua = new System.Windows.Forms.Button();
             this.btnXoa = new System.Windows.Forms.Button();
             this.btnThem = new System.Windows.Forms.Button();
-            this.dgvNuocsanxuat = new System.Windows.Forms.DataGridView();
+            this.dgvHangsanxuat = new System.Windows.Forms.DataGridView();
             this.txtTenhangsanxuat = new System.Windows.Forms.TextBox();
             this.txtMahangsanxuat = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvNuocsanxuat)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvHangsanxuat)).BeginInit();
             this.SuspendLayout();
             // 
             // btnDong
@@ -52,6 +52,7 @@
             this.btnDong.TabIndex = 10;
             this.btnDong.Text = "Đóng";
             this.btnDong.UseVisualStyleBackColor = false;
+            this.btnDong.Click += new System.EventHandler(this.btnDong_Click_1);
             // 
             // btnBoqua
             // 
@@ -62,6 +63,7 @@
             this.btnBoqua.TabIndex = 11;
             this.btnBoqua.Text = "Bỏ qua";
             this.btnBoqua.UseVisualStyleBackColor = false;
+            this.btnBoqua.Click += new System.EventHandler(this.btnBoqua_Click_1);
             // 
             // btnLuu
             // 
@@ -72,6 +74,7 @@
             this.btnLuu.TabIndex = 12;
             this.btnLuu.Text = "Lưu";
             this.btnLuu.UseVisualStyleBackColor = false;
+            this.btnLuu.Click += new System.EventHandler(this.btnLuu_Click_1);
             // 
             // btnSua
             // 
@@ -83,6 +86,7 @@
             this.btnSua.TabIndex = 13;
             this.btnSua.Text = "Sửa";
             this.btnSua.UseVisualStyleBackColor = false;
+            this.btnSua.Click += new System.EventHandler(this.btnSua_Click_1);
             // 
             // btnXoa
             // 
@@ -94,6 +98,7 @@
             this.btnXoa.TabIndex = 14;
             this.btnXoa.Text = "Xóa";
             this.btnXoa.UseVisualStyleBackColor = false;
+            this.btnXoa.Click += new System.EventHandler(this.btnXoa_Click_1);
             // 
             // btnThem
             // 
@@ -105,16 +110,18 @@
             this.btnThem.TabIndex = 15;
             this.btnThem.Text = "Thêm";
             this.btnThem.UseVisualStyleBackColor = false;
+            this.btnThem.Click += new System.EventHandler(this.btnThem_Click_1);
             // 
-            // dgvNuocsanxuat
+            // dgvHangsanxuat
             // 
-            this.dgvNuocsanxuat.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvNuocsanxuat.Location = new System.Drawing.Point(45, 198);
-            this.dgvNuocsanxuat.Name = "dgvNuocsanxuat";
-            this.dgvNuocsanxuat.RowHeadersWidth = 51;
-            this.dgvNuocsanxuat.RowTemplate.Height = 24;
-            this.dgvNuocsanxuat.Size = new System.Drawing.Size(711, 150);
-            this.dgvNuocsanxuat.TabIndex = 9;
+            this.dgvHangsanxuat.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvHangsanxuat.Location = new System.Drawing.Point(45, 198);
+            this.dgvHangsanxuat.Name = "dgvHangsanxuat";
+            this.dgvHangsanxuat.RowHeadersWidth = 51;
+            this.dgvHangsanxuat.RowTemplate.Height = 24;
+            this.dgvHangsanxuat.Size = new System.Drawing.Size(711, 150);
+            this.dgvHangsanxuat.TabIndex = 9;
+            this.dgvHangsanxuat.Click += new System.EventHandler(this.dgvHangsanxuat_Click_1);
             // 
             // txtTenhangsanxuat
             // 
@@ -122,6 +129,7 @@
             this.txtTenhangsanxuat.Name = "txtTenhangsanxuat";
             this.txtTenhangsanxuat.Size = new System.Drawing.Size(100, 22);
             this.txtTenhangsanxuat.TabIndex = 7;
+            this.txtTenhangsanxuat.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtTenhangsanxuat_KeyUp_1);
             // 
             // txtMahangsanxuat
             // 
@@ -129,6 +137,7 @@
             this.txtMahangsanxuat.Name = "txtMahangsanxuat";
             this.txtMahangsanxuat.Size = new System.Drawing.Size(100, 22);
             this.txtMahangsanxuat.TabIndex = 8;
+            this.txtMahangsanxuat.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtMahangsanxuat_KeyUp_1);
             // 
             // label3
             // 
@@ -170,7 +179,7 @@
             this.Controls.Add(this.btnSua);
             this.Controls.Add(this.btnXoa);
             this.Controls.Add(this.btnThem);
-            this.Controls.Add(this.dgvNuocsanxuat);
+            this.Controls.Add(this.dgvHangsanxuat);
             this.Controls.Add(this.txtTenhangsanxuat);
             this.Controls.Add(this.txtMahangsanxuat);
             this.Controls.Add(this.label3);
@@ -179,7 +188,7 @@
             this.Name = "frmHangSX";
             this.Text = "frmHangSX";
             this.Load += new System.EventHandler(this.frmHangSX_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvNuocsanxuat)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvHangsanxuat)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -193,7 +202,7 @@
         private System.Windows.Forms.Button btnSua;
         private System.Windows.Forms.Button btnXoa;
         private System.Windows.Forms.Button btnThem;
-        private System.Windows.Forms.DataGridView dgvNuocsanxuat;
+        private System.Windows.Forms.DataGridView dgvHangsanxuat;
         private System.Windows.Forms.TextBox txtTenhangsanxuat;
         private System.Windows.Forms.TextBox txtMahangsanxuat;
         private System.Windows.Forms.Label label3;

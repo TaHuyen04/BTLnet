@@ -52,6 +52,7 @@
             this.btnDong.TabIndex = 10;
             this.btnDong.Text = "Đóng";
             this.btnDong.UseVisualStyleBackColor = false;
+            this.btnDong.Click += new System.EventHandler(this.btnDong_Click_1);
             // 
             // btnBoqua
             // 
@@ -62,6 +63,7 @@
             this.btnBoqua.TabIndex = 11;
             this.btnBoqua.Text = "Bỏ qua";
             this.btnBoqua.UseVisualStyleBackColor = false;
+            this.btnBoqua.Click += new System.EventHandler(this.btnBoqua_Click_1);
             // 
             // btnLuu
             // 
@@ -72,6 +74,7 @@
             this.btnLuu.TabIndex = 12;
             this.btnLuu.Text = "Lưu";
             this.btnLuu.UseVisualStyleBackColor = false;
+            this.btnLuu.Click += new System.EventHandler(this.btnLuu_Click_1);
             // 
             // btnSua
             // 
@@ -83,6 +86,7 @@
             this.btnSua.TabIndex = 13;
             this.btnSua.Text = "Sửa";
             this.btnSua.UseVisualStyleBackColor = false;
+            this.btnSua.Click += new System.EventHandler(this.btnSua_Click_1);
             // 
             // btnXoa
             // 
@@ -94,6 +98,7 @@
             this.btnXoa.TabIndex = 14;
             this.btnXoa.Text = "Xóa";
             this.btnXoa.UseVisualStyleBackColor = false;
+            this.btnXoa.Click += new System.EventHandler(this.btnXoa_Click_1);
             // 
             // btnThem
             // 
@@ -105,6 +110,7 @@
             this.btnThem.TabIndex = 15;
             this.btnThem.Text = "Thêm";
             this.btnThem.UseVisualStyleBackColor = false;
+            this.btnThem.Click += new System.EventHandler(this.btnThem_Click_1);
             // 
             // dgvTinhtrang
             // 
@@ -115,6 +121,7 @@
             this.dgvTinhtrang.RowTemplate.Height = 24;
             this.dgvTinhtrang.Size = new System.Drawing.Size(711, 150);
             this.dgvTinhtrang.TabIndex = 9;
+            this.dgvTinhtrang.Click += new System.EventHandler(this.dgvTinhtrang_Click_1);
             // 
             // txtTentinhtrang
             // 
@@ -122,6 +129,7 @@
             this.txtTentinhtrang.Name = "txtTentinhtrang";
             this.txtTentinhtrang.Size = new System.Drawing.Size(100, 22);
             this.txtTentinhtrang.TabIndex = 7;
+            this.txtTentinhtrang.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtTentinhtrang_KeyUp_1);
             // 
             // txtMatinhtrang
             // 
@@ -129,6 +137,7 @@
             this.txtMatinhtrang.Name = "txtMatinhtrang";
             this.txtMatinhtrang.Size = new System.Drawing.Size(100, 22);
             this.txtMatinhtrang.TabIndex = 8;
+            this.txtMatinhtrang.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtMatinhtrang_KeyUp_1);
             // 
             // label3
             // 

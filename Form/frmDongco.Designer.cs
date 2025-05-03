@@ -52,6 +52,7 @@
             this.btnDong.TabIndex = 10;
             this.btnDong.Text = "Đóng";
             this.btnDong.UseVisualStyleBackColor = false;
+            this.btnDong.Click += new System.EventHandler(this.btnDong_Click_2);
             // 
             // btnBoqua
             // 
@@ -62,6 +63,7 @@
             this.btnBoqua.TabIndex = 11;
             this.btnBoqua.Text = "Bỏ qua";
             this.btnBoqua.UseVisualStyleBackColor = false;
+            this.btnBoqua.Click += new System.EventHandler(this.btnBoqua_Click_2);
             // 
             // btnLuu
             // 
@@ -72,6 +74,7 @@
             this.btnLuu.TabIndex = 12;
             this.btnLuu.Text = "Lưu";
             this.btnLuu.UseVisualStyleBackColor = false;
+            this.btnLuu.Click += new System.EventHandler(this.btnLuu_Click_2);
             // 
             // btnSua
             // 
@@ -83,6 +86,7 @@
             this.btnSua.TabIndex = 13;
             this.btnSua.Text = "Sửa";
             this.btnSua.UseVisualStyleBackColor = false;
+            this.btnSua.Click += new System.EventHandler(this.btnSua_Click_2);
             // 
             // btnXoa
             // 
@@ -94,6 +98,7 @@
             this.btnXoa.TabIndex = 14;
             this.btnXoa.Text = "Xóa";
             this.btnXoa.UseVisualStyleBackColor = false;
+            this.btnXoa.Click += new System.EventHandler(this.btnXoa_Click_2);
             // 
             // btnThem
             // 
@@ -105,6 +110,7 @@
             this.btnThem.TabIndex = 15;
             this.btnThem.Text = "Thêm";
             this.btnThem.UseVisualStyleBackColor = false;
+            this.btnThem.Click += new System.EventHandler(this.btnThem_Click_2);
             // 
             // dgvDongco
             // 
@@ -115,6 +121,7 @@
             this.dgvDongco.RowTemplate.Height = 24;
             this.dgvDongco.Size = new System.Drawing.Size(711, 150);
             this.dgvDongco.TabIndex = 9;
+            this.dgvDongco.Click += new System.EventHandler(this.dgvDongco_Click_1);
             // 
             // txtTendongco
             // 
@@ -122,6 +129,7 @@
             this.txtTendongco.Name = "txtTendongco";
             this.txtTendongco.Size = new System.Drawing.Size(100, 22);
             this.txtTendongco.TabIndex = 7;
+            this.txtTendongco.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtTendongco_KeyUp_2);
             // 
             // txtMadongco
             // 
@@ -129,6 +137,7 @@
             this.txtMadongco.Name = "txtMadongco";
             this.txtMadongco.Size = new System.Drawing.Size(100, 22);
             this.txtMadongco.TabIndex = 8;
+            this.txtMadongco.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtMadongco_KeyUp_2);
             // 
             // label3
             // 

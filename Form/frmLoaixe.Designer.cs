@@ -52,6 +52,7 @@
             this.btnDong.TabIndex = 22;
             this.btnDong.Text = "Đóng";
             this.btnDong.UseVisualStyleBackColor = false;
+            this.btnDong.Click += new System.EventHandler(this.btnDong_Click_2);
             // 
             // btnBoqua
             // 
@@ -62,6 +63,7 @@
             this.btnBoqua.TabIndex = 23;
             this.btnBoqua.Text = "Bỏ qua";
             this.btnBoqua.UseVisualStyleBackColor = false;
+            this.btnBoqua.Click += new System.EventHandler(this.btnBoqua_Click_2);
             // 
             // btnLuu
             // 
@@ -72,6 +74,7 @@
             this.btnLuu.TabIndex = 24;
             this.btnLuu.Text = "Lưu";
             this.btnLuu.UseVisualStyleBackColor = false;
+            this.btnLuu.Click += new System.EventHandler(this.btnLuu_Click_2);
             // 
             // btnSua
             // 
@@ -83,6 +86,7 @@
             this.btnSua.TabIndex = 25;
             this.btnSua.Text = "Sửa";
             this.btnSua.UseVisualStyleBackColor = false;
+            this.btnSua.Click += new System.EventHandler(this.btnSua_Click_2);
             // 
             // btnXoa
             // 
@@ -94,6 +98,7 @@
             this.btnXoa.TabIndex = 26;
             this.btnXoa.Text = "Xóa";
             this.btnXoa.UseVisualStyleBackColor = false;
+            this.btnXoa.Click += new System.EventHandler(this.btnXoa_Click_2);
             // 
             // btnThem
             // 
@@ -105,6 +110,7 @@
             this.btnThem.TabIndex = 27;
             this.btnThem.Text = "Thêm";
             this.btnThem.UseVisualStyleBackColor = false;
+            this.btnThem.Click += new System.EventHandler(this.btnThem_Click_2);
             // 
             // dgvLoaixe
             // 
@@ -115,6 +121,7 @@
             this.dgvLoaixe.RowTemplate.Height = 24;
             this.dgvLoaixe.Size = new System.Drawing.Size(711, 150);
             this.dgvLoaixe.TabIndex = 21;
+            this.dgvLoaixe.Click += new System.EventHandler(this.dgvLoaixe_Click_1);
             // 
             // txtTenloai
             // 
@@ -122,6 +129,7 @@
             this.txtTenloai.Name = "txtTenloai";
             this.txtTenloai.Size = new System.Drawing.Size(100, 22);
             this.txtTenloai.TabIndex = 19;
+            this.txtTenloai.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtTenloai_KeyUp_2);
             // 
             // txtMaloai
             // 
@@ -129,6 +137,7 @@
             this.txtMaloai.Name = "txtMaloai";
             this.txtMaloai.Size = new System.Drawing.Size(100, 22);
             this.txtMaloai.TabIndex = 20;
+            this.txtMaloai.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtMaloai_KeyUp_2);
             // 
             // label3
             // 

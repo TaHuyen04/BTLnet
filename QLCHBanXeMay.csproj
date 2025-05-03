@@ -217,6 +217,9 @@
     <EmbeddedResource Include="form\frmNhanvien.resx">
       <DependentUpon>frmNhanvien.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="form\frmNuocSX.resx">
+      <DependentUpon>frmNuocSX.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="form\frmPhanhxe.resx">
       <DependentUpon>frmPhanhxe.cs</DependentUpon>
     </EmbeddedResource>
