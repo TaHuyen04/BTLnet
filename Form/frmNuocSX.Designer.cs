@@ -124,7 +124,6 @@
             this.txtTennuocsanxuat.Name = "txtTennuocsanxuat";
             this.txtTennuocsanxuat.Size = new System.Drawing.Size(100, 22);
             this.txtTennuocsanxuat.TabIndex = 7;
-//            this.txtTennuocsanxuat.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtTennuocsanxuat_KeyUp);
             // 
             // txtManuocsanxuat
             // 
@@ -132,7 +131,6 @@
             this.txtManuocsanxuat.Name = "txtManuocsanxuat";
             this.txtManuocsanxuat.Size = new System.Drawing.Size(100, 22);
             this.txtManuocsanxuat.TabIndex = 8;
-//            this.txtManuocsanxuat.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtManuocsanxuat_KeyUp);
             // 
             // label3
             // 
@@ -182,6 +180,7 @@
             this.Controls.Add(this.label1);
             this.Name = "frmNuocSX";
             this.Text = "frmNuocSX";
+            this.Load += new System.EventHandler(this.frmNuocSX_Load_1);
             ((System.ComponentModel.ISupportInitialize)(this.dgvNuocsanxuat)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

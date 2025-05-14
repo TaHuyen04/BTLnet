@@ -242,6 +242,11 @@ namespace QLCHBanXeMay.form
         {
             this.Close();
         }
+
+        private void frmNuocSX_Load_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 
