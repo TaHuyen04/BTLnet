@@ -52,16 +52,18 @@
             this.btnDong.TabIndex = 10;
             this.btnDong.Text = "Đóng";
             this.btnDong.UseVisualStyleBackColor = false;
+            this.btnDong.Click += new System.EventHandler(this.btnDong_Click_2);
             // 
             // btnBoqua
             // 
             this.btnBoqua.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.btnBoqua.Location = new System.Drawing.Point(566, 393);
+            this.btnBoqua.Location = new System.Drawing.Point(544, 393);
             this.btnBoqua.Name = "btnBoqua";
-            this.btnBoqua.Size = new System.Drawing.Size(64, 33);
+            this.btnBoqua.Size = new System.Drawing.Size(86, 33);
             this.btnBoqua.TabIndex = 11;
             this.btnBoqua.Text = "Bỏ qua";
             this.btnBoqua.UseVisualStyleBackColor = false;
+            this.btnBoqua.Click += new System.EventHandler(this.btnBoqua_Click_2);
             // 
             // btnLuu
             // 
@@ -72,6 +74,7 @@
             this.btnLuu.TabIndex = 12;
             this.btnLuu.Text = "Lưu";
             this.btnLuu.UseVisualStyleBackColor = false;
+            this.btnLuu.Click += new System.EventHandler(this.btnLuu_Click_2);
             // 
             // btnSua
             // 
@@ -83,6 +86,7 @@
             this.btnSua.TabIndex = 13;
             this.btnSua.Text = "Sửa";
             this.btnSua.UseVisualStyleBackColor = false;
+            this.btnSua.Click += new System.EventHandler(this.btnSua_Click_2);
             // 
             // btnXoa
             // 
@@ -94,6 +98,7 @@
             this.btnXoa.TabIndex = 14;
             this.btnXoa.Text = "Xóa";
             this.btnXoa.UseVisualStyleBackColor = false;
+            this.btnXoa.Click += new System.EventHandler(this.btnXoa_Click_2);
             // 
             // btnThem
             // 
@@ -180,7 +185,7 @@
             this.Controls.Add(this.label1);
             this.Name = "frmNuocSX";
             this.Text = "frmNuocSX";
-            this.Load += new System.EventHandler(this.frmNuocSX_Load_1);
+            this.Load += new System.EventHandler(this.frmNuocSX_Load_2);
             ((System.ComponentModel.ISupportInitialize)(this.dgvNuocsanxuat)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

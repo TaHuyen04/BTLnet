@@ -19,10 +19,7 @@ namespace QLCHBanXeMay.form
 
         private void frmNuocSX_Load(object sender, EventArgs e)
         {
-            txtManuocsanxuat.Enabled = false;
-            btnLuu.Enabled = false;
-            btnBoqua.Enabled = false;
-            Load_DataGridView();
+            
         }
         DataTable tblNuocSX;
         private void Load_DataGridView()
@@ -46,7 +43,24 @@ namespace QLCHBanXeMay.form
 
         private void dgvNuocsanxuat_Click(object sender, EventArgs e)
         {
-
+            if (btnThem.Enabled == false)
+            {
+                MessageBox.Show("Đang ở chế độ thêm mới!", "Thông báo",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtManuocsanxuat.Focus();
+                return;
+            }
+            if (tblNuocSX.Rows.Count == 0)
+            {
+                MessageBox.Show("Không có dữ liệu!", "Thông báo", MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+                return;
+            }
+            txtManuocsanxuat.Text = dgvNuocsanxuat.CurrentRow.Cells["MaNuocSX"].Value.ToString();
+            txtTennuocsanxuat.Text = dgvNuocsanxuat.CurrentRow.Cells["TenNuocSX"].Value.ToString();
+            btnSua.Enabled = true;
+            btnXoa.Enabled = true;
+            btnBoqua.Enabled = true;
         }
 
         private void btnThem_Click(object sender, EventArgs e)
@@ -94,30 +108,12 @@ namespace QLCHBanXeMay.form
 
         private void txtTennuocsanxuat_KeyUp_1(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
-                SendKeys.Send("{TAB}");
+            
         }
 
         private void dgvNuocsanxuat_Click_1(object sender, EventArgs e)
         {
-            if (btnThem.Enabled == false)
-            {
-                MessageBox.Show("Đang ở chế độ thêm mới!", "Thông báo",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtManuocsanxuat.Focus();
-                return;
-            }
-            if (tblNuocSX.Rows.Count == 0)
-            {
-                MessageBox.Show("Không có dữ liệu!", "Thông báo", MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
-                return;
-            }
-            txtManuocsanxuat.Text = dgvNuocsanxuat.CurrentRow.Cells["MaNuocSX"].Value.ToString();
-            txtTennuocsanxuat.Text = dgvNuocsanxuat.CurrentRow.Cells["TenNuocSX"].Value.ToString();
-            btnSua.Enabled = true;
-            btnXoa.Enabled = true;
-            btnBoqua.Enabled = true;
+            
         }
 
         private void btnThem_Click_1(object sender, EventArgs e)
@@ -133,6 +129,51 @@ namespace QLCHBanXeMay.form
         }
 
         private void btnXoa_Click_1(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void btnSua_Click_1(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void btnLuu_Click_1(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void btnBoqua_Click_1(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void btnDong_Click_1(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void frmNuocSX_Load_1(object sender, EventArgs e)
+        {
+            txtManuocsanxuat.Enabled = false;
+            btnLuu.Enabled = false;
+            btnBoqua.Enabled = false;
+            Load_DataGridView();
+        }
+
+        private void txtManuocsanxuat_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                SendKeys.Send("{TAB}");
+        }
+
+        private void txtTennuocsanxuat_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                SendKeys.Send("{TAB}");
+        }
+
+        private void btnXoa_Click_2(object sender, EventArgs e)
         {
             string sql;
             if (tblNuocSX.Rows.Count == 0)
@@ -157,7 +198,7 @@ namespace QLCHBanXeMay.form
             }
         }
 
-        private void btnSua_Click_1(object sender, EventArgs e)
+        private void btnSua_Click_2(object sender, EventArgs e)
         {
             string sql;
             if (tblNuocSX.Rows.Count == 0)
@@ -187,7 +228,7 @@ namespace QLCHBanXeMay.form
             btnBoqua.Enabled = false;
         }
 
-        private void btnLuu_Click_1(object sender, EventArgs e)
+        private void btnLuu_Click_2(object sender, EventArgs e)
         {
             string sql;
             if (txtManuocsanxuat.Text == "")
@@ -227,7 +268,7 @@ namespace QLCHBanXeMay.form
             txtManuocsanxuat.Enabled = false;
         }
 
-        private void btnBoqua_Click_1(object sender, EventArgs e)
+        private void btnBoqua_Click_2(object sender, EventArgs e)
         {
             ResetValues();
             btnBoqua.Enabled = false;
@@ -238,12 +279,13 @@ namespace QLCHBanXeMay.form
             txtManuocsanxuat.Enabled = false;
         }
 
-        private void btnDong_Click_1(object sender, EventArgs e)
+        private void btnDong_Click_2(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void frmNuocSX_Load_1(object sender, EventArgs e)
+
+        private void frmNuocSX_Load_2(object sender, EventArgs e)
         {
 
         }
