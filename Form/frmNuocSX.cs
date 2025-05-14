@@ -22,7 +22,6 @@ namespace QLCHBanXeMay.form
             Load_DataGridView();
         }
             
-        }
         DataTable tblNuocSX;
         private void Load_DataGridView()
         {
@@ -287,10 +286,6 @@ namespace QLCHBanXeMay.form
         }
 
 
-        private void frmNuocSX_Load_2(object sender, EventArgs e)
-        {
-
-    }
 }
 }
 
