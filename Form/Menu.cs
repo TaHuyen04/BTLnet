@@ -86,36 +86,48 @@ namespace QLCHBanXeMay.form
 
         private void button21_Click(object sender, EventArgs e)
         {
+            panelNhansu.Visible = false;
+            grbDM.Visible = false;
             frmLoaixe frmLoaixe = new frmLoaixe();
             frmLoaixe.ShowDialog();
         }
 
         private void button20_Click(object sender, EventArgs e)
         {
+            panelNhansu.Visible = false;
+            grbDM.Visible = false;
             frmMausac frmMausac = new frmMausac();
             frmMausac.ShowDialog();
         }
 
         private void button19_Click(object sender, EventArgs e)
         {
+            panelNhansu.Visible = false;
+            grbDM.Visible = false;
             frmDongco frmDongco = new frmDongco();
             frmDongco.ShowDialog();
         }
 
         private void button18_Click(object sender, EventArgs e)
         {
+            panelNhansu.Visible = false;
+            grbDM.Visible = false;
             frmPhanhxe frmPhanhxe = new frmPhanhxe();
             frmPhanhxe.ShowDialog();
         }
 
         private void button17_Click(object sender, EventArgs e)
         {
+            panelNhansu.Visible = false;
+            grbDM.Visible = false;
             frmTinhtrang frmTinhtrang = new frmTinhtrang();
             frmTinhtrang.ShowDialog();
         }
 
         private void button16_Click(object sender, EventArgs e)
         {
+            panelNhansu.Visible = false;
+            grbDM.Visible = false;
             frmHangSX frmHangSX = new frmHangSX();
             frmHangSX.ShowDialog();
         }
@@ -124,12 +136,16 @@ namespace QLCHBanXeMay.form
 
         private void btnSanpham_Click(object sender, EventArgs e)
         {
+            panelNhansu.Visible = false;
+            grbDM.Visible = false;
             frmSanpham frmSanpham = new frmSanpham();
             frmSanpham.ShowDialog();
         }
 
         private void button14_Click(object sender, EventArgs e)
         {
+            panelNhansu.Visible = false;
+            grbDM.Visible = false;
             frmNhanvien frmNhanvien = new frmNhanvien();
             frmNhanvien.ShowDialog();
         }
@@ -138,48 +154,64 @@ namespace QLCHBanXeMay.form
 
         private void btnKH_Click(object sender, EventArgs e)
         {
+            panelNhansu.Visible = false;
+            grbDM.Visible = false;
             frmKhachhang frmKhachhang = new frmKhachhang();
             frmKhachhang.ShowDialog();
         }
 
         private void btnNCC_Click(object sender, EventArgs e)
         {
+            panelNhansu.Visible = false;
+            grbDM.Visible = false;
             frmNCC frmNCC = new frmNCC();
             frmNCC.ShowDialog();
         }
 
         private void btnDSN_Click(object sender, EventArgs e)
         {
+            panelNhansu.Visible = false;
+            grbDM.Visible = false;
             frmHoadonnhap frmHoadonnhap = new frmHoadonnhap();
             frmHoadonnhap.ShowDialog();
         }
 
         private void btnTaoDN_Click(object sender, EventArgs e)
         {
+            panelNhansu.Visible = false;
+            grbDM.Visible = false;
             frmTaodonnhap frmTaodonnhap = new frmTaodonnhap();
             frmTaodonnhap.ShowDialog();
         }
 
         private void btnDSB_Click(object sender, EventArgs e)
         {
+            panelNhansu.Visible = false;
+            grbDM.Visible = false;
             frmDondathang frmDondathang = new frmDondathang();
             frmDondathang.ShowDialog();
         }
 
         private void btnTaoDB_Click(object sender, EventArgs e)
         {
+            panelNhansu.Visible = false;
+            grbDM.Visible = false;
             frmTaodonban frmTaodonban = new frmTaodonban();
             frmTaodonban.ShowDialog();
         }
 
         private void btnTK_Click(object sender, EventArgs e)
         {
+            panelNhansu.Visible = false;
+            grbDM.Visible = false;
             frmThongke frmThongke = new frmThongke();
             frmThongke.ShowDialog();
         }
 
         private void btnBC_Click(object sender, EventArgs e)
         {
+            panelNhansu.Visible = false;
+            grbDM.Visible = false;
             frmBaocao frmBaocao = new frmBaocao();
             frmBaocao.ShowDialog();
         }
@@ -191,12 +223,16 @@ namespace QLCHBanXeMay.form
 
         private void button13_Click(object sender, EventArgs e)
         {
+            panelNhansu.Visible = false;
+            grbDM.Visible = false;
             frmCongviec frmCongviec = new frmCongviec();
             frmCongviec.ShowDialog();
         }
 
         private void button15_Click(object sender, EventArgs e)
         {
+            panelNhansu.Visible = false;
+            grbDM.Visible = false;
             frmNuocSX frmNuocSX = new frmNuocSX();
             frmNuocSX.ShowDialog();
         }
