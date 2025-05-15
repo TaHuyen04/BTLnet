@@ -22,7 +22,7 @@ namespace QLCHBanXeMay.form
         {
             txtMaSP.Enabled = false;
             btnLuu.Enabled = false;
-            btnBoQua.Enabled = false;
+            btnBoqua.Enabled = false;
             Load_DataGridView();
             Functions.FillCombo("SELECT MaMau, TenMau FROM tblMauSac", cboMauSac, "MaMau", "TenMau");
             Functions.FillCombo("SELECT MaLoai, TenLoai FROM tblTheLoai", cboLoai, "MaLoai", "TenLoai");
@@ -83,7 +83,7 @@ namespace QLCHBanXeMay.form
             ResetValues();
             txtMaSP.Enabled = true;
             btnLuu.Enabled = true;
-            btnBoQua.Enabled = true;
+            btnBoqua.Enabled = true;
         }
     }
 }

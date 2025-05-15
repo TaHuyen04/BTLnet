@@ -31,6 +31,17 @@ namespace QLCHBanXeMay.Class
             else
                 return false;
         }
+        public static bool IsDate1(string d)
+        {
+            if (string.IsNullOrWhiteSpace(d)) return false;
+            string[] parts = d.Split('/');
+            if (parts.Length != 3) return false;
+            if (int.TryParse(parts[0], out int day) && int.TryParse(parts[1], out int month) && int.TryParse(parts[2], out int year))
+            {
+                return day >= 1 && day <= 31 && month >= 1 && month <= 12 && year >= 1900;
+            }
+            return false;
+        }
         public static string ConvertDateTime(string d)
         {
             string[] parts = d.Split('/');
