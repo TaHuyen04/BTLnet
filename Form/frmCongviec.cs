@@ -16,5 +16,10 @@ namespace QLCHBanXeMay.form
         {
             InitializeComponent();
         }
+
+        private void frmCongviec_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

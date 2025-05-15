@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -550,8 +551,6 @@ namespace QLCHBanXeMay.form
                     txtThoiGianBH.Text = row.Cells["Bảo hành (tháng)"].Value?.ToString() ?? "0";
                     txtAnh.Text = row.Cells["Ảnh"].Value?.ToString() ?? "";
 
-                    // Debug: Hiển thị đường dẫn để kiểm tra
-                    MessageBox.Show("Đường dẫn ảnh: " + txtAnh.Text, "Debug");
 
                     // Lấy mã dựa vào tên hiển thị
                     cboLoai.SelectedValue = Functions.GetFieldValues("SELECT MaLoai FROM tblTheLoai WHERE TenLoai = N'" + (row.Cells["Loại"].Value?.ToString() ?? "") + "'");
@@ -583,29 +582,30 @@ namespace QLCHBanXeMay.form
         {
             try
             {
-                if (!string.IsNullOrEmpty(imagePath))
+                picAnh.Image = null;
+
+                if (!string.IsNullOrEmpty(imagePath) && System.IO.File.Exists(imagePath))
                 {
-                    // Debug: Kiểm tra tồn tại file
-                    if (System.IO.File.Exists(imagePath))
+                    using (var fs = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
                     {
-                        picAnh.Image = Image.FromFile(imagePath);
-                        picAnh.SizeMode = PictureBoxSizeMode.StretchImage;
+                        Image img = Image.FromStream(fs);
+                        picAnh.Image = new Bitmap(img);
                     }
-                    else
-                    {
-                        MessageBox.Show("File ảnh không tồn tại tại: " + imagePath, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        picAnh.Image = null;
-                    }
+
+                    picAnh.SizeMode = PictureBoxSizeMode.StretchImage;
                 }
                 else
                 {
-                    picAnh.Image = null; // Xóa ảnh nếu đường dẫn rỗng
+                    MessageBox.Show("File ảnh không tồn tại tại:\n" + imagePath, "Ảnh không tìm thấy", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
+            }
+            catch (OutOfMemoryException)
+            {
+                MessageBox.Show("File không phải là ảnh hợp lệ hoặc bị lỗi:\n" + imagePath, "Lỗi ảnh", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi khi tải ảnh: " + ex.Message + "\nĐường dẫn: " + imagePath, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                picAnh.Image = null;
+                MessageBox.Show("Lỗi khi tải ảnh:\n" + ex.Message + "\nĐường dẫn: " + imagePath, "Lỗi ảnh", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
