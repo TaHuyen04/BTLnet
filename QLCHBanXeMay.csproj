@@ -190,6 +190,9 @@
     <EmbeddedResource Include="form\frmChitietHDN.resx">
       <DependentUpon>frmChitietHDN.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="form\frmCongviec.resx">
+      <DependentUpon>frmCongviec.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="form\frmDondathang.resx">
       <DependentUpon>frmDondathang.cs</DependentUpon>
     </EmbeddedResource>
@@ -274,6 +277,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Picture\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
