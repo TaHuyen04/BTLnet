@@ -58,10 +58,10 @@
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.chart2 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnThem = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.btnHienthi = new System.Windows.Forms.Button();
+            this.btnLammoi = new System.Windows.Forms.Button();
+            this.btnXuatexcel = new System.Windows.Forms.Button();
+            this.btnDong = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgridKinhdoanh)).BeginInit();
             this.gpbThoigian.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
@@ -250,12 +250,12 @@
             this.dgridKinhdoanh.Name = "dgridKinhdoanh";
             this.dgridKinhdoanh.RowHeadersWidth = 20;
             this.dgridKinhdoanh.RowTemplate.Height = 28;
-            this.dgridKinhdoanh.Size = new System.Drawing.Size(928, 398);
+            this.dgridKinhdoanh.Size = new System.Drawing.Size(851, 398);
             this.dgridKinhdoanh.TabIndex = 120;
             // 
             // gpbThoigian
             // 
-            this.gpbThoigian.Controls.Add(this.btnThem);
+            this.gpbThoigian.Controls.Add(this.btnHienthi);
             this.gpbThoigian.Controls.Add(this.dtpKT);
             this.gpbThoigian.Controls.Add(this.dtpBD);
             this.gpbThoigian.Controls.Add(this.cboNamKT);
@@ -273,7 +273,7 @@
             this.gpbThoigian.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.gpbThoigian.Name = "gpbThoigian";
             this.gpbThoigian.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.gpbThoigian.Size = new System.Drawing.Size(928, 120);
+            this.gpbThoigian.Size = new System.Drawing.Size(851, 120);
             this.gpbThoigian.TabIndex = 119;
             this.gpbThoigian.TabStop = false;
             this.gpbThoigian.Text = "Chọn thời gian";
@@ -300,7 +300,7 @@
             this.chart1.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
             this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(993, 49);
+            this.chart1.Location = new System.Drawing.Point(898, 49);
             this.chart1.Name = "chart1";
             series1.ChartArea = "ChartArea1";
             series1.Legend = "Legend1";
@@ -316,7 +316,7 @@
             this.chart2.ChartAreas.Add(chartArea2);
             legend2.Name = "Legend1";
             this.chart2.Legends.Add(legend2);
-            this.chart2.Location = new System.Drawing.Point(993, 369);
+            this.chart2.Location = new System.Drawing.Point(898, 369);
             this.chart2.Name = "chart2";
             series2.ChartArea = "ChartArea1";
             series2.Legend = "Legend1";
@@ -337,58 +337,58 @@
             this.label1.TabIndex = 132;
             this.label1.Text = "BÁO CÁO TÌNH HÌNH KINH DOANH";
             // 
-            // btnThem
+            // btnHienthi
             // 
-            this.btnThem.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.btnThem.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.btnThem.Location = new System.Drawing.Point(700, 44);
-            this.btnThem.Name = "btnThem";
-            this.btnThem.Size = new System.Drawing.Size(120, 33);
-            this.btnThem.TabIndex = 133;
-            this.btnThem.Text = "Hiển thị";
-            this.btnThem.UseVisualStyleBackColor = false;
+            this.btnHienthi.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.btnHienthi.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.btnHienthi.Location = new System.Drawing.Point(700, 44);
+            this.btnHienthi.Name = "btnHienthi";
+            this.btnHienthi.Size = new System.Drawing.Size(120, 33);
+            this.btnHienthi.TabIndex = 133;
+            this.btnHienthi.Text = "Hiển thị";
+            this.btnHienthi.UseVisualStyleBackColor = false;
             // 
-            // button1
+            // btnLammoi
             // 
-            this.button1.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.button1.Location = new System.Drawing.Point(862, 687);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(120, 33);
-            this.button1.TabIndex = 134;
-            this.button1.Text = "Làm mới";
-            this.button1.UseVisualStyleBackColor = false;
+            this.btnLammoi.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.btnLammoi.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.btnLammoi.Location = new System.Drawing.Point(862, 687);
+            this.btnLammoi.Name = "btnLammoi";
+            this.btnLammoi.Size = new System.Drawing.Size(120, 33);
+            this.btnLammoi.TabIndex = 134;
+            this.btnLammoi.Text = "Làm mới";
+            this.btnLammoi.UseVisualStyleBackColor = false;
             // 
-            // button2
+            // btnXuatexcel
             // 
-            this.button2.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.button2.Location = new System.Drawing.Point(1018, 687);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(120, 33);
-            this.button2.TabIndex = 135;
-            this.button2.Text = "Xuất Excel";
-            this.button2.UseVisualStyleBackColor = false;
+            this.btnXuatexcel.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.btnXuatexcel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.btnXuatexcel.Location = new System.Drawing.Point(1018, 687);
+            this.btnXuatexcel.Name = "btnXuatexcel";
+            this.btnXuatexcel.Size = new System.Drawing.Size(120, 33);
+            this.btnXuatexcel.TabIndex = 135;
+            this.btnXuatexcel.Text = "Xuất Excel";
+            this.btnXuatexcel.UseVisualStyleBackColor = false;
             // 
-            // button3
+            // btnDong
             // 
-            this.button3.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.button3.Location = new System.Drawing.Point(1175, 687);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(93, 33);
-            this.button3.TabIndex = 136;
-            this.button3.Text = "Đóng";
-            this.button3.UseVisualStyleBackColor = false;
+            this.btnDong.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.btnDong.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.btnDong.Location = new System.Drawing.Point(1186, 687);
+            this.btnDong.Name = "btnDong";
+            this.btnDong.Size = new System.Drawing.Size(93, 33);
+            this.btnDong.TabIndex = 136;
+            this.btnDong.Text = "Đóng";
+            this.btnDong.UseVisualStyleBackColor = false;
             // 
             // frmThongke
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1448, 755);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(1331, 755);
+            this.Controls.Add(this.btnDong);
+            this.Controls.Add(this.btnXuatexcel);
+            this.Controls.Add(this.btnLammoi);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.chart2);
             this.Controls.Add(this.chart1);
@@ -439,9 +439,9 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnThem;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btnHienthi;
+        private System.Windows.Forms.Button btnLammoi;
+        private System.Windows.Forms.Button btnXuatexcel;
+        private System.Windows.Forms.Button btnDong;
     }
 }
