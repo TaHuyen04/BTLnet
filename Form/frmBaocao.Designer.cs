@@ -39,6 +39,7 @@
             this.dgridNhanvien = new System.Windows.Forms.DataGridView();
             this.dgridXephang = new System.Windows.Forms.DataGridView();
             this.gpbThoigian = new System.Windows.Forms.GroupBox();
+            this.btnHienthi = new System.Windows.Forms.Button();
             this.dtpKT = new System.Windows.Forms.DateTimePicker();
             this.dtpBD = new System.Windows.Forms.DateTimePicker();
             this.cboNamKT = new System.Windows.Forms.ComboBox();
@@ -54,7 +55,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.btnHienthi = new System.Windows.Forms.Button();
             this.btnDong = new System.Windows.Forms.Button();
             this.btnXuatexcel = new System.Windows.Forms.Button();
             this.btnLammoi = new System.Windows.Forms.Button();
@@ -72,7 +72,7 @@
             this.chart1.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
             this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(866, 181);
+            this.chart1.Location = new System.Drawing.Point(866, 44);
             this.chart1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chart1.Name = "chart1";
             this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Pastel;
@@ -91,7 +91,7 @@
             this.chart.ChartAreas.Add(chartArea2);
             legend2.Name = "Legend1";
             this.chart.Legends.Add(legend2);
-            this.chart.Location = new System.Drawing.Point(866, 430);
+            this.chart.Location = new System.Drawing.Point(866, 397);
             this.chart.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chart.Name = "chart";
             this.chart.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Pastel;
@@ -151,6 +151,17 @@
             this.gpbThoigian.TabIndex = 102;
             this.gpbThoigian.TabStop = false;
             this.gpbThoigian.Text = "Chọn thời gian";
+            // 
+            // btnHienthi
+            // 
+            this.btnHienthi.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.btnHienthi.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.btnHienthi.Location = new System.Drawing.Point(694, 39);
+            this.btnHienthi.Name = "btnHienthi";
+            this.btnHienthi.Size = new System.Drawing.Size(120, 33);
+            this.btnHienthi.TabIndex = 137;
+            this.btnHienthi.Text = "Hiển thị";
+            this.btnHienthi.UseVisualStyleBackColor = false;
             // 
             // dtpKT
             // 
@@ -308,17 +319,6 @@
             this.label2.Size = new System.Drawing.Size(345, 24);
             this.label2.TabIndex = 134;
             this.label2.Text = "Nhân viên có doanh thu cao nhất";
-            // 
-            // btnHienthi
-            // 
-            this.btnHienthi.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.btnHienthi.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.btnHienthi.Location = new System.Drawing.Point(694, 39);
-            this.btnHienthi.Name = "btnHienthi";
-            this.btnHienthi.Size = new System.Drawing.Size(120, 33);
-            this.btnHienthi.TabIndex = 137;
-            this.btnHienthi.Text = "Hiển thị";
-            this.btnHienthi.UseVisualStyleBackColor = false;
             // 
             // btnDong
             // 
