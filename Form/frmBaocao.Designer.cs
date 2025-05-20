@@ -28,15 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.dgridNhanvien = new System.Windows.Forms.DataGridView();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            this.dgridBaoCao = new System.Windows.Forms.DataGridView();
             this.dgridXephang = new System.Windows.Forms.DataGridView();
             this.gpbThoigian = new System.Windows.Forms.GroupBox();
             this.btnHienthi = new System.Windows.Forms.Button();
@@ -58,62 +56,26 @@
             this.btnDong = new System.Windows.Forms.Button();
             this.btnXuatexcel = new System.Windows.Forms.Button();
             this.btnLammoi = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgridNhanvien)).BeginInit();
+            this.chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            ((System.ComponentModel.ISupportInitialize)(this.dgridBaoCao)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgridXephang)).BeginInit();
             this.gpbThoigian.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
-            // chart1
+            // dgridBaoCao
             // 
-            this.chart1.BorderlineColor = System.Drawing.Color.MistyRose;
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(866, 44);
-            this.chart1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.chart1.Name = "chart1";
-            this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Pastel;
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(427, 232);
-            this.chart1.TabIndex = 109;
-            this.chart1.Text = "chart1";
-            // 
-            // chart
-            // 
-            this.chart.BorderlineColor = System.Drawing.Color.MistyRose;
-            chartArea2.Name = "ChartArea1";
-            this.chart.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.chart.Legends.Add(legend2);
-            this.chart.Location = new System.Drawing.Point(866, 397);
-            this.chart.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.chart.Name = "chart";
-            this.chart.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Pastel;
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.chart.Series.Add(series2);
-            this.chart.Size = new System.Drawing.Size(427, 246);
-            this.chart.TabIndex = 100;
-            this.chart.Text = "chart";
-            // 
-            // dgridNhanvien
-            // 
-            this.dgridNhanvien.BackgroundColor = System.Drawing.Color.White;
-            this.dgridNhanvien.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgridNhanvien.Location = new System.Drawing.Point(14, 181);
-            this.dgridNhanvien.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.dgridNhanvien.Name = "dgridNhanvien";
-            this.dgridNhanvien.RowHeadersWidth = 62;
-            this.dgridNhanvien.RowTemplate.Height = 28;
-            this.dgridNhanvien.Size = new System.Drawing.Size(836, 267);
-            this.dgridNhanvien.TabIndex = 103;
+            this.dgridBaoCao.BackgroundColor = System.Drawing.Color.White;
+            this.dgridBaoCao.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgridBaoCao.Location = new System.Drawing.Point(14, 181);
+            this.dgridBaoCao.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dgridBaoCao.Name = "dgridBaoCao";
+            this.dgridBaoCao.RowHeadersWidth = 62;
+            this.dgridBaoCao.RowTemplate.Height = 28;
+            this.dgridBaoCao.Size = new System.Drawing.Size(836, 267);
+            this.dgridBaoCao.TabIndex = 103;
             // 
             // dgridXephang
             // 
@@ -162,6 +124,7 @@
             this.btnHienthi.TabIndex = 137;
             this.btnHienthi.Text = "Hiển thị";
             this.btnHienthi.UseVisualStyleBackColor = false;
+            this.btnHienthi.Click += new System.EventHandler(this.btnHienthi_Click);
             // 
             // dtpKT
             // 
@@ -280,6 +243,7 @@
             this.cboThoigian.Name = "cboThoigian";
             this.cboThoigian.Size = new System.Drawing.Size(108, 24);
             this.cboThoigian.TabIndex = 29;
+            this.cboThoigian.SelectedIndexChanged += new System.EventHandler(this.cboThoigian_SelectedIndexChanged);
             // 
             // label5
             // 
@@ -353,40 +317,69 @@
             this.btnLammoi.Text = "Làm mới";
             this.btnLammoi.UseVisualStyleBackColor = false;
             // 
+            // chart
+            // 
+            chartArea3.Name = "ChartArea1";
+            this.chart.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            this.chart.Legends.Add(legend3);
+            this.chart.Location = new System.Drawing.Point(856, 71);
+            this.chart.Name = "chart";
+            series3.ChartArea = "ChartArea1";
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            this.chart.Series.Add(series3);
+            this.chart.Size = new System.Drawing.Size(427, 213);
+            this.chart.TabIndex = 141;
+            this.chart.Text = "chart2";
+            // 
+            // chart1
+            // 
+            chartArea4.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea4);
+            legend4.Name = "Legend1";
+            this.chart1.Legends.Add(legend4);
+            this.chart1.Location = new System.Drawing.Point(856, 399);
+            this.chart1.Name = "chart1";
+            series4.ChartArea = "ChartArea1";
+            series4.Legend = "Legend1";
+            series4.Name = "Series1";
+            this.chart1.Series.Add(series4);
+            this.chart1.Size = new System.Drawing.Size(427, 213);
+            this.chart1.TabIndex = 142;
+            this.chart1.Text = "chart1";
+            // 
             // frmBaocao
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1321, 761);
+            this.Controls.Add(this.chart1);
+            this.Controls.Add(this.chart);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnDong);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.chart1);
             this.Controls.Add(this.btnXuatexcel);
-            this.Controls.Add(this.chart);
-            this.Controls.Add(this.dgridNhanvien);
+            this.Controls.Add(this.dgridBaoCao);
             this.Controls.Add(this.btnLammoi);
             this.Controls.Add(this.dgridXephang);
             this.Controls.Add(this.gpbThoigian);
             this.Name = "frmBaocao";
             this.Text = "frmBaocao";
             this.Load += new System.EventHandler(this.frmBaocao_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgridNhanvien)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgridBaoCao)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgridXephang)).EndInit();
             this.gpbThoigian.ResumeLayout(false);
             this.gpbThoigian.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart;
-        private System.Windows.Forms.DataGridView dgridNhanvien;
+        private System.Windows.Forms.DataGridView dgridBaoCao;
         private System.Windows.Forms.DataGridView dgridXephang;
         private System.Windows.Forms.GroupBox gpbThoigian;
         private System.Windows.Forms.DateTimePicker dtpKT;
@@ -408,5 +401,7 @@
         private System.Windows.Forms.Button btnDong;
         private System.Windows.Forms.Button btnXuatexcel;
         private System.Windows.Forms.Button btnLammoi;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
     }
 }

@@ -52,17 +52,17 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.lblTongSPB = new System.Windows.Forms.Label();
-            this.dgridKinhdoanh = new System.Windows.Forms.DataGridView();
+            this.dgridBaoCao = new System.Windows.Forms.DataGridView();
             this.gpbThoigian = new System.Windows.Forms.GroupBox();
+            this.btnHienthi = new System.Windows.Forms.Button();
             this.cboThoigian = new System.Windows.Forms.ComboBox();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.chart2 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnHienthi = new System.Windows.Forms.Button();
             this.btnLammoi = new System.Windows.Forms.Button();
             this.btnXuatexcel = new System.Windows.Forms.Button();
             this.btnDong = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dgridKinhdoanh)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgridBaoCao)).BeginInit();
             this.gpbThoigian.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart2)).BeginInit();
@@ -241,17 +241,17 @@
             this.lblTongSPB.TabIndex = 128;
             this.lblTongSPB.Text = "Tổng số xe máy bán ra:";
             // 
-            // dgridKinhdoanh
+            // dgridBaoCao
             // 
-            this.dgridKinhdoanh.BackgroundColor = System.Drawing.Color.White;
-            this.dgridKinhdoanh.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgridKinhdoanh.Location = new System.Drawing.Point(21, 187);
-            this.dgridKinhdoanh.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.dgridKinhdoanh.Name = "dgridKinhdoanh";
-            this.dgridKinhdoanh.RowHeadersWidth = 20;
-            this.dgridKinhdoanh.RowTemplate.Height = 28;
-            this.dgridKinhdoanh.Size = new System.Drawing.Size(851, 398);
-            this.dgridKinhdoanh.TabIndex = 120;
+            this.dgridBaoCao.BackgroundColor = System.Drawing.Color.White;
+            this.dgridBaoCao.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgridBaoCao.Location = new System.Drawing.Point(21, 187);
+            this.dgridBaoCao.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dgridBaoCao.Name = "dgridBaoCao";
+            this.dgridBaoCao.RowHeadersWidth = 20;
+            this.dgridBaoCao.RowTemplate.Height = 28;
+            this.dgridBaoCao.Size = new System.Drawing.Size(851, 398);
+            this.dgridBaoCao.TabIndex = 120;
             // 
             // gpbThoigian
             // 
@@ -277,6 +277,17 @@
             this.gpbThoigian.TabIndex = 119;
             this.gpbThoigian.TabStop = false;
             this.gpbThoigian.Text = "Chọn thời gian";
+            // 
+            // btnHienthi
+            // 
+            this.btnHienthi.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.btnHienthi.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.btnHienthi.Location = new System.Drawing.Point(700, 44);
+            this.btnHienthi.Name = "btnHienthi";
+            this.btnHienthi.Size = new System.Drawing.Size(120, 33);
+            this.btnHienthi.TabIndex = 133;
+            this.btnHienthi.Text = "Hiển thị";
+            this.btnHienthi.UseVisualStyleBackColor = false;
             // 
             // cboThoigian
             // 
@@ -337,17 +348,6 @@
             this.label1.TabIndex = 132;
             this.label1.Text = "BÁO CÁO TÌNH HÌNH KINH DOANH";
             // 
-            // btnHienthi
-            // 
-            this.btnHienthi.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.btnHienthi.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.btnHienthi.Location = new System.Drawing.Point(700, 44);
-            this.btnHienthi.Name = "btnHienthi";
-            this.btnHienthi.Size = new System.Drawing.Size(120, 33);
-            this.btnHienthi.TabIndex = 133;
-            this.btnHienthi.Text = "Hiển thị";
-            this.btnHienthi.UseVisualStyleBackColor = false;
-            // 
             // btnLammoi
             // 
             this.btnLammoi.BackColor = System.Drawing.SystemColors.InactiveCaption;
@@ -398,12 +398,12 @@
             this.Controls.Add(this.lblTongHDB);
             this.Controls.Add(this.lblTongchiphi);
             this.Controls.Add(this.lblTongSPB);
-            this.Controls.Add(this.dgridKinhdoanh);
+            this.Controls.Add(this.dgridBaoCao);
             this.Controls.Add(this.gpbThoigian);
             this.Name = "frmThongke";
             this.Text = "frmThongke";
             this.Load += new System.EventHandler(this.frmThongke_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dgridKinhdoanh)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgridBaoCao)).EndInit();
             this.gpbThoigian.ResumeLayout(false);
             this.gpbThoigian.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
@@ -433,7 +433,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label lblTongSPB;
-        private System.Windows.Forms.DataGridView dgridKinhdoanh;
+        private System.Windows.Forms.DataGridView dgridBaoCao;
         private System.Windows.Forms.GroupBox gpbThoigian;
         private System.Windows.Forms.ComboBox cboThoigian;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
