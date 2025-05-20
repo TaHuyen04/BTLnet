@@ -163,6 +163,8 @@ namespace QLCHBanXeMay.form
 
             ResetValues();
             txtMaSP.Enabled = true;
+            btnLuu.Enabled = true;
+            btnBoQua.Enabled = true;
             txtMaSP.Focus();
         }
 

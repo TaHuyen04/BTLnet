@@ -113,7 +113,7 @@
             this.btnBC.Name = "btnBC";
             this.btnBC.Size = new System.Drawing.Size(146, 29);
             this.btnBC.TabIndex = 1;
-            this.btnBC.Text = "Báo cáo";
+            this.btnBC.Text = "Nhân viên";
             this.btnBC.UseVisualStyleBackColor = false;
             this.btnBC.Click += new System.EventHandler(this.btnBC_Click);
             // 
@@ -125,7 +125,7 @@
             this.btnTK.Name = "btnTK";
             this.btnTK.Size = new System.Drawing.Size(146, 30);
             this.btnTK.TabIndex = 0;
-            this.btnTK.Text = "Thống kê";
+            this.btnTK.Text = "Kinh doanh";
             this.btnTK.UseVisualStyleBackColor = false;
             this.btnTK.Click += new System.EventHandler(this.btnTK_Click);
             // 
