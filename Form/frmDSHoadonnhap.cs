@@ -10,14 +10,14 @@ using System.Windows.Forms;
 
 namespace QLCHBanXeMay.form
 {
-    public partial class frmChitietdondathang : Form
+    public partial class frmDSHoadonnhap : Form
     {
-        public frmChitietdondathang()
+        public frmDSHoadonnhap()
         {
             InitializeComponent();
         }
 
-        private void frmChitietdondathang_Load(object sender, EventArgs e)
+        private void frmHoadonnhap_Load(object sender, EventArgs e)
         {
 
         }

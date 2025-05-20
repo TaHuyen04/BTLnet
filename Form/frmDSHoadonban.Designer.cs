@@ -1,6 +1,6 @@
 ﻿namespace QLCHBanXeMay.form
 {
-    partial class frmChitietHDN
+    partial class frmDSHoadonban
     {
         /// <summary>
         /// Required designer variable.
@@ -30,14 +30,14 @@
         {
             this.SuspendLayout();
             // 
-            // frmChitietHDN
+            // frmDSHoadonban
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Name = "frmChitietHDN";
-            this.Text = "frmChitietHDN";
-            this.Load += new System.EventHandler(this.frmChitietHDN_Load);
+            this.Name = "frmDSHoadonban";
+            this.Text = "frmDSHoadonban";
+            this.Load += new System.EventHandler(this.frmDondathang_Load);
             this.ResumeLayout(false);
 
         }

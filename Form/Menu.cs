@@ -172,7 +172,7 @@ namespace QLCHBanXeMay.form
         {
             panelNhansu.Visible = false;
             grbDM.Visible = false;
-            frmHoadonnhap frmHoadonnhap = new frmHoadonnhap();
+            frmDSHoadonnhap frmHoadonnhap = new frmDSHoadonnhap();
             frmHoadonnhap.ShowDialog();
         }
 
@@ -188,7 +188,7 @@ namespace QLCHBanXeMay.form
         {
             panelNhansu.Visible = false;
             grbDM.Visible = false;
-            frmDondathang frmDondathang = new frmDondathang();
+            frmDSHoadonban frmDondathang = new frmDSHoadonban();
             frmDondathang.ShowDialog();
         }
 

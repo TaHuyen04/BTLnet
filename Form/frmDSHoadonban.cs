@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace QLCHBanXeMay.form
 {
-    public partial class frmDondathang : Form
+    public partial class frmDSHoadonban : Form
     {
-        public frmDondathang()
+        public frmDSHoadonban()
         {
             InitializeComponent();
         }

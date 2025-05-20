@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -36,6 +35,10 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtThoiGianBH = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.cboNuocSX = new System.Windows.Forms.ComboBox();
+            this.label14 = new System.Windows.Forms.Label();
             this.cboTinhTrang = new System.Windows.Forms.ComboBox();
             this.cboDongCo = new System.Windows.Forms.ComboBox();
             this.cboPhanh = new System.Windows.Forms.ComboBox();
@@ -65,27 +68,15 @@
             this.btnSua = new System.Windows.Forms.Button();
             this.btnXoa = new System.Windows.Forms.Button();
             this.btnThem = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.cboNuocSX = new System.Windows.Forms.ComboBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.txtThoiGianBH = new System.Windows.Forms.TextBox();
-            this.label15 = new System.Windows.Forms.Label();
+            this.btnTimkiem = new System.Windows.Forms.Button();
+            this.btnHienthiDS = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picAnh)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSanPham)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(316, 51);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(129, 16);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Danh mục sản phẩm";
             // 
             // label2
             // 
@@ -175,6 +166,39 @@
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Thông tin sản phẩm";
+            // 
+            // txtThoiGianBH
+            // 
+            this.txtThoiGianBH.Location = new System.Drawing.Point(122, 196);
+            this.txtThoiGianBH.Name = "txtThoiGianBH";
+            this.txtThoiGianBH.Size = new System.Drawing.Size(158, 22);
+            this.txtThoiGianBH.TabIndex = 27;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(16, 196);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(85, 16);
+            this.label15.TabIndex = 26;
+            this.label15.Text = "Thời gian BH";
+            // 
+            // cboNuocSX
+            // 
+            this.cboNuocSX.FormattingEnabled = true;
+            this.cboNuocSX.Location = new System.Drawing.Point(427, 27);
+            this.cboNuocSX.Name = "cboNuocSX";
+            this.cboNuocSX.Size = new System.Drawing.Size(158, 24);
+            this.cboNuocSX.TabIndex = 25;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(324, 33);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(91, 16);
+            this.label14.TabIndex = 24;
+            this.label14.Text = "Nước sản xuất";
             // 
             // cboTinhTrang
             // 
@@ -440,68 +464,47 @@
             this.btnThem.UseVisualStyleBackColor = false;
             this.btnThem.Click += new System.EventHandler(this.btnThem_Click);
             // 
-            // button1
+            // btnTimkiem
             // 
-            this.button1.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.button1.Location = new System.Drawing.Point(528, 624);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(89, 33);
-            this.button1.TabIndex = 22;
-            this.button1.Text = "Tìm kiếm";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnTimkiem.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.btnTimkiem.Location = new System.Drawing.Point(528, 624);
+            this.btnTimkiem.Name = "btnTimkiem";
+            this.btnTimkiem.Size = new System.Drawing.Size(89, 33);
+            this.btnTimkiem.TabIndex = 22;
+            this.btnTimkiem.Text = "Tìm kiếm";
+            this.btnTimkiem.UseVisualStyleBackColor = false;
+//            this.btnTimkiem.Click += new System.EventHandler(this.button1_Click);
             // 
-            // button2
+            // btnHienthiDS
             // 
-            this.button2.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.button2.Location = new System.Drawing.Point(655, 623);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(145, 33);
-            this.button2.TabIndex = 23;
-            this.button2.Text = "Hiển thị danh sách";
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.btnHienthiDS.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.btnHienthiDS.Location = new System.Drawing.Point(655, 623);
+            this.btnHienthiDS.Name = "btnHienthiDS";
+            this.btnHienthiDS.Size = new System.Drawing.Size(145, 33);
+            this.btnHienthiDS.TabIndex = 23;
+            this.btnHienthiDS.Text = "Hiển thị danh sách";
+            this.btnHienthiDS.UseVisualStyleBackColor = false;
+//            this.btnHienthiDS.Click += new System.EventHandler(this.button2_Click);
             // 
-            // cboNuocSX
+            // label1
             // 
-            this.cboNuocSX.FormattingEnabled = true;
-            this.cboNuocSX.Location = new System.Drawing.Point(427, 27);
-            this.cboNuocSX.Name = "cboNuocSX";
-            this.cboNuocSX.Size = new System.Drawing.Size(158, 24);
-            this.cboNuocSX.TabIndex = 25;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(324, 33);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(91, 16);
-            this.label14.TabIndex = 24;
-            this.label14.Text = "Nước sản xuất";
-            // 
-            // txtThoiGianBH
-            // 
-            this.txtThoiGianBH.Location = new System.Drawing.Point(122, 196);
-            this.txtThoiGianBH.Name = "txtThoiGianBH";
-            this.txtThoiGianBH.Size = new System.Drawing.Size(158, 22);
-            this.txtThoiGianBH.TabIndex = 27;
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(16, 196);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(85, 16);
-            this.label15.TabIndex = 26;
-            this.label15.Text = "Thời gian BH";
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Arial", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.label1.Location = new System.Drawing.Point(313, 34);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(323, 33);
+            this.label1.TabIndex = 33;
+            this.label1.Text = "DANH MỤC SẢN PHẨM";
             // 
             // frmSanpham
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(948, 668);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.btnHienthiDS);
+            this.Controls.Add(this.btnTimkiem);
             this.Controls.Add(this.btnDong);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.btnBoQua);
@@ -510,7 +513,6 @@
             this.Controls.Add(this.btnSua);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnXoa);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnThem);
             this.Name = "frmSanpham";
             this.Text = "frmSanpham";
@@ -528,8 +530,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
@@ -566,11 +566,12 @@
         private System.Windows.Forms.Button btnSua;
         private System.Windows.Forms.Button btnXoa;
         private System.Windows.Forms.Button btnThem;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnTimkiem;
+        private System.Windows.Forms.Button btnHienthiDS;
         private System.Windows.Forms.ComboBox cboNuocSX;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox txtThoiGianBH;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label1;
     }
 }

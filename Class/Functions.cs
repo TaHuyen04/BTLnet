@@ -105,5 +105,88 @@ namespace QLCHBanXeMay.Class
             return ma;
         }
 
-    }
+
+        public static string ChuyenSoSangChu(string number)
+            {
+                string[] dv = { "", "nghìn", "triệu", "tỷ" };
+                string[] cs = { "không", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín" };
+
+                number = number.Replace(",", "");
+                double num;
+                try
+                {
+                    num = Convert.ToDouble(number);
+                }
+                catch
+                {
+                    return "Số không hợp lệ";
+                }
+
+                if (num == 0) return "Không đồng";
+
+                string s = "";
+                int i = 0;
+                while (num > 0)
+                {
+                    int n = (int)(num % 1000);
+                    if (n != 0)
+                    {
+                        string str = "";
+                        int tram = n / 100;
+                        int chuc = (n % 100) / 10;
+                        int donvi = n % 10;
+
+                        if (tram != 0)
+                            str += cs[tram] + " trăm ";
+                        else if (num >= 1000)
+                            str += "không trăm ";
+
+                        if (chuc != 0)
+                        {
+                            if (chuc == 1)
+                                str += "mười ";
+                            else
+                                str += cs[chuc] + " mươi ";
+                        }
+                        else if (donvi != 0)
+                        {
+                            if (tram != 0)
+                                str += "lẻ ";
+                        }
+
+                        if (donvi != 0)
+                        {
+                            if (chuc == 0 || chuc == 1)
+                            {
+                                if (donvi == 5)
+                                    str += "năm ";
+                                else
+                                    str += cs[donvi] + " ";
+                            }
+                            else
+                            {
+                                if (donvi == 1)
+                                    str += "mốt ";
+                                else if (donvi == 5)
+                                    str += "lăm ";
+                                else
+                                    str += cs[donvi] + " ";
+                            }
+                        }
+
+                        s = str + dv[i] + " " + s;
+                    }
+
+                    num = Math.Floor(num / 1000);
+                    i++;
+                }
+
+                s = s.Trim();
+                s = char.ToUpper(s[0]) + s.Substring(1);
+                return s + " đồng";
+            }
+        }
+
+
+    
 }
