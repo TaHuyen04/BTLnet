@@ -239,7 +239,10 @@ namespace QLCHBanXeMay.form
 
         private void btnBCSP_Click(object sender, EventArgs e)
         {
-
+            panelNhansu.Visible = false;
+            grbDM.Visible = false;
+            frmBaoCaoSanPham frmBaoCaoSanPham = new frmBaoCaoSanPham();
+            frmBaoCaoSanPham.ShowDialog();
         }
     }
 }
