@@ -73,12 +73,10 @@ namespace QLCHBanXeMay.form
 
             if (!string.IsNullOrEmpty(lastCode))
             {
-                // Tách phần số từ mã (VD: "HDN01" -> "001")
                 string numberPart = lastCode.Substring(3); // Bỏ "HDN"
                 int number = int.Parse(numberPart) + 1; // Tăng số lên 1
-                newCode = "HDN" + number.ToString("D3"); // Định dạng lại (VD: "HDN002")
+                newCode = "HDN" + number.ToString("D3"); // Định dạng lại 
             }
-
             return newCode;
         }
 
