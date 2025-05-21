@@ -236,5 +236,10 @@ namespace QLCHBanXeMay.form
             frmNuocSX frmNuocSX = new frmNuocSX();
             frmNuocSX.ShowDialog();
         }
+
+        private void btnBCSP_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

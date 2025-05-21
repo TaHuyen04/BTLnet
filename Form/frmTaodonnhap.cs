@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using QLCHBanXeMay.Class;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace QLCHBanXeMay.form
 {
@@ -188,12 +189,6 @@ namespace QLCHBanXeMay.form
 
         private void dgvDSSP_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (btnThem.Enabled == false)
-            {
-                MessageBox.Show("Đang ở chế độ thêm mới!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                cboMaSP.Focus();
-                return;
-            }
             if (dgvDSSP.Rows.Count == 0)
             {
                 MessageBox.Show("Không có dữ liệu!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -561,17 +556,92 @@ namespace QLCHBanXeMay.form
         }
 
 
+        private void InHD()
+        {
+            // Khởi tạo đối tượng Excel
+            Excel.Application excelApp = new Excel.Application();
+            excelApp.Visible = true;
+            Excel.Workbook workbook = excelApp.Workbooks.Add();
+            Excel.Worksheet worksheet = workbook.Sheets[1];
+            worksheet.Cells[1, 1] = "Cửa hàng bán xe máy ";
+            worksheet.Cells[1, 1].Font.Color = Color.Blue;
+            worksheet.Cells[2, 1] = "Địa chỉ: 12 Chùa Bộc, Quang Trung, Đống Đa, Hà Nội ";
+            worksheet.Cells[2, 1].Font.Color = Color.Blue;
+            worksheet.Cells[3, 1] = "Số điện thoại: 077 226 0934 ";
+            worksheet.Cells[3, 1].Font.Color = Color.Blue;
+            Excel.Range mergeRange = worksheet.Range[worksheet.Cells[5, 1], worksheet.Cells[5, 11]];
+            mergeRange.Merge();
+            mergeRange.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            mergeRange.Value = "HOÁ ĐƠN NHẬP HÀNG";
+            mergeRange.Font.Size = 18;
+            mergeRange.Font.Color = Color.Red;
+            worksheet.Cells[7, 2] = "Số hoá đơn: ";
+            worksheet.Cells[7, 3] = txtMaHDN.Text;
+            worksheet.Cells[8, 2] = "Ngày nhập: ";
+            worksheet.Cells[8, 3] = dtpNgaynhap.Value;
+            worksheet.Columns[3].ColumnWidth = 12;
+            worksheet.Columns[2].ColumnWidth = 13;
+            worksheet.Columns[7].ColumnWidth = 13;
+            worksheet.Cells[8, 3].HorizontalAlignment = Excel.XlHAlign.xlHAlignLeft;
+            worksheet.Cells[7, 7] = "Nhà cung cấp: ";
+            worksheet.Cells[7, 8] = txtTenNCC.Text;
+            worksheet.Cells[8, 7] = "Điện thoại: ";
+            worksheet.Cells[8, 8] = txtSDT.Text;
+            worksheet.Cells[9, 7] = "Địa chỉ: ";
+            worksheet.Cells[9, 8] = txtDiachi.Text;
+            worksheet.Cells[9, 2] = "Tên nhân viên: ";
+            worksheet.Cells[9, 3] = txtTenNV.Text;
+            worksheet.Cells[11, 2] = "STT";
+            worksheet.Cells[11, 2].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+            worksheet.Cells[11, 2].Borders.Weight = Excel.XlBorderWeight.xlThin;
+            worksheet.Cells[11, 2].Interior.Color = Color.LightYellow;
+            worksheet.Cells[11, 2].Font.Size = 12;
+            worksheet.Cells[11, 2].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+
+            for (int i = 1; i <= dgvDSSP.Columns.Count; i++)
+            {
+                worksheet.Cells[11, i + 2].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                worksheet.Cells[11, i + 2].Borders.Weight = Excel.XlBorderWeight.xlThin;
+                worksheet.Cells[11, i + 2].Value = dgvDSSP.Columns[i - 1].HeaderText;
+                worksheet.Cells[11, i + 2].Interior.Color = Color.LightYellow;
+                worksheet.Cells[11, i + 2].Font.Size = 12;
+                worksheet.Cells[11, i + 2].EntireColumn.AutoFit();
+                worksheet.Cells[11, i + 2].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            }
+
+            // Điền số thứ tự và đổ dữ liệu từ DataGridView vào Excel
+            for (int i = 0; i < dgvDSSP.Rows.Count; i++)
+            {
+                worksheet.Cells[i + 12, 2].Value = i + 1; // Điền số thứ tự
+                worksheet.Cells[i + 12, 2].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                worksheet.Cells[i + 12, 2].Borders.Weight = Excel.XlBorderWeight.xlThin;
+                worksheet.Cells[i + 12, 2].Font.Size = 12;
+                worksheet.Cells[i + 12, 2].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            }
+            for (int j = 0; j < dgvDSSP.Columns.Count; j++)
+                for (int i = 0; i < dgvDSSP.Rows.Count; i++)
+                {
+                    worksheet.Cells[i + 12, j + 3].Value = dgvDSSP.Rows[i].Cells[j].Value?.ToString();
+                    worksheet.Cells[i + 12, j + 3].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                    worksheet.Cells[i + 12, j + 3].Borders.Weight = Excel.XlBorderWeight.xlThin;
+                    worksheet.Cells[i + 12, j + 3].Font.Size = 12;
+                    worksheet.Cells[i + 12, j + 3].EntireColumn.AutoFit();
+                    worksheet.Cells[i + 12, j + 3].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+
+                }
+            worksheet.Cells[(dgvDSSP.Rows.Count + 12) + 2, 8] = lblSoSP.Text;
+            worksheet.Cells[(dgvDSSP.Rows.Count + 12) + 3, 8] = lblSoluongSP.Text;
+            worksheet.Cells[(dgvDSSP.Rows.Count + 12) + 4, 8] = lblTongtien.Text;
+            worksheet.Cells[(dgvDSSP.Rows.Count + 12) + 6, 2] = lblTongtienChu.Text;
+            worksheet.Cells[(dgvDSSP.Rows.Count + 12) + 8, 6] = "Hà Nội, Ngày " + dtpNgaynhap.Value.Day + ", tháng " + dtpNgaynhap.Value.Month + ", năm " + dtpNgaynhap.Value.Year;
+
+        }
+
+
         private void btnInHD_Click(object sender, EventArgs e)
         {
-            PrintDocument pd = new PrintDocument();
-            pd.PrintPage += new PrintPageEventHandler(PrintPage);
-            pd.Print();
-        }
-        private void PrintPage(object sender, PrintPageEventArgs e)
-        {
-            e.Graphics.DrawString("HÓA ĐƠN NHẬP HÀNG", new Font("Arial", 16), Brushes.Black, 100, 50);
-            e.Graphics.DrawString("Số hóa đơn: " + txtMaHDN.Text, new Font("Arial", 12), Brushes.Black, 100, 80);
-            // Thêm logic in chi tiết từ dgvDSSP
+
+            InHD();
         }
 
         private void btnDong_Click(object sender, EventArgs e)
