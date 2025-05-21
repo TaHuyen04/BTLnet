@@ -360,6 +360,7 @@
             this.btnLammoi.TabIndex = 134;
             this.btnLammoi.Text = "Làm mới";
             this.btnLammoi.UseVisualStyleBackColor = false;
+            this.btnLammoi.Click += new System.EventHandler(this.btnLammoi_Click);
             // 
             // btnXuatexcel
             // 
@@ -371,6 +372,7 @@
             this.btnXuatexcel.TabIndex = 135;
             this.btnXuatexcel.Text = "Xuất Excel";
             this.btnXuatexcel.UseVisualStyleBackColor = false;
+            this.btnXuatexcel.Click += new System.EventHandler(this.btnXuatexcel_Click);
             // 
             // btnDong
             // 
@@ -382,6 +384,7 @@
             this.btnDong.TabIndex = 136;
             this.btnDong.Text = "Đóng";
             this.btnDong.UseVisualStyleBackColor = false;
+            this.btnDong.Click += new System.EventHandler(this.btnDong_Click);
             // 
             // frmThongke
             // 
