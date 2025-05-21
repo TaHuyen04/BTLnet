@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using QLCHBanXeMay.Class;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace QLCHBanXeMay.form
 {
@@ -19,6 +20,8 @@ namespace QLCHBanXeMay.form
             InitializeComponent();
         }
         DataTable tblDSSP;
+        private bool isHoaDonCreated = false;
+        private bool isHoaDonSaved = false;
 
         private void frmTaodonban_Load(object sender, EventArgs e)
         {
@@ -49,11 +52,7 @@ namespace QLCHBanXeMay.form
             // Tự sinh mã hóa đơn
             txtMaHDB.Text = GenerateNewInvoiceCode();
 
-            // Khởi tạo giá trị mặc định cho thuế
-            nudThue.Value = 0; // Giá trị mặc định là 0%
-            nudThue.Minimum = 0;
-            nudThue.Maximum = 100;
-
+            // Khởi tạo giá trị mặc định cho thuế (không cần điều khiển nhập vì thuế cố định 5%)
             ResetForm();
             Load_dgvDSSP();
             btnThem.Enabled = false;
@@ -62,19 +61,18 @@ namespace QLCHBanXeMay.form
             btnXoaHD.Enabled = false;
             btnLuuHD.Enabled = false;
         }
-        // Hàm tạo mã hóa đơn tự động
+
         private string GenerateNewInvoiceCode()
         {
-            string newCode = "DDH001"; // Mã mặc định nếu không có hóa đơn nào
+            string newCode = "DDH001";
             string sql = "SELECT TOP 1 SoDDH FROM tblDonDatHang ORDER BY SoDDH DESC";
             string lastCode = Functions.GetFieldValues(sql);
 
             if (!string.IsNullOrEmpty(lastCode))
             {
-                // Tách phần số từ mã (VD: "DDH01" -> "001")
-                string numberPart = lastCode.Substring(3); // Bỏ "DDH"
-                int number = int.Parse(numberPart) + 1; // Tăng số lên 1
-                newCode = "DDH" + number.ToString("D3"); // Định dạng lại (VD: "DDH002")
+                string numberPart = lastCode.Substring(3);
+                int number = int.Parse(numberPart) + 1;
+                newCode = "DDH" + number.ToString("D3");
             }
 
             return newCode;
@@ -138,7 +136,7 @@ namespace QLCHBanXeMay.form
                 {
                     txtTenSP.Text = dt.Rows[0]["TenHang"].ToString();
                     txtDongiaban.Text = dt.Rows[0]["DonGiaBan"].ToString();
-                    TinhThanhTien(); // Tự động tính thành tiền khi chọn sản phẩm
+                    TinhThanhTien();
                 }
             }
             else
@@ -147,10 +145,10 @@ namespace QLCHBanXeMay.form
                 txtDongiaban.Text = "";
                 txtThanhtien.Text = "";
             }
-
         }
+
         private void Load_dgvDSSP()
-        {// Sử dụng JOIN để lấy TenHang từ tblDMHang và thêm cột GiamGia
+        {
             string sql = "SELECT bt.MaHang, dm.TenHang, dm.DonGiaBan, bt.SoLuong, bt.GiamGia, bt.ThanhTien " +
                          "FROM tblChiTietDonDatHang bt " +
                          "INNER JOIN tblDMHang dm ON bt.MaHang = dm.MaHang " +
@@ -158,29 +156,27 @@ namespace QLCHBanXeMay.form
             tblDSSP = Functions.getdatatotable(sql);
             dgvDSSP.DataSource = tblDSSP;
 
-            // Cập nhật header và độ rộng cột
             if (dgvDSSP.Columns.Count > 0)
             {
                 dgvDSSP.Columns[0].HeaderText = "Mã hàng";
                 dgvDSSP.Columns[1].HeaderText = "Tên hàng";
                 dgvDSSP.Columns[2].HeaderText = "Đơn giá bán";
                 dgvDSSP.Columns[3].HeaderText = "Số lượng";
-                dgvDSSP.Columns[4].HeaderText = "Giảm giá (%)"; // Thêm cột giảm giá
+                dgvDSSP.Columns[4].HeaderText = "Giảm giá (%)";
                 dgvDSSP.Columns[5].HeaderText = "Thành tiền";
 
                 dgvDSSP.Columns[0].Width = 100;
                 dgvDSSP.Columns[1].Width = 200;
                 dgvDSSP.Columns[2].Width = 120;
                 dgvDSSP.Columns[3].Width = 80;
-                dgvDSSP.Columns[4].Width = 100; // Độ rộng cho cột giảm giá
+                dgvDSSP.Columns[4].Width = 100;
                 dgvDSSP.Columns[5].Width = 120;
             }
 
-            // Không cho chỉnh sửa trực tiếp trên lưới
             dgvDSSP.AllowUserToAddRows = false;
             dgvDSSP.EditMode = DataGridViewEditMode.EditProgrammatically;
 
-            TinhTongTien(); // Cập nhật tổng tiền sau khi tải dữ liệu
+            TinhTongTien();
         }
 
         private void dgvDSSP_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -197,8 +193,9 @@ namespace QLCHBanXeMay.form
                 return;
             }
 
-            cboMaSP.Text = dgvDSSP.CurrentRow.Cells["TenHang"].Value.ToString(); // Hiển thị tên để chọn
             string maSP = dgvDSSP.CurrentRow.Cells["MaHang"].Value.ToString();
+            cboMaSP.SelectedValue = maSP; // Hiển thị mã sản phẩm trong ComboBox
+
             string sql = "SELECT TenHang, DonGiaBan FROM tblDMHang WHERE MaHang = '" + maSP + "'";
             DataTable dt = Functions.getdatatotable(sql);
             if (dt.Rows.Count > 0)
@@ -206,16 +203,20 @@ namespace QLCHBanXeMay.form
                 txtTenSP.Text = dt.Rows[0]["TenHang"].ToString();
                 txtDongiaban.Text = dt.Rows[0]["DonGiaBan"].ToString();
             }
-            nudSoluong.Text = dgvDSSP.CurrentRow.Cells["SoLuong"].Value.ToString();
-            nudGiamgia.Value = Convert.ToDecimal(dgvDSSP.CurrentRow.Cells["GiamGia"].Value); // Cập nhật giảm giá
+            nudSoluong.Value = Convert.ToDecimal(dgvDSSP.CurrentRow.Cells["SoLuong"].Value);
+            nudGiamgia.Value = Convert.ToDecimal(dgvDSSP.CurrentRow.Cells["GiamGia"].Value);
             txtThanhtien.Text = dgvDSSP.CurrentRow.Cells["ThanhTien"].Value.ToString();
-            TinhThanhTien(); // Cập nhật thành tiền
+            TinhThanhTien();
 
-            btnSua.Enabled = true;
-            btnXoa.Enabled = true;
-            btnBoqua.Enabled = true;
-            btnThem.Enabled = false;
+            if (!isHoaDonSaved)
+            {
+                btnSua.Enabled = true;
+                btnXoa.Enabled = true;
+                btnBoqua.Enabled = true;
+                btnThem.Enabled = false;
+            }
         }
+
         private void TinhThanhTien()
         {
             if (!string.IsNullOrEmpty(txtDongiaban.Text) && nudSoluong.Value > 0)
@@ -249,6 +250,7 @@ namespace QLCHBanXeMay.form
         {
             TinhThanhTien();
         }
+
         private void ResetValuesSP()
         {
             cboMaSP.SelectedIndex = -1;
@@ -270,6 +272,9 @@ namespace QLCHBanXeMay.form
             txtDiachi.Text = "";
             dgvDSSP.DataSource = null;
             lblTongtienSP.Text = "0";
+            lblDatcoc.Text = "0";
+            lblThue.Text = "0";
+            lblTongtienDH.Text = "0";
             lblSoluongSP.Text = "0";
             lblSoSP.Text = "0";
             lblTongtienChu.Text = "";
@@ -278,7 +283,6 @@ namespace QLCHBanXeMay.form
             isHoaDonCreated = false;
             isHoaDonSaved = false;
 
-            // Đặt lại trạng thái các nút
             btnTaomoi.Enabled = true;
             btnThem.Enabled = false;
             btnSua.Enabled = false;
@@ -291,14 +295,11 @@ namespace QLCHBanXeMay.form
             btnDong.Enabled = true;
         }
 
-
-        private bool isHoaDonCreated = false; // Biến trạng thái kiểm tra hóa đơn đã tạo chưa
-
         private void btnTaomoi_Click(object sender, EventArgs e)
         {
             if (cboMaNV.SelectedIndex == -1 || cboMaKH.SelectedIndex == -1)
             {
-                MessageBox.Show("Vui lòng chọn mã nhân viên và mã nhà cung cấp!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng chọn mã nhân viên và mã khách hàng!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -311,8 +312,8 @@ namespace QLCHBanXeMay.form
                 return;
             }
 
-            string sqlInsert = "INSERT INTO tblDonDatHang (SoDDH, MaNV, MaKhach, NgayMua, TongTien) " +
-                               "VALUES ('" + maDDH + "', '" + cboMaNV.SelectedValue + "', '" + cboMaKH.SelectedValue + "', '" + dtpNgayban.Value.ToString("yyyy-MM-dd") + "', 0)";
+            string sqlInsert = "INSERT INTO tblDonDatHang (SoDDH, MaNV, MaKhach, NgayMua, TongTien, DatCoc, Thue) " +
+                               "VALUES ('" + maDDH + "', '" + cboMaNV.SelectedValue + "', '" + cboMaKH.SelectedValue + "', '" + dtpNgayban.Value.ToString("yyyy-MM-dd") + "', 0, 0, 0)";
             Functions.Runsql(sqlInsert);
 
             isHoaDonCreated = true;
@@ -326,14 +327,20 @@ namespace QLCHBanXeMay.form
 
         private void btnBoquaHD_Click(object sender, EventArgs e)
         {
+            if (!isHoaDonCreated)
+            {
+                MessageBox.Show("Không có hóa đơn để bỏ qua!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
             if (MessageBox.Show("Bạn có chắc chắn muốn bỏ qua hóa đơn hiện tại?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                ResetForm(); // Đặt lại toàn bộ form
-                btnThem.Enabled = true;
-                btnSua.Enabled = false;
-                btnXoa.Enabled = false;
-                btnBoqua.Enabled = false;
-                btnLuuHD.Enabled = false;
+                string sql1 = "DELETE FROM tblChiTietDonDatHang WHERE SoDDH = '" + txtMaHDB.Text + "'";
+                Functions.Runsql(sql1);
+                string sql2 = "DELETE FROM tblDonDatHang WHERE SoDDH = '" + txtMaHDB.Text + "'";
+                Functions.Runsql(sql2);
+
+                ResetForm();
                 MessageBox.Show("Đã bỏ qua hóa đơn. Bạn có thể tạo hóa đơn mới!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
@@ -363,7 +370,6 @@ namespace QLCHBanXeMay.form
             string maSP = cboMaSP.SelectedValue.ToString();
             int soLuong = Convert.ToInt32(nudSoluong.Value);
 
-            // Kiểm tra số lượng tồn kho từ tblDMHang
             string sqlGetSoLuong = "SELECT SoLuong FROM tblDMHang WHERE MaHang = '" + maSP + "'";
             string soLuongStr = Functions.GetFieldValues(sqlGetSoLuong);
             int soLuongTon = string.IsNullOrEmpty(soLuongStr) ? 0 : Convert.ToInt32(soLuongStr);
@@ -395,17 +401,18 @@ namespace QLCHBanXeMay.form
             btnBoqua.Enabled = false;
             btnThem.Enabled = true;
             TinhTongTien();
-            isHoaDonSaved = false;  // Đặt lại trạng thái lưu khi thêm sản phẩm mới
+            isHoaDonSaved = false;
         }
+
         private void TinhTongTien()
         {
-            double tong = 0;
+            double tongTienSP = 0;
             int tongSL = 0;
             for (int i = 0; i < dgvDSSP.Rows.Count; i++)
             {
                 try
                 {
-                    tong += Convert.ToDouble(dgvDSSP.Rows[i].Cells["ThanhTien"].Value);
+                    tongTienSP += Convert.ToDouble(dgvDSSP.Rows[i].Cells["ThanhTien"].Value);
                     tongSL += Convert.ToInt32(dgvDSSP.Rows[i].Cells["SoLuong"].Value);
                 }
                 catch
@@ -413,11 +420,25 @@ namespace QLCHBanXeMay.form
                     // Bỏ qua nếu có lỗi chuyển đổi
                 }
             }
-            lblTongtienSP.Text = tong.ToString("N0");
+
+            // Tính đặt cọc (30% tổng tiền sản phẩm)
+            double datCoc = tongTienSP * 0.3;
+
+            // Tính thuế (5% tổng tiền sản phẩm)
+            double thue = tongTienSP * 0.05;
+
+            // Tính tổng tiền đơn hàng
+            double tongTienDonHang = tongTienSP + thue;
+
+            // Hiển thị trên form
+            lblTongtienSP.Text = tongTienSP.ToString("N0");
+            lblDatcoc.Text = datCoc.ToString("N0");
+            lblThue.Text = thue.ToString("N0");
+            lblTongtienDH.Text = tongTienDonHang.ToString("N0");
             lblSoluongSP.Text = tongSL.ToString();
             lblSoSP.Text = dgvDSSP.Rows.Count.ToString();
 
-            lblTongtienChu.Text = "Bằng chữ: " + Functions.ChuyenSoSangChu(tong.ToString());
+            lblTongtienChu.Text = "Bằng chữ: " + Functions.ChuyenSoSangChu(tongTienDonHang.ToString());
         }
 
         private void btnXoa_Click(object sender, EventArgs e)
@@ -434,7 +455,7 @@ namespace QLCHBanXeMay.form
                 Load_dgvDSSP();
                 TinhTongTien();
             }
-            isHoaDonSaved = false; // Đặt lại trạng thái lưu khi xóa sản phẩm
+            isHoaDonSaved = false;
         }
 
         private void btnBoqua_Click(object sender, EventArgs e)
@@ -479,7 +500,6 @@ namespace QLCHBanXeMay.form
 
             int soLuongMoi = Convert.ToInt32(nudSoluong.Value);
 
-            // Kiểm tra số lượng tồn kho
             string sqlGetSoLuong = "SELECT SoLuong FROM tblDMHang WHERE MaHang = '" + maSP + "'";
             string soLuongTonStr = Functions.GetFieldValues(sqlGetSoLuong);
             int soLuongTon = string.IsNullOrEmpty(soLuongTonStr) ? 0 : Convert.ToInt32(soLuongTonStr);
@@ -517,7 +537,6 @@ namespace QLCHBanXeMay.form
             MessageBox.Show("Thông tin sản phẩm đã được cập nhật!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             isHoaDonSaved = false;
         }
-        private bool isHoaDonSaved = false; // biến kiểm tra trạng thái hóa đơn đã được lưu chưa
 
         private void btnLuuHD_Click(object sender, EventArgs e)
         {
@@ -527,10 +546,10 @@ namespace QLCHBanXeMay.form
                 return;
             }
 
-            double tong = 0;
+            double tongTienSP = 0;
             try
             {
-                tong = dgvDSSP.Rows.Cast<DataGridViewRow>().Sum(r => Convert.ToDouble(r.Cells["ThanhTien"].Value));
+                tongTienSP = dgvDSSP.Rows.Cast<DataGridViewRow>().Sum(r => Convert.ToDouble(r.Cells["ThanhTien"].Value));
             }
             catch
             {
@@ -538,7 +557,11 @@ namespace QLCHBanXeMay.form
                 return;
             }
 
-            string sqlUpdateHD = "UPDATE tblDonDatHang SET TongTien = " + tong + " WHERE SoDDH = '" + txtMaHDB.Text + "'";
+            double datCoc = tongTienSP * 0.3; // 30% tổng tiền sản phẩm
+            double thue = tongTienSP * 0.05;  // 5% tổng tiền sản phẩm
+            double tongTienDonHang = tongTienSP + thue;
+
+            string sqlUpdateHD = "UPDATE tblDonDatHang SET TongTien = " + tongTienDonHang + ", DatCoc = " + datCoc + ", Thue = " + thue + " WHERE SoDDH = '" + txtMaHDB.Text + "'";
             Functions.Runsql(sqlUpdateHD);
 
             foreach (DataGridViewRow row in dgvDSSP.Rows)
@@ -550,7 +573,6 @@ namespace QLCHBanXeMay.form
                 string soLuongTonHienTaiStr = Functions.GetFieldValues(sqlGetSoLuong);
                 int soLuongTonHienTai = string.IsNullOrEmpty(soLuongTonHienTaiStr) ? 0 : Convert.ToInt32(soLuongTonHienTaiStr);
 
-                // Giảm số lượng tồn kho khi bán
                 int soLuongTonMoi = soLuongTonHienTai - soLuongBan;
 
                 if (soLuongTonMoi < 0)
@@ -592,60 +614,102 @@ namespace QLCHBanXeMay.form
             }
         }
 
-        private void btnInHD_Click(object sender, EventArgs e)
+        private void InHD()
         {
-            PrintDocument pd = new PrintDocument();
-            pd.PrintPage += new PrintPageEventHandler(PrintPage);
-            pd.Print();
-        }
-        private void PrintPage(object sender, PrintPageEventArgs e)
-        {
-            float yPos = 50;
-            float leftMargin = e.MarginBounds.Left;
-            float topMargin = e.MarginBounds.Top;
+            // Khởi tạo đối tượng Excel
+            Excel.Application excelApp = new Excel.Application();
+            excelApp.Visible = true;
+            Excel.Workbook workbook = excelApp.Workbooks.Add();
+            Excel.Worksheet worksheet = workbook.Sheets[1];
 
-            // In tiêu đề
-            e.Graphics.DrawString("HÓA ĐƠN BÁN HÀNG", new Font("Arial", 16, FontStyle.Bold), Brushes.Black, leftMargin, yPos);
-            yPos += 30;
+            // Thông tin cửa hàng
+            worksheet.Cells[1, 1] = "Cửa hàng bán xe máy";
+            worksheet.Cells[1, 1].Font.Color = Color.Blue;
+            worksheet.Cells[2, 1] = "Địa chỉ: 12 Chùa Bộc, Quang Trung, Đống Đa, Hà Nội";
+            worksheet.Cells[2, 1].Font.Color = Color.Blue;
+            worksheet.Cells[3, 1] = "Số điện thoại: 077 226 0934";
+            worksheet.Cells[3, 1].Font.Color = Color.Blue;
 
-            // In thông tin hóa đơn
-            e.Graphics.DrawString($"Số hóa đơn: {txtMaHDB.Text}", new Font("Arial", 12), Brushes.Black, leftMargin, yPos);
-            yPos += 20;
-            e.Graphics.DrawString($"Ngày bán: {dtpNgayban.Value.ToString("dd/MM/yyyy")}", new Font("Arial", 12), Brushes.Black, leftMargin, yPos);
-            yPos += 20;
-            e.Graphics.DrawString($"Nhân viên: {txtTenNV.Text}", new Font("Arial", 12), Brushes.Black, leftMargin, yPos);
-            yPos += 20;
-            e.Graphics.DrawString($"Khách hàng: {txtTenKH.Text}", new Font("Arial", 12), Brushes.Black, leftMargin, yPos);
-            yPos += 40;
+            // Tiêu đề hóa đơn
+            Excel.Range mergeRange = worksheet.Range[worksheet.Cells[5, 1], worksheet.Cells[5, 11]];
+            mergeRange.Merge();
+            mergeRange.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            mergeRange.Value = "HÓA ĐƠN BÁN HÀNG";
+            mergeRange.Font.Size = 18;
+            mergeRange.Font.Color = Color.Red;
 
-            // In tiêu đề bảng
-            e.Graphics.DrawString("STT", new Font("Arial", 10, FontStyle.Bold), Brushes.Black, leftMargin, yPos);
-            e.Graphics.DrawString("Mã hàng", new Font("Arial", 10, FontStyle.Bold), Brushes.Black, leftMargin + 50, yPos);
-            e.Graphics.DrawString("Tên hàng", new Font("Arial", 10, FontStyle.Bold), Brushes.Black, leftMargin + 150, yPos);
-            e.Graphics.DrawString("Đơn giá", new Font("Arial", 10, FontStyle.Bold), Brushes.Black, leftMargin + 350, yPos);
-            e.Graphics.DrawString("Số lượng", new Font("Arial", 10, FontStyle.Bold), Brushes.Black, leftMargin + 450, yPos);
-            e.Graphics.DrawString("Giảm giá (%)", new Font("Arial", 10, FontStyle.Bold), Brushes.Black, leftMargin + 550, yPos);
-            e.Graphics.DrawString("Thành tiền", new Font("Arial", 10, FontStyle.Bold), Brushes.Black, leftMargin + 650, yPos);
-            yPos += 25;
+            // Thông tin hóa đơn
+            worksheet.Cells[7, 2] = "Số hóa đơn: ";
+            worksheet.Cells[7, 3] = txtMaHDB.Text;
+            worksheet.Cells[8, 2] = "Ngày bán: ";
+            worksheet.Cells[8, 3] = dtpNgayban.Value.ToString("dd/MM/yyyy");
+            worksheet.Columns[3].ColumnWidth = 12;
+            worksheet.Columns[2].ColumnWidth = 13;
+            worksheet.Columns[7].ColumnWidth = 13;
+            worksheet.Cells[8, 3].HorizontalAlignment = Excel.XlHAlign.xlHAlignLeft;
 
-            // In danh sách sản phẩm từ dgvDSSP
-            for (int i = 0; i < dgvDSSP.Rows.Count; i++)
+            worksheet.Cells[7, 7] = "Khách hàng: ";
+            worksheet.Cells[7, 8] = txtTenKH.Text;
+            worksheet.Cells[8, 7] = "Điện thoại: ";
+            worksheet.Cells[8, 8] = txtSDT.Text;
+            worksheet.Cells[9, 7] = "Địa chỉ: ";
+            worksheet.Cells[9, 8] = txtDiachi.Text;
+            worksheet.Cells[9, 2] = "Nhân viên: ";
+            worksheet.Cells[9, 3] = txtTenNV.Text;
+
+            // Tiêu đề bảng
+            worksheet.Cells[11, 2] = "STT";
+            worksheet.Cells[11, 2].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+            worksheet.Cells[11, 2].Borders.Weight = Excel.XlBorderWeight.xlThin;
+            worksheet.Cells[11, 2].Interior.Color = Color.LightYellow;
+            worksheet.Cells[11, 2].Font.Size = 12;
+            worksheet.Cells[11, 2].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+
+            for (int i = 1; i <= dgvDSSP.Columns.Count; i++)
             {
-                e.Graphics.DrawString((i + 1).ToString(), new Font("Arial", 10), Brushes.Black, leftMargin, yPos);
-                e.Graphics.DrawString(dgvDSSP.Rows[i].Cells["MaHang"].Value.ToString(), new Font("Arial", 10), Brushes.Black, leftMargin + 50, yPos);
-                e.Graphics.DrawString(dgvDSSP.Rows[i].Cells["TenHang"].Value.ToString(), new Font("Arial", 10), Brushes.Black, leftMargin + 150, yPos);
-                e.Graphics.DrawString(Convert.ToDouble(dgvDSSP.Rows[i].Cells["DonGiaBan"].Value).ToString("N0"), new Font("Arial", 10), Brushes.Black, leftMargin + 350, yPos);
-                e.Graphics.DrawString(dgvDSSP.Rows[i].Cells["SoLuong"].Value.ToString(), new Font("Arial", 10), Brushes.Black, leftMargin + 450, yPos);
-                e.Graphics.DrawString(dgvDSSP.Rows[i].Cells["GiamGia"].Value.ToString(), new Font("Arial", 10), Brushes.Black, leftMargin + 550, yPos);
-                e.Graphics.DrawString(Convert.ToDouble(dgvDSSP.Rows[i].Cells["ThanhTien"].Value).ToString("N0"), new Font("Arial", 10), Brushes.Black, leftMargin + 650, yPos);
-                yPos += 20;
+                worksheet.Cells[11, i + 2].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                worksheet.Cells[11, i + 2].Borders.Weight = Excel.XlBorderWeight.xlThin;
+                worksheet.Cells[11, i + 2].Value = dgvDSSP.Columns[i - 1].HeaderText;
+                worksheet.Cells[11, i + 2].Interior.Color = Color.LightYellow;
+                worksheet.Cells[11, i + 2].Font.Size = 12;
+                worksheet.Cells[11, i + 2].EntireColumn.AutoFit();
+                worksheet.Cells[11, i + 2].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
             }
 
-            // In tổng tiền
-            yPos += 20;
-            e.Graphics.DrawString($"Tổng tiền: {lblTongtienSP.Text} VNĐ", new Font("Arial", 12, FontStyle.Bold), Brushes.Black, leftMargin, yPos);
-            yPos += 20;
-            e.Graphics.DrawString($"Bằng chữ: {lblTongtienChu.Text}", new Font("Arial", 12), Brushes.Black, leftMargin, yPos);
+            // Điền số thứ tự và dữ liệu từ DataGridView vào Excel
+            for (int i = 0; i < dgvDSSP.Rows.Count; i++)
+            {
+                worksheet.Cells[i + 12, 2].Value = i + 1; // Điền số thứ tự
+                worksheet.Cells[i + 12, 2].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                worksheet.Cells[i + 12, 2].Borders.Weight = Excel.XlBorderWeight.xlThin;
+                worksheet.Cells[i + 12, 2].Font.Size = 12;
+                worksheet.Cells[i + 12, 2].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+
+                for (int j = 0; j < dgvDSSP.Columns.Count; j++)
+                {
+                    worksheet.Cells[i + 12, j + 3].Value = dgvDSSP.Rows[i].Cells[j].Value?.ToString();
+                    worksheet.Cells[i + 12, j + 3].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                    worksheet.Cells[i + 12, j + 3].Borders.Weight = Excel.XlBorderWeight.xlThin;
+                    worksheet.Cells[i + 12, j + 3].Font.Size = 12;
+                    worksheet.Cells[i + 12, j + 3].EntireColumn.AutoFit();
+                    worksheet.Cells[i + 12, j + 3].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                }
+            }
+
+            // Thông tin tổng hợp
+            worksheet.Cells[(dgvDSSP.Rows.Count + 12) + 2, 8] = lblSoSP.Text; // Số sản phẩm
+            worksheet.Cells[(dgvDSSP.Rows.Count + 12) + 3, 8] = lblSoluongSP.Text; // Tổng số lượng
+            worksheet.Cells[(dgvDSSP.Rows.Count + 12) + 4, 8] = lblTongtienSP.Text; // Tổng tiền sản phẩm
+            worksheet.Cells[(dgvDSSP.Rows.Count + 12) + 5, 8] = lblDatcoc.Text; // Đặt cọc
+            worksheet.Cells[(dgvDSSP.Rows.Count + 12) + 6, 8] = lblThue.Text; // Thuế
+            worksheet.Cells[(dgvDSSP.Rows.Count + 12) + 7, 8] = lblTongtienDH.Text; // Tổng tiền đơn hàng
+            worksheet.Cells[(dgvDSSP.Rows.Count + 12) + 9, 2] = lblTongtienChu.Text; // Bằng chữ
+            worksheet.Cells[(dgvDSSP.Rows.Count + 12) + 11, 6] = "Hà Nội, Ngày " + dtpNgayban.Value.Day + " tháng " + dtpNgayban.Value.Month + " năm " + dtpNgayban.Value.Year;
+        }
+
+        private void btnInHD_Click(object sender, EventArgs e)
+        {
+            InHD();
         }
 
         private void btnDong_Click(object sender, EventArgs e)
@@ -684,8 +748,6 @@ namespace QLCHBanXeMay.form
 
             ResetForm();
             this.Close();
-            this.Close();
-            
         }
     }
 }

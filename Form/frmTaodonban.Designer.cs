@@ -76,7 +76,7 @@
             this.label19 = new System.Windows.Forms.Label();
             this.nudGiamgia = new System.Windows.Forms.NumericUpDown();
             this.lblThue = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.lblDatcoc = new System.Windows.Forms.Label();
             this.lblTongtienDH = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nudSoluong)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDSSP)).BeginInit();
@@ -552,14 +552,14 @@
             this.lblThue.TabIndex = 45;
             this.lblThue.Text = "Thuế (%): ";
             // 
-            // label4
+            // lblDatcoc
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(799, 381);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(58, 16);
-            this.label4.TabIndex = 91;
-            this.label4.Text = "Đặt cọc: ";
+            this.lblDatcoc.AutoSize = true;
+            this.lblDatcoc.Location = new System.Drawing.Point(799, 381);
+            this.lblDatcoc.Name = "lblDatcoc";
+            this.lblDatcoc.Size = new System.Drawing.Size(58, 16);
+            this.lblDatcoc.TabIndex = 91;
+            this.lblDatcoc.Text = "Đặt cọc: ";
             // 
             // lblTongtienDH
             // 
@@ -576,7 +576,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1080, 699);
             this.Controls.Add(this.lblTongtienDH);
-            this.Controls.Add(this.label4);
+            this.Controls.Add(this.lblDatcoc);
             this.Controls.Add(this.lblThue);
             this.Controls.Add(this.btnXoaHD);
             this.Controls.Add(this.btnInHD);
@@ -662,7 +662,7 @@
         private System.Windows.Forms.NumericUpDown nudGiamgia;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label lblThue;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblDatcoc;
         private System.Windows.Forms.Label lblTongtienDH;
     }
 }
