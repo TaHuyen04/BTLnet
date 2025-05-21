@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using Excel = Microsoft.Office.Interop.Excel;
 using QLCHBanXeMay.Class;
 
 namespace QLCHBanXeMay.form
@@ -42,8 +43,8 @@ namespace QLCHBanXeMay.form
                            )
                      SELECT Ngay.Ngay, 
                       COALESCE(COUNT( DISTINCT tblHoaDonNhap.SoHDN), 0) AS SoluongHDN,
-                      COALESCE(SUM(DISTINCT tblChitietHoaDonNhap.Soluong), 0) AS Soluongnhap,
-                      COALESCE(SUM(DISTINCT tblChitietHoaDonNhap.Thanhtien), 0) AS Chiphinhap,
+                      COALESCE(SUM( tblChitietHoaDonNhap.Soluong), 0) AS Soluongnhap,
+                      COALESCE(SUM( tblChitietHoaDonNhap.Thanhtien), 0) AS Chiphinhap,
                       COALESCE(COUNT(DISTINCT tblDonDatHang.SoDDH), 0) AS SoLuongHoaDon, 
                       COALESCE(SUM( DISTINCT tblChitietDonDatHang.Soluong), 0) AS Soluongsanpham, 
                       COALESCE(SUM( DISTINCT tblChitietDonDatHang.Thanhtien), 0) AS TongDoanhThu 
@@ -67,12 +68,12 @@ namespace QLCHBanXeMay.form
             dgridBaoCao.Columns[5].HeaderText = "Số xe máy đã bán";
             dgridBaoCao.Columns[6].HeaderText = "Doanh thu";
             dgridBaoCao.Columns[0].Width = 100;
-            dgridBaoCao.Columns[1].Width = 120;
+            dgridBaoCao.Columns[1].Width = 130;
             dgridBaoCao.Columns[2].Width = 140;
-            dgridBaoCao.Columns[3].Width = 120;
-            dgridBaoCao.Columns[4].Width = 120;
+            dgridBaoCao.Columns[3].Width = 130;
+            dgridBaoCao.Columns[4].Width = 130;
             dgridBaoCao.Columns[5].Width = 140;
-            dgridBaoCao.Columns[6].Width = 120;
+            dgridBaoCao.Columns[6].Width = 130;
             dgridBaoCao.AllowUserToAddRows = false;
             dgridBaoCao.EditMode = DataGridViewEditMode.EditProgrammatically;
 
@@ -233,14 +234,14 @@ namespace QLCHBanXeMay.form
                 if (cboBD.Items.Count == 0)
                 {
                     cboBD.Items.AddRange(new object[] {
-                "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"
+                "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "13"
             });
                 }
 
                 if (cboKT.Items.Count == 0)
                 {
                     cboKT.Items.AddRange(new object[] {
-                "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"
+                "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "13"
             });
                 }
 
@@ -386,16 +387,16 @@ namespace QLCHBanXeMay.form
                            )
                      SELECT Ngay.Ngay, 
                       COALESCE(COUNT( DISTINCT tblHoadonnhap.SoHDN), 0) AS SoluongHDN,
-                      COALESCE(SUM( DISTINCT tblChitietHoadonnhap.Soluong), 0) AS Soluongnhap,
-                      COALESCE(SUM( DISTINCT tblChitietHoadonnhap.Thanhtien), 0) AS Chiphinhap,
+                      COALESCE(SUM(  tblChitietHoadonnhap.Soluong), 0) AS Soluongnhap,
+                      COALESCE(SUM(  tblChitietHoadonnhap.Thanhtien), 0) AS Chiphinhap,
                       COALESCE(COUNT(DISTINCT tblDonDatHang.SoDDH), 0) AS SoLuongHoaDon, 
-                      COALESCE(SUM( DISTINCT tblChitietDonDatHang.Soluong), 0) AS Soluongsanpham, 
-                      COALESCE(SUM( DISTINCT tblChitietDonDatHang.Thanhtien), 0) AS TongDoanhThu 
+                      COALESCE(SUM(  tblChitietDonDatHang.Soluong), 0) AS Soluongsanpham, 
+                      COALESCE(SUM(  tblChitietDonDatHang.Thanhtien), 0) AS TongDoanhThu 
                         FROM Ngay
                         LEFT JOIN tblDonDatHang ON CONVERT(DATE, Ngay.Ngay) = CONVERT(DATE, tblDonDatHang.NgayMua)
                         LEFT JOIN tblHoadonnhap ON CONVERT(DATE, Ngay.Ngay) = CONVERT(DATE, tblHoadonnhap.Ngaynhap)
                         LEFT JOIN tblChitietDonDatHang ON tblDonDatHang.SoDDH = tblChitietDonDatHang.SoDDH
-                        LEFT JOIN tblSanpham ON tblChitietDonDatHang.MaHang = tblSanpham.MaHang
+                        LEFT JOIN tblDMHang ON tblChitietDonDatHang.MaHang = tblDMHang.MaHang
                         LEFT JOIN tblChitietHoaDonNhap ON tblHoadonnhap.SoHDN = tblChitietHoaDonNhap.SoHDN
                         GROUP BY Ngay.Ngay
                         ORDER BY Ngay.Ngay
@@ -411,12 +412,12 @@ namespace QLCHBanXeMay.form
                 dgridBaoCao.Columns[5].HeaderText = "Số xe máy đã bán";
                 dgridBaoCao.Columns[6].HeaderText = "Doanh thu";
                 dgridBaoCao.Columns[0].Width = 100;
-                dgridBaoCao.Columns[1].Width = 120;
+                dgridBaoCao.Columns[1].Width = 130;
                 dgridBaoCao.Columns[2].Width = 140;
-                dgridBaoCao.Columns[3].Width = 120;
-                dgridBaoCao.Columns[4].Width = 120;
+                dgridBaoCao.Columns[3].Width = 130;
+                dgridBaoCao.Columns[4].Width = 130;
                 dgridBaoCao.Columns[5].Width = 140;
-                dgridBaoCao.Columns[6].Width = 120;
+                dgridBaoCao.Columns[6].Width = 130;
                 dgridBaoCao.AllowUserToAddRows = false;
                 dgridBaoCao.EditMode = DataGridViewEditMode.EditProgrammatically;
                 LoadChartData();
@@ -551,16 +552,16 @@ namespace QLCHBanXeMay.form
                     )
                     SELECT FORMAT(Ngay.Ngay, 'MM/yyyy') AS Ngay, 
                       COALESCE(COUNT( DISTINCT tblHoadonnhap.SoHDN), 0) AS SoluongHDN,
-                      COALESCE(SUM( DISTINCT tblChitietHoaDonNhap.Soluong), 0) AS Soluongnhap,
-                      COALESCE(SUM( DISTINCT tblChitietHoaDonNhap.Thanhtien), 0) AS Chiphinhap,
+                      COALESCE(SUM(  tblChitietHoaDonNhap.Soluong), 0) AS Soluongnhap,
+                      COALESCE(SUM(  tblChitietHoaDonNhap.Thanhtien), 0) AS Chiphinhap,
                       COALESCE(COUNT(DISTINCT tblDonDatHang.SoDDH), 0) AS SoLuongHoaDon, 
-                      COALESCE(SUM( DISTINCT tblChitietDonDatHang.Soluong), 0) AS Soluongsanpham, 
-                      COALESCE(SUM( DISTINCT tblChitietDonDatHang.Thanhtien), 0) AS TongDoanhThu  
+                      COALESCE(SUM(  tblChitietDonDatHang.Soluong), 0) AS Soluongsanpham, 
+                      COALESCE(SUM(  tblChitietDonDatHang.Thanhtien), 0) AS TongDoanhThu  
                     FROM Ngay
                     LEFT JOIN tblDonDatHang ON MONTH(Ngay.Ngay) = MONTH(tblDonDatHang.NgayMua) AND YEAR(Ngay.Ngay) = YEAR(tblDonDatHang.NgayMua)
                     LEFT JOIN tblHoadonnhap ON MONTH(Ngay.Ngay) = MONTH(tblHoadonnhap.Ngaynhap) AND YEAR(Ngay.Ngay) = YEAR(tblHoadonnhap.Ngaynhap)       
                     LEFT JOIN tblChitietDonDatHang ON tblDonDatHang.SoDDH = tblChitietDonDatHang.SoDDH
-                    LEFT JOIN tblSanpham ON tblChitietDonDatHang.MaHang = tblSanpham.MaHang
+                    LEFT JOIN tblDMHang ON tblChitietDonDatHang.MaHang = tblDMHang.MaHang
                     LEFT JOIN tblChitietHoaDonNhap ON tblHoadonnhap.SoHDN = tblChitietHoaDonNhap.SoHDN
                     GROUP BY FORMAT(Ngay.Ngay, 'MM/yyyy'), MONTH(Ngay.Ngay), YEAR(Ngay.Ngay)
                     ORDER BY YEAR(Ngay.Ngay), MONTH(Ngay.Ngay)
@@ -578,12 +579,12 @@ namespace QLCHBanXeMay.form
                 dgridBaoCao.Columns[5].HeaderText = "Số xe máy đã bán";
                 dgridBaoCao.Columns[6].HeaderText = "Doanh thu";
                 dgridBaoCao.Columns[0].Width = 100;
-                dgridBaoCao.Columns[1].Width = 120;
+                dgridBaoCao.Columns[1].Width = 130;
                 dgridBaoCao.Columns[2].Width = 140;
-                dgridBaoCao.Columns[3].Width = 120;
-                dgridBaoCao.Columns[4].Width = 120;
+                dgridBaoCao.Columns[3].Width = 130;
+                dgridBaoCao.Columns[4].Width = 130;
                 dgridBaoCao.Columns[5].Width = 140;
-                dgridBaoCao.Columns[6].Width = 120;
+                dgridBaoCao.Columns[6].Width = 130;
                 dgridBaoCao.AllowUserToAddRows = false;
                 dgridBaoCao.EditMode = DataGridViewEditMode.EditProgrammatically;
                 LoadChartData();
@@ -734,16 +735,16 @@ namespace QLCHBanXeMay.form
                     )
                     SELECT  CAST((MONTH(Ngay.Ngay)-1)/3 + 1 AS NVARCHAR(1)) + '/' + CAST(YEAR(Ngay.Ngay) AS NVARCHAR(4)) AS Ngay, 
                       COALESCE(COUNT( DISTINCT tblHoadonnhap.SoHDN), 0) AS SoluongHDN,
-                      COALESCE(SUM( DISTINCT tblChitietHoaDonNhap.Soluong), 0) AS Soluongnhap,
-                      COALESCE(SUM( DISTINCT tblChitietHoaDonNhap.Thanhtien), 0) AS Chiphinhap,
+                      COALESCE(SUM( tblChitietHoaDonNhap.Soluong), 0) AS Soluongnhap,
+                      COALESCE(SUM( tblChitietHoaDonNhap.Thanhtien), 0) AS Chiphinhap,
                       COALESCE(COUNT(DISTINCT tblDonDatHang.SoDDH), 0) AS SoLuongHoaDon, 
-                      COALESCE(SUM( DISTINCT tblChitietDonDatHang.Soluong), 0) AS Soluongsanpham, 
-                      COALESCE(SUM( DISTINCT tblChitietDonDatHang.Thanhtien), 0) AS TongDoanhThu 
+                      COALESCE(SUM(  tblChitietDonDatHang.Soluong), 0) AS Soluongsanpham, 
+                      COALESCE(SUM(  tblChitietDonDatHang.Thanhtien), 0) AS TongDoanhThu 
                     FROM Ngay
                     LEFT JOIN tblDonDatHang ON MONTH(Ngay.Ngay) = MONTH(tblDonDatHang.NgayMua) AND YEAR(Ngay.Ngay) = YEAR(tblDonDatHang.NgayMua)
                     LEFT JOIN tblHoadonnhap ON MONTH(Ngay.Ngay) = MONTH(tblHoadonnhap.Ngaynhap) AND YEAR(Ngay.Ngay) = YEAR(tblHoadonnhap.Ngaynhap)
                     LEFT JOIN tblChitietDonDatHang ON tblDonDatHang.SoDDH = tblChitietDonDatHang.SoDDH
-                    LEFT JOIN tblSanpham ON tblChitietDonDatHang.MaHang = tblSanpham.MaHang
+                    LEFT JOIN tblDMHang ON tblChitietDonDatHang.MaHang = tblDMHang.MaHang
                     LEFT JOIN tblChitietHoaDonNhap ON tblHoadonnhap.SoHDN = tblChitietHoaDonNhap.SoHDN
                     GROUP BY  CAST((MONTH(Ngay.Ngay)-1)/3 + 1 AS NVARCHAR(1)) + '/' + CAST(YEAR(Ngay.Ngay) AS NVARCHAR(4)), (MONTH(Ngay.Ngay)-1)/3 + 1, YEAR(Ngay.Ngay)
                     ORDER BY YEAR(Ngay.Ngay), (MONTH(Ngay.Ngay)-1)/3 + 1
@@ -760,12 +761,12 @@ namespace QLCHBanXeMay.form
                 dgridBaoCao.Columns[5].HeaderText = "Số xe máy đã bán";
                 dgridBaoCao.Columns[6].HeaderText = "Doanh thu";
                 dgridBaoCao.Columns[0].Width = 100;
-                dgridBaoCao.Columns[1].Width = 120;
+                dgridBaoCao.Columns[1].Width = 130;
                 dgridBaoCao.Columns[2].Width = 140;
-                dgridBaoCao.Columns[3].Width = 120;
-                dgridBaoCao.Columns[4].Width = 120;
+                dgridBaoCao.Columns[3].Width = 130;
+                dgridBaoCao.Columns[4].Width = 130;
                 dgridBaoCao.Columns[5].Width = 140;
-                dgridBaoCao.Columns[6].Width = 120;
+                dgridBaoCao.Columns[6].Width = 130;
                 dgridBaoCao.AllowUserToAddRows = false;
                 dgridBaoCao.EditMode = DataGridViewEditMode.EditProgrammatically;
                 LoadChartData();
@@ -852,16 +853,16 @@ namespace QLCHBanXeMay.form
                     )
                     SELECT YEAR(Ngay.Ngay) AS Ngay, 
                       COALESCE(COUNT( DISTINCT tblHoadonnhap.SoHDN), 0) AS SoluongHDN,
-                      COALESCE(SUM( DISTINCT tblChitietHoaDonNhap.Soluong), 0) AS Soluongnhap,
-                      COALESCE(SUM( DISTINCT tblChitietHoaDonNhap.Thanhtien), 0) AS Chiphinhap,
+                      COALESCE(SUM( tblChitietHoaDonNhap.Soluong), 0) AS Soluongnhap,
+                      COALESCE(SUM( tblChitietHoaDonNhap.Thanhtien), 0) AS Chiphinhap,
                       COALESCE(COUNT(DISTINCT tblDonDatHang.SoDDH), 0) AS SoLuongHoaDon, 
-                      COALESCE(SUM( DISTINCT tblChitietDonDatHang.Soluong), 0) AS Soluongsanpham, 
-                      COALESCE(SUM( DISTINCT tblChitietDonDatHang.Thanhtien), 0) AS TongDoanhThu 
+                      COALESCE(SUM(  tblChitietDonDatHang.Soluong), 0) AS Soluongsanpham, 
+                      COALESCE(SUM(  tblChitietDonDatHang.Thanhtien), 0) AS TongDoanhThu 
                     FROM Ngay
                     LEFT JOIN tblDonDatHang ON YEAR(Ngay) = YEAR(tblDonDatHang.NgayMua)
                     LEFT JOIN tblHoadonnhap ON YEAR(Ngay) = YEAR(tblHoadonnhap.Ngaynhap)
                     LEFT JOIN tblChitietDonDatHang ON tblDonDatHang.SoDDH = tblChitietDonDatHang.SoDDH
-                    LEFT JOIN tblSanpham ON tblChitietDonDatHang.MaHang = tblSanpham.MaHang
+                    LEFT JOIN tblDMHang ON tblChitietDonDatHang.MaHang = tblDMHang.MaHang
                     LEFT JOIN tblChitietHoaDonNhap ON tblHoadonnhap.SoHDN = tblChitietHoaDonNhap.SoHDN
                     GROUP BY Ngay
                     ORDER BY Ngay
@@ -878,12 +879,12 @@ namespace QLCHBanXeMay.form
                     dgridBaoCao.Columns[5].HeaderText = "Số xe máy đã bán";
                     dgridBaoCao.Columns[6].HeaderText = "Doanh thu";
                     dgridBaoCao.Columns[0].Width = 100;
-                    dgridBaoCao.Columns[1].Width = 120;
+                    dgridBaoCao.Columns[1].Width = 130;
                     dgridBaoCao.Columns[2].Width = 140;
-                    dgridBaoCao.Columns[3].Width = 120;
-                    dgridBaoCao.Columns[4].Width = 120;
+                    dgridBaoCao.Columns[3].Width = 130;
+                    dgridBaoCao.Columns[4].Width = 130;
                     dgridBaoCao.Columns[5].Width = 140;
-                    dgridBaoCao.Columns[6].Width = 120;
+                    dgridBaoCao.Columns[6].Width = 130;
                     dgridBaoCao.AllowUserToAddRows = false;
                     dgridBaoCao.EditMode = DataGridViewEditMode.EditProgrammatically;
                     LoadChartData();
@@ -918,5 +919,208 @@ namespace QLCHBanXeMay.form
 
         }
 
+        private void btnLammoi_Click(object sender, EventArgs e)
+        {
+            cboThoigian.SelectedIndex = 0;
+            Load_Baocaohientai();
+            LoadChartData();
+            LoadChartDataSP();
+            lblBD.Visible = false;
+            lblKT.Visible = false;
+            cboBD.Text = "";
+            cboBD.Items.Clear();
+            cboKT.Items.Clear();
+            cboKT.Text = "";
+            cboNamBD.Items.Clear();
+            cboNamKT.Items.Clear();
+            cboNamBD.Text = "";
+            cboNamKT.Text = "";
+            dtpBD.Text = "";
+            dtpKT.Text = "";
+            cboBD.SelectedIndex = -1;
+            cboKT.SelectedIndex = -1;
+            cboNamBD.SelectedIndex = -1;
+            cboNamKT.SelectedIndex = -1;
+            gpbThoigian.Enabled = true;
+            cboBD.Visible = false;
+            cboKT.Visible = false;
+            cboNamBD.Visible = false;
+            cboNamKT.Visible = false;
+            dtpBD.Visible = false;
+            dtpKT.Visible = false;
+            lblNam1.Visible = false;
+            lblNam2.Visible = false;
+        }
+
+        private void btnDong_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnXuatexcel_Click(object sender, EventArgs e)
+        {
+            // Kiểm tra nếu DataGridView không có dữ liệu
+            if (dgridBaoCao.Rows.Count == 0)
+            {
+                MessageBox.Show("Không có dữ liệu để xuất ra Excel!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Khởi tạo đối tượng Excel
+            Excel.Application excelApp = new Excel.Application();
+            excelApp.Visible = true;
+            Excel.Workbook workbook = excelApp.Workbooks.Add();
+            Excel.Worksheet worksheet = workbook.Sheets[1];
+
+            // Đặt tiêu đề cho các cột
+            worksheet.Cells[1, 1] = "Cửa hàng bán xe máy ";
+            worksheet.Cells[1, 1].Font.Color = Color.Blue;
+            worksheet.Cells[2, 1] = "Địa chỉ: 13 Chùa Bộc, Quang Trung, Đống Đa, Hà Nội ";
+            worksheet.Cells[2, 1].Font.Color = Color.Blue;
+            worksheet.Cells[3, 1] = "Số điện thoại: 070 531 1047 ";
+            worksheet.Cells[3, 1].Font.Color = Color.Blue;
+
+            Excel.Range mergeRange = worksheet.Range[worksheet.Cells[4, 1], worksheet.Cells[4, 9]];
+            mergeRange.Merge();
+            mergeRange.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            mergeRange.Value = "BÁO CÁO TÌNH HÌNH KINH DOANH";
+            mergeRange.Font.Size = 22;
+            mergeRange.Font.Color = Color.Red;
+
+            worksheet.Cells[5, 1] = "Báo cáo theo: " + cboThoigian.Text;
+            worksheet.Cells[7, 1] = "Thời gian tạo báo cáo:  " + DateTime.Now;
+
+            if (cboThoigian.Text == "Hôm nay")
+            {
+                worksheet.Cells[5, 1] = "";
+                worksheet.Cells[6, 1] = "Ngày: " + DateTime.Today.ToString("dd/MM/yyyy");
+                worksheet.Cells[7, 1] = "Thời gian tạo báo cáo:  " + DateTime.Now;
+            }
+
+            if (cboThoigian.Text == "Ngày" && dtpBD.Text == dtpKT.Text)
+            {
+                worksheet.Cells[6, 1] = "Ngày: " + dtpBD.Text;
+            }
+            if (cboThoigian.Text == "Ngày" && dtpBD.Text != dtpKT.Text)
+            {
+                worksheet.Cells[6, 1] = "Từ ngày: " + dtpBD.Text + "   " + " Đến ngày: " + dtpKT.Text;
+            }
+
+            if (cboThoigian.Text == "Tháng" && cboBD.Text == cboKT.Text && cboNamBD.Text == cboNamKT.Text)
+            {
+                worksheet.Cells[6, 1] = "Tháng: " + cboBD.Text + "/" + cboNamBD.Text;
+            }
+            if (cboThoigian.Text == "Tháng" && cboBD.Text == cboKT.Text && cboNamBD.Text != cboNamKT.Text)
+            {
+                worksheet.Cells[6, 1] = "Từ tháng: " + cboBD.Text + "/" + cboNamBD.Text + " Đến tháng: " + cboKT.Text + "/" + cboNamKT.Text;
+            }
+            if (cboThoigian.Text == "Tháng" && cboBD.Text != cboKT.Text && cboNamBD.Text == cboNamKT.Text)
+            {
+                worksheet.Cells[6, 1] = "Từ tháng: " + cboBD.Text + "/" + cboNamBD.Text + " Đến tháng: " + cboKT.Text + "/" + cboNamKT.Text;
+            }
+            if (cboThoigian.Text == "Tháng" && cboBD.Text != cboKT.Text && cboNamBD.Text != cboNamKT.Text)
+            {
+                worksheet.Cells[6, 1] = "Từ tháng: " + cboBD.Text + "/" + cboNamBD.Text + " Đến tháng: " + cboKT.Text + "/" + cboNamKT.Text;
+            }
+
+            if (cboThoigian.Text == "Quý" && cboBD.Text == cboKT.Text && cboNamBD.Text == cboNamKT.Text)
+            {
+                worksheet.Cells[6, 1] = "Quý " + cboBD.Text + "/" + cboNamBD.Text;
+            }
+            if (cboThoigian.Text == "Quý" && cboBD.Text == cboKT.Text && cboNamBD.Text != cboNamKT.Text)
+            {
+                worksheet.Cells[6, 1] = "Từ: Quý " + cboBD.Text + "/" + cboNamBD.Text + "  Đến: Quý " + cboKT.Text + "/" + cboNamKT.Text;
+            }
+            if (cboThoigian.Text == "Quý" && cboBD.Text != cboKT.Text && cboNamBD.Text == cboNamKT.Text)
+            {
+                worksheet.Cells[6, 1] = "Từ: Quý " + cboBD.Text + "/" + cboNamBD.Text + "  Đến: Quý " + cboKT.Text + "/" + cboNamKT.Text;
+            }
+            if (cboThoigian.Text == "Quý" && cboBD.Text != cboKT.Text && cboNamBD.Text != cboNamKT.Text)
+            {
+                worksheet.Cells[6, 1] = "Từ: Quý " + cboBD.Text + "/" + cboNamBD.Text + "  Đến: Quý " + cboKT.Text + "/" + cboNamKT.Text;
+            }
+
+            if (cboThoigian.Text == "Năm" && cboBD.Text == cboKT.Text)
+            {
+                worksheet.Cells[6, 1] = "Năm: " + cboBD.Text;
+            }
+            if (cboThoigian.Text == "Năm" && cboBD.Text != cboKT.Text)
+            {
+                worksheet.Cells[6, 1] = "Từ năm: " + cboBD.Text + "   Đến năm: " + cboKT.Text;
+            }
+
+            worksheet.Cells[5, 8] = lblTongHDN.Text;
+            worksheet.Cells[5, 8].Interior.Color = Color.LightPink;
+            worksheet.Cells[6, 8] = lblTongSPN.Text;
+            worksheet.Cells[6, 8].Interior.Color = Color.LightPink;
+            worksheet.Cells[7, 8] = lblTongchiphi.Text;
+            worksheet.Cells[7, 8].Interior.Color = Color.LightPink;
+            worksheet.Cells[8, 8] = lblTongHDB.Text;
+            worksheet.Cells[8, 8].Interior.Color = Color.LightPink;
+            worksheet.Cells[9, 8] = lblTongSPB.Text;
+            worksheet.Cells[9, 8].Interior.Color = Color.LightPink;
+            worksheet.Cells[10, 8] = lblTongdoanhthu.Text;
+            worksheet.Cells[10, 8].Interior.Color = Color.LightPink;
+
+            // Đặt tiêu đề các cột và điền số thứ tự
+            worksheet.Cells[13, 2] = "STT";
+            worksheet.Cells[13, 2].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+            worksheet.Cells[13, 2].Borders.Weight = Excel.XlBorderWeight.xlThin;
+            worksheet.Cells[13, 2].Interior.Color = Color.LightPink;
+            worksheet.Cells[13, 2].Font.Size = 13;
+            worksheet.Cells[13, 2].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+
+            for (int i = 1; i <= dgridBaoCao.Columns.Count; i++)
+            {
+                worksheet.Cells[13, i + 2].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                worksheet.Cells[13, i + 2].Borders.Weight = Excel.XlBorderWeight.xlThin;
+                worksheet.Cells[13, i + 2].Value = dgridBaoCao.Columns[i - 1].HeaderText;
+                worksheet.Cells[13, i + 2].Interior.Color = Color.LightPink;
+                worksheet.Cells[13, i + 2].Font.Size = 13;
+                worksheet.Cells[13, i + 2].EntireColumn.AutoFit();
+                worksheet.Cells[13, i + 2].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            }
+
+            // Điền số thứ tự và đổ dữ liệu từ DataGridView vào Excel
+            for (int i = 0; i < dgridBaoCao.Rows.Count; i++)
+            {
+                worksheet.Cells[i + 14, 2].Value = i + 1; // Điền số thứ tự
+                worksheet.Cells[i + 14, 2].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                worksheet.Cells[i + 14, 2].Borders.Weight = Excel.XlBorderWeight.xlThin;
+                worksheet.Cells[i + 14, 2].Font.Size = 13;
+                worksheet.Cells[i + 14, 2].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            }
+            for (int j = 0; j < dgridBaoCao.Columns.Count; j++)
+                for (int i = 0; i < dgridBaoCao.Rows.Count; i++)
+                {
+                    if (cboThoigian.Text == "Quý" || cboThoigian.Text == "Tháng")
+                    {
+
+                        if (j == 0)
+                        {
+                            worksheet.Cells[i + 14, j + 3].Numberformat = "mm-yyyy";
+                        }
+                        worksheet.Cells[i + 14, j + 3].Value = dgridBaoCao.Rows[i].Cells[j].Value;
+                        worksheet.Cells[i + 14, j + 3].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                        worksheet.Cells[i + 14, j + 3].Borders.Weight = Excel.XlBorderWeight.xlThin;
+                        worksheet.Cells[i + 14, j + 3].Font.Size = 13;
+                        worksheet.Cells[i + 14, j + 3].EntireColumn.AutoFit();
+                        worksheet.Cells[i + 14, j + 3].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                    }
+                }
+
+
+            for (int j = 0; j < dgridBaoCao.Columns.Count; j++)
+                for (int i = 0; i < dgridBaoCao.Rows.Count; i++)
+                {
+
+                    worksheet.Cells[i + 14, j + 3].Value = dgridBaoCao.Rows[i].Cells[j].Value;
+                    worksheet.Cells[i + 14, j + 3].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                    worksheet.Cells[i + 14, j + 3].Borders.Weight = Excel.XlBorderWeight.xlThin;
+                    worksheet.Cells[i + 14, j + 3].Font.Size = 13;
+                    worksheet.Cells[i + 14, j + 3].EntireColumn.AutoFit();
+                    worksheet.Cells[i + 14, j + 3].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                }
+        }
     }
 }
