@@ -24,18 +24,6 @@ namespace QLCHBanXeMay.form
 
         private void frmSanpham_Load(object sender, EventArgs e)
         {
-            txtMaSP.Enabled = false;
-            btnLuu.Enabled = false;
-            btnBoQua.Enabled = false;
-            Load_DataGridView();
-            Functions.FillCombo("SELECT MaMau, TenMau FROM tblMauSac", cboMauSac, "MaMau", "TenMau");
-            Functions.FillCombo("SELECT MaLoai, TenLoai FROM tblTheLoai", cboLoai, "MaLoai", "TenLoai");
-            Functions.FillCombo("SELECT MaHangSX, TenHangSX FROM tblHangSX", cboNhaSX, "MaHangSX", "TenHangSX");
-            Functions.FillCombo("SELECT MaPhanh, TenPhanh FROM tblPhanhXe", cboPhanh, "MaPhanh", "TenPhanh");
-            Functions.FillCombo("SELECT MaDongCo, TenDongCo FROM tblDongCo", cboDongCo, "MaDongCo", "TenDongCo");
-            Functions.FillCombo("SELECT MaTinhTrang, TenTinhTrang FROM tblTinhTrang", cboTinhTrang, "MaTinhTrang", "TenTinhTrang");
-            try
-            {
                 txtMaSP.Enabled = false;
                 btnLuu.Enabled = false;
                 btnBoQua.Enabled = false;
@@ -50,19 +38,13 @@ namespace QLCHBanXeMay.form
                 cboNuocSX.SelectedIndex = -1;
 
                 ResetValues();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi khi tải dữ liệu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            
         }
 
         DataTable tblHang;
 
         private void Load_DataGridView()
         {
-            try
-            {
                 string sql = @"
             SELECT 
                 H.MaHang AS [Mã xe],
@@ -110,11 +92,6 @@ namespace QLCHBanXeMay.form
                         }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi khi tải DataGridView: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
         private void ResetValues()
@@ -213,8 +190,6 @@ namespace QLCHBanXeMay.form
 
         private void btnSua_Click(object sender, EventArgs e)
         {
-            try
-            {
                 if (tblHang.Rows.Count == 0)
                 {
                     MessageBox.Show("Không có dữ liệu để sửa!", "Thông báo");
@@ -236,17 +211,10 @@ namespace QLCHBanXeMay.form
                 btnLuu.Enabled = true;
                 btnBoQua.Enabled = true;
                 btnSua.Enabled = false;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi khi chuẩn bị sửa: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnTimkiem_Click(object sender, EventArgs e)
         {
-            try
-            {
                 string sql = "SELECT * FROM tblDMHang WHERE 1=1";
                 if (txtMaSP.Text != "")
                     sql += " AND MaHang LIKE N'%" + txtMaSP.Text + "%'";
@@ -254,14 +222,9 @@ namespace QLCHBanXeMay.form
                     sql += " AND TenHang LIKE N'%" + txtTenSP.Text + "%'";
                 tblHang = Functions.getdatatotable(sql);
                 dgvSanPham.DataSource = tblHang;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi khi tìm kiếm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void btnHienthiDS_Click(object sender, EventArgs e)
         {
             Load_DataGridView();
         }
@@ -319,8 +282,6 @@ namespace QLCHBanXeMay.form
 
         private void button7_Click(object sender, EventArgs e)
         {
-            try
-            {
                 OpenFileDialog dlg = new OpenFileDialog();
                 dlg.Filter = "Image Files (*.jpg;*.jpeg;*.png)|*.jpg;*.jpeg;*.png";
                 if (dlg.ShowDialog() == DialogResult.OK)
@@ -336,11 +297,6 @@ namespace QLCHBanXeMay.form
                         MessageBox.Show("Đường dẫn ảnh không tồn tại!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi khi tải ảnh: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
         private void btnLuu_Click(object sender, EventArgs e)
@@ -549,8 +505,6 @@ namespace QLCHBanXeMay.form
 
         private void dgvSanPham_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            try
-            {
                 if (e.RowIndex >= 0)
                 {
                     DataGridViewRow row = dgvSanPham.Rows[e.RowIndex];
@@ -581,43 +535,27 @@ namespace QLCHBanXeMay.form
                     btnSua.Enabled = true;
                     btnXoa.Enabled = true;
                     btnBoQua.Enabled = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi khi chọn dòng: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+                }          
         }
 
         // Phương thức hiển thị ảnh từ đường dẫn
         private void DisplayImageFromPath(string imagePath)
         {
-            try
-            {
-                picAnh.Image = null;
+              picAnh.Image = null;
 
-                if (!string.IsNullOrEmpty(imagePath) && System.IO.File.Exists(imagePath))
+            if (!string.IsNullOrEmpty(imagePath) && System.IO.File.Exists(imagePath))
+            {
+                using (var fs = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
                 {
-                    using (var fs = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
-                    {
-                        Image img = Image.FromStream(fs);
-                        picAnh.Image = new Bitmap(img);
-                    }
+                    Image img = Image.FromStream(fs);
+                    picAnh.Image = new Bitmap(img);
+                }
 
-                    picAnh.SizeMode = PictureBoxSizeMode.StretchImage;
-                }
-                else
-                {
-                    MessageBox.Show("File ảnh không tồn tại tại:\n" + imagePath, "Ảnh không tìm thấy", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
+                picAnh.SizeMode = PictureBoxSizeMode.StretchImage;
             }
-            catch (OutOfMemoryException)
+            else
             {
-                MessageBox.Show("File không phải là ảnh hợp lệ hoặc bị lỗi:\n" + imagePath, "Lỗi ảnh", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi khi tải ảnh:\n" + ex.Message + "\nĐường dẫn: " + imagePath, "Lỗi ảnh", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("File ảnh không tồn tại tại:\n" + imagePath, "Ảnh không tìm thấy", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
     }

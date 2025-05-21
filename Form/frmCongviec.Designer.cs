@@ -70,6 +70,7 @@
             this.btnDong.TabIndex = 36;
             this.btnDong.Text = "Đóng";
             this.btnDong.UseVisualStyleBackColor = false;
+            this.btnDong.Click += new System.EventHandler(this.btnDong_Click_1);
             // 
             // btnBoqua
             // 
@@ -80,6 +81,7 @@
             this.btnBoqua.TabIndex = 37;
             this.btnBoqua.Text = "Bỏ qua";
             this.btnBoqua.UseVisualStyleBackColor = false;
+            this.btnBoqua.Click += new System.EventHandler(this.btnBoqua_Click_1);
             // 
             // btnLuu
             // 
@@ -101,6 +103,7 @@
             this.btnSua.TabIndex = 39;
             this.btnSua.Text = "Sửa";
             this.btnSua.UseVisualStyleBackColor = false;
+            this.btnSua.Click += new System.EventHandler(this.btnSua_Click);
             // 
             // btnXoa
             // 
@@ -112,6 +115,7 @@
             this.btnXoa.TabIndex = 40;
             this.btnXoa.Text = "Xóa";
             this.btnXoa.UseVisualStyleBackColor = false;
+            this.btnXoa.Click += new System.EventHandler(this.btnXoa_Click_1);
             // 
             // btnThem
             // 
@@ -123,6 +127,7 @@
             this.btnThem.TabIndex = 41;
             this.btnThem.Text = "Thêm";
             this.btnThem.UseVisualStyleBackColor = false;
+            this.btnThem.Click += new System.EventHandler(this.btnThem_Click_1);
             // 
             // dgvCongviec
             // 
@@ -147,7 +152,6 @@
             this.txtMacongviec.Name = "txtMacongviec";
             this.txtMacongviec.Size = new System.Drawing.Size(100, 22);
             this.txtMacongviec.TabIndex = 34;
-            this.txtMacongviec.TextChanged += new System.EventHandler(this.txtMacongviec_TextChanged);
             // 
             // label3
             // 

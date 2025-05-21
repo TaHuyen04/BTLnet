@@ -1,6 +1,6 @@
 ﻿namespace QLCHBanXeMay.form
 {
-    partial class frmHoadonnhap
+    partial class frmDSHoadonnhap
     {
         /// <summary>
         /// Required designer variable.
@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.mskngaybd = new System.Windows.Forms.MaskedTextBox();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.btnDong = new System.Windows.Forms.Button();
+            this.btnXuat = new System.Windows.Forms.Button();
+            this.btnTaoHDN = new System.Windows.Forms.Button();
             this.btnBoqua = new System.Windows.Forms.Button();
             this.btnTimkiem = new System.Windows.Forms.Button();
             this.dgridDanhsachHDN = new System.Windows.Forms.DataGridView();
@@ -49,6 +49,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.mskngaykt = new System.Windows.Forms.MaskedTextBox();
+            this.lblTongHD = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgridDanhsachHDN)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -57,55 +58,72 @@
             // mskngaybd
             // 
             this.mskngaybd.Location = new System.Drawing.Point(136, 21);
+            this.mskngaybd.Mask = "00/00/0000";
             this.mskngaybd.Name = "mskngaybd";
             this.mskngaybd.Size = new System.Drawing.Size(100, 22);
             this.mskngaybd.TabIndex = 34;
+            this.mskngaybd.ValidatingType = typeof(System.DateTime);
+            this.mskngaybd.MaskInputRejected += new System.Windows.Forms.MaskInputRejectedEventHandler(this.mskngaybd_MaskInputRejected);
             // 
-            // button5
+            // btnDong
             // 
-            this.button5.Location = new System.Drawing.Point(635, 366);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(103, 45);
-            this.button5.TabIndex = 33;
-            this.button5.Text = "Đóng";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.btnDong.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.btnDong.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.btnDong.Location = new System.Drawing.Point(635, 366);
+            this.btnDong.Name = "btnDong";
+            this.btnDong.Size = new System.Drawing.Size(103, 45);
+            this.btnDong.TabIndex = 33;
+            this.btnDong.Text = "Đóng";
+            this.btnDong.UseVisualStyleBackColor = false;
+            this.btnDong.Click += new System.EventHandler(this.btnDong_Click);
             // 
-            // button4
+            // btnXuat
             // 
-            this.button4.Location = new System.Drawing.Point(522, 366);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(92, 45);
-            this.button4.TabIndex = 32;
-            this.button4.Text = "Xuất danh sách";
-            this.button4.UseVisualStyleBackColor = true;
+            this.btnXuat.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.btnXuat.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.btnXuat.Location = new System.Drawing.Point(522, 366);
+            this.btnXuat.Name = "btnXuat";
+            this.btnXuat.Size = new System.Drawing.Size(92, 45);
+            this.btnXuat.TabIndex = 32;
+            this.btnXuat.Text = "Xuất danh sách";
+            this.btnXuat.UseVisualStyleBackColor = false;
+            this.btnXuat.Click += new System.EventHandler(this.btnXuat_Click);
             // 
-            // button3
+            // btnTaoHDN
             // 
-            this.button3.Location = new System.Drawing.Point(375, 366);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(103, 45);
-            this.button3.TabIndex = 31;
-            this.button3.Text = "Tạo hóa đơn mới";
-            this.button3.UseVisualStyleBackColor = true;
+            this.btnTaoHDN.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.btnTaoHDN.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.btnTaoHDN.Location = new System.Drawing.Point(375, 366);
+            this.btnTaoHDN.Name = "btnTaoHDN";
+            this.btnTaoHDN.Size = new System.Drawing.Size(103, 45);
+            this.btnTaoHDN.TabIndex = 31;
+            this.btnTaoHDN.Text = "Tạo hóa đơn mới";
+            this.btnTaoHDN.UseVisualStyleBackColor = false;
+            this.btnTaoHDN.Click += new System.EventHandler(this.btnTaoHDN_Click);
             // 
             // btnBoqua
             // 
+            this.btnBoqua.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.btnBoqua.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.btnBoqua.Location = new System.Drawing.Point(168, 374);
             this.btnBoqua.Name = "btnBoqua";
-            this.btnBoqua.Size = new System.Drawing.Size(75, 23);
+            this.btnBoqua.Size = new System.Drawing.Size(64, 33);
             this.btnBoqua.TabIndex = 30;
             this.btnBoqua.Text = "Bỏ qua";
-            this.btnBoqua.UseVisualStyleBackColor = true;
+            this.btnBoqua.UseVisualStyleBackColor = false;
+            this.btnBoqua.Click += new System.EventHandler(this.btnBoqua_Click);
             // 
             // btnTimkiem
             // 
+            this.btnTimkiem.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.btnTimkiem.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.btnTimkiem.Location = new System.Drawing.Point(65, 374);
             this.btnTimkiem.Name = "btnTimkiem";
-            this.btnTimkiem.Size = new System.Drawing.Size(75, 23);
+            this.btnTimkiem.Size = new System.Drawing.Size(64, 33);
             this.btnTimkiem.TabIndex = 29;
             this.btnTimkiem.Text = "Tìm kiếm";
-            this.btnTimkiem.UseVisualStyleBackColor = true;
+            this.btnTimkiem.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnTimkiem.UseVisualStyleBackColor = false;
             this.btnTimkiem.Click += new System.EventHandler(this.btnTimkiem_Click);
             // 
             // dgridDanhsachHDN
@@ -215,7 +233,7 @@
             this.groupBox1.Controls.Add(this.txtkhoangbd);
             this.groupBox1.Controls.Add(this.txtkhoangkt);
             this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Location = new System.Drawing.Point(32, 162);
+            this.groupBox1.Location = new System.Drawing.Point(32, 268);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(247, 100);
             this.groupBox1.TabIndex = 36;
@@ -227,7 +245,7 @@
             this.groupBox2.Controls.Add(this.mskngaykt);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.mskngaybd);
-            this.groupBox2.Location = new System.Drawing.Point(32, 268);
+            this.groupBox2.Location = new System.Drawing.Point(31, 162);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(247, 100);
             this.groupBox2.TabIndex = 37;
@@ -236,20 +254,32 @@
             // mskngaykt
             // 
             this.mskngaykt.Location = new System.Drawing.Point(136, 49);
+            this.mskngaykt.Mask = "00/00/0000";
             this.mskngaykt.Name = "mskngaykt";
             this.mskngaykt.Size = new System.Drawing.Size(100, 22);
             this.mskngaykt.TabIndex = 35;
+            this.mskngaykt.ValidatingType = typeof(System.DateTime);
+            // 
+            // lblTongHD
+            // 
+            this.lblTongHD.AutoSize = true;
+            this.lblTongHD.Location = new System.Drawing.Point(325, 61);
+            this.lblTongHD.Name = "lblTongHD";
+            this.lblTongHD.Size = new System.Drawing.Size(151, 16);
+            this.lblTongHD.TabIndex = 38;
+            this.lblTongHD.Text = "Số lượng hóa đơn nhập: ";
             // 
             // frmHoadonnhap
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.lblTongHD);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.button5);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.btnDong);
+            this.Controls.Add(this.btnXuat);
+            this.Controls.Add(this.btnTaoHDN);
             this.Controls.Add(this.btnBoqua);
             this.Controls.Add(this.btnTimkiem);
             this.Controls.Add(this.dgridDanhsachHDN);
@@ -276,9 +306,9 @@
         #endregion
 
         private System.Windows.Forms.MaskedTextBox mskngaybd;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btnDong;
+        private System.Windows.Forms.Button btnXuat;
+        private System.Windows.Forms.Button btnTaoHDN;
         private System.Windows.Forms.Button btnBoqua;
         private System.Windows.Forms.Button btnTimkiem;
         private System.Windows.Forms.DataGridView dgridDanhsachHDN;
@@ -296,5 +326,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.MaskedTextBox mskngaykt;
+        private System.Windows.Forms.Label lblTongHD;
     }
 }

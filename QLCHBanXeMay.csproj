@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Office.Interop.Excel.15.0.4795.1001\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
@@ -55,17 +59,17 @@
     <Compile Include="form\frmBaocao.Designer.cs">
       <DependentUpon>frmBaocao.cs</DependentUpon>
     </Compile>
-    <Compile Include="form\frmChitietdondathang.cs">
+    <Compile Include="form\frmChitietHDban.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="form\frmChitietdondathang.Designer.cs">
-      <DependentUpon>frmChitietdondathang.cs</DependentUpon>
+    <Compile Include="form\frmChitietHDban.Designer.cs">
+      <DependentUpon>frmChitietHDban.cs</DependentUpon>
     </Compile>
-    <Compile Include="form\frmChitietHDN.cs">
+    <Compile Include="form\frmChitietHDnhap.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="form\frmChitietHDN.Designer.cs">
-      <DependentUpon>frmChitietHDN.cs</DependentUpon>
+    <Compile Include="form\frmChitietHDnhap.Designer.cs">
+      <DependentUpon>frmChitietHDnhap.cs</DependentUpon>
     </Compile>
     <Compile Include="form\frmCongviec.cs">
       <SubType>Form</SubType>
@@ -73,11 +77,11 @@
     <Compile Include="form\frmCongviec.Designer.cs">
       <DependentUpon>frmCongviec.cs</DependentUpon>
     </Compile>
-    <Compile Include="form\frmDondathang.cs">
+    <Compile Include="form\frmDSHoadonban.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="form\frmDondathang.Designer.cs">
-      <DependentUpon>frmDondathang.cs</DependentUpon>
+    <Compile Include="form\frmDSHoadonban.Designer.cs">
+      <DependentUpon>frmDSHoadonban.cs</DependentUpon>
     </Compile>
     <Compile Include="form\frmDongco.cs">
       <SubType>Form</SubType>
@@ -91,11 +95,11 @@
     <Compile Include="form\frmHangSX.Designer.cs">
       <DependentUpon>frmHangSX.cs</DependentUpon>
     </Compile>
-    <Compile Include="form\frmHoadonnhap.cs">
+    <Compile Include="form\frmDSHoadonnhap.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="form\frmHoadonnhap.Designer.cs">
-      <DependentUpon>frmHoadonnhap.cs</DependentUpon>
+    <Compile Include="form\frmDSHoadonnhap.Designer.cs">
+      <DependentUpon>frmDSHoadonnhap.cs</DependentUpon>
     </Compile>
     <Compile Include="form\frmKhachhang.cs">
       <SubType>Form</SubType>
@@ -185,17 +189,17 @@
     <EmbeddedResource Include="form\frmBaocao.resx">
       <DependentUpon>frmBaocao.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="form\frmChitietdondathang.resx">
-      <DependentUpon>frmChitietdondathang.cs</DependentUpon>
+    <EmbeddedResource Include="form\frmChitietHDban.resx">
+      <DependentUpon>frmChitietHDban.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="form\frmChitietHDN.resx">
-      <DependentUpon>frmChitietHDN.cs</DependentUpon>
+    <EmbeddedResource Include="form\frmChitietHDnhap.resx">
+      <DependentUpon>frmChitietHDnhap.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="form\frmCongviec.resx">
       <DependentUpon>frmCongviec.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="form\frmDondathang.resx">
-      <DependentUpon>frmDondathang.cs</DependentUpon>
+    <EmbeddedResource Include="form\frmDSHoadonban.resx">
+      <DependentUpon>frmDSHoadonban.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="form\frmDongco.resx">
       <DependentUpon>frmDongco.cs</DependentUpon>
@@ -203,8 +207,8 @@
     <EmbeddedResource Include="form\frmHangSX.resx">
       <DependentUpon>frmHangSX.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="form\frmHoadonnhap.resx">
-      <DependentUpon>frmHoadonnhap.cs</DependentUpon>
+    <EmbeddedResource Include="form\frmDSHoadonnhap.resx">
+      <DependentUpon>frmDSHoadonnhap.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="form\frmKhachhang.resx">
       <DependentUpon>frmKhachhang.cs</DependentUpon>
@@ -254,6 +258,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
