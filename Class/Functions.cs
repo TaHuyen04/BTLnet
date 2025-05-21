@@ -115,6 +115,15 @@ namespace QLCHBanXeMay.Class
             reader.Close();
             return ma;
         }
+        public SqlDataReader Run(string sql)
+        {
+            using (SqlConnection conn = new SqlConnection(KetNoi.Conn.ConnectionString))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                return cmd.ExecuteReader(CommandBehavior.CloseConnection);
+            }
+        }
 
 
         public static string ChuyenSoSangChu(string number)

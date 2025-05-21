@@ -26,6 +26,8 @@ namespace QLCHBanXeMay.form
         {
 
             Load_dgridDanhsachHDN();
+            dgridDanhsachHDN.CellDoubleClick += dgridDanhsachHDN_CellContentdoubleClick;
+
         }
         private void Load_dgridDanhsachHDN()
         {
@@ -47,9 +49,16 @@ namespace QLCHBanXeMay.form
             dgridDanhsachHDN.Columns[4].Width = 120;
         }
 
-        private void dgridDanhsachHDN_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void dgridDanhsachHDN_CellContentdoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex >= 0)
+            {
+                string SoHDN = dgridDanhsachHDN.Rows[e.RowIndex].Cells["SoHDN"].Value.ToString();
 
+                // Tạo form chi tiết và truyền mã hóa đơn vào
+                frmChitietHDnhap frmChiTiet = new frmChitietHDnhap(SoHDN);
+                frmChiTiet.ShowDialog(); // hoặc Show() nếu bạn muốn mở song song
+            }
         }
 
         private void btnTimkiem_Click(object sender, EventArgs e)
@@ -208,7 +217,7 @@ namespace QLCHBanXeMay.form
             txtkhoangkt.Clear();
             mskngaybd.Clear();
             mskngaykt.Clear();
-            lblTongHD.Text = "Số lượng hóa đơn nhập: 0";
+            lblTongHD.Text = "Số lượng hóa đơn nhập: ";
 
 
 
@@ -227,10 +236,10 @@ namespace QLCHBanXeMay.form
             taoDonNhapForm.StartPosition = FormStartPosition.CenterScreen; // Đặt giữa màn hình
             taoDonNhapForm.TopMost = true; // Đưa form này lên trước tất cả cửa sổ khác
             taoDonNhapForm.Show();
-            // Nếu bạn muốn ẩn form hiện tại:
+            // ẩn form hiện tại:
             this.Hide();
 
-            // Nếu bạn muốn đóng luôn form hiện tại:
+            // đóng luôn form hiện tại:
             //this.Close();
         }
 

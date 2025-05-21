@@ -107,7 +107,7 @@
             this.btnBoqua.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.btnBoqua.Location = new System.Drawing.Point(168, 374);
             this.btnBoqua.Name = "btnBoqua";
-            this.btnBoqua.Size = new System.Drawing.Size(64, 33);
+            this.btnBoqua.Size = new System.Drawing.Size(64, 45);
             this.btnBoqua.TabIndex = 30;
             this.btnBoqua.Text = "Bỏ qua";
             this.btnBoqua.UseVisualStyleBackColor = false;
@@ -119,7 +119,7 @@
             this.btnTimkiem.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.btnTimkiem.Location = new System.Drawing.Point(65, 374);
             this.btnTimkiem.Name = "btnTimkiem";
-            this.btnTimkiem.Size = new System.Drawing.Size(64, 33);
+            this.btnTimkiem.Size = new System.Drawing.Size(64, 45);
             this.btnTimkiem.TabIndex = 29;
             this.btnTimkiem.Text = "Tìm kiếm";
             this.btnTimkiem.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -131,11 +131,12 @@
             this.dgridDanhsachHDN.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgridDanhsachHDN.Location = new System.Drawing.Point(342, 80);
             this.dgridDanhsachHDN.Name = "dgridDanhsachHDN";
+            this.dgridDanhsachHDN.ReadOnly = true;
             this.dgridDanhsachHDN.RowHeadersWidth = 51;
             this.dgridDanhsachHDN.RowTemplate.Height = 24;
             this.dgridDanhsachHDN.Size = new System.Drawing.Size(396, 252);
             this.dgridDanhsachHDN.TabIndex = 28;
-            this.dgridDanhsachHDN.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgridDanhsachHDN_CellContentClick);
+            this.dgridDanhsachHDN.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgridDanhsachHDN_CellContentdoubleClick);
             // 
             // txtkhoangbd
             // 
@@ -269,7 +270,7 @@
             this.lblTongHD.TabIndex = 38;
             this.lblTongHD.Text = "Số lượng hóa đơn nhập: ";
             // 
-            // frmHoadonnhap
+            // frmDSHoadonnhap
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -290,7 +291,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Name = "frmHoadonnhap";
+            this.Name = "frmDSHoadonnhap";
             this.Text = "frmHoadonnhap";
             this.Load += new System.EventHandler(this.frmHoadonnhap_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgridDanhsachHDN)).EndInit();

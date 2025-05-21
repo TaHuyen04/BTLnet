@@ -558,5 +558,10 @@ namespace QLCHBanXeMay.form
                 MessageBox.Show("File ảnh không tồn tại tại:\n" + imagePath, "Ảnh không tìm thấy", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+
+        private void dgvSanPham_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }
