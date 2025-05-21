@@ -85,13 +85,13 @@ namespace QLCHBanXeMay.form
 
             if (cboMaNCC.SelectedIndex != -1)
             {
-                string sql = "SELECT TenNCC, DienThoai, Diachi FROM tblNhaCungCap WHERE MaNCC = '" + cboMaNCC.SelectedValue + "'";
+                string sql = "SELECT TenNCC, DienThoai, DiaChi FROM tblNhaCungCap WHERE MaNCC = '" + cboMaNCC.SelectedValue + "'";
                 DataTable dt = Functions.getdatatotable(sql);
                 if (dt.Rows.Count > 0)
                 {
                     txtTenNCC.Text = dt.Rows[0]["TenNCC"].ToString();
                     txtSDT.Text = dt.Rows[0]["DienThoai"].ToString();
-                    txtDiachi.Text = dt.Rows[0]["Diachi"].ToString();
+                    txtDiachi.Text = dt.Rows[0]["DiaChi"].ToString();
                 }
                 else
                 {

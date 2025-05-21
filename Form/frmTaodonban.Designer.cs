@@ -43,12 +43,10 @@
             this.btnLuuHD = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.nudSoluong = new System.Windows.Forms.NumericUpDown();
-            this.nudGiamgia = new System.Windows.Forms.NumericUpDown();
-            this.txtDonGiaBan = new System.Windows.Forms.TextBox();
+            this.txtDongiaban = new System.Windows.Forms.TextBox();
             this.txtTenSP = new System.Windows.Forms.TextBox();
             this.cboMaSP = new System.Windows.Forms.ComboBox();
             this.label20 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
@@ -64,7 +62,7 @@
             this.btnSua = new System.Windows.Forms.Button();
             this.btnXoa = new System.Windows.Forms.Button();
             this.btnThem = new System.Windows.Forms.Button();
-            this.lblTongtien = new System.Windows.Forms.Label();
+            this.lblTongtienSP = new System.Windows.Forms.Label();
             this.lblSoluongSP = new System.Windows.Forms.Label();
             this.lblSoSP = new System.Windows.Forms.Label();
             this.lblTongtienChu = new System.Windows.Forms.Label();
@@ -75,11 +73,16 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cboMaKH = new System.Windows.Forms.ComboBox();
             this.txtDiachi = new System.Windows.Forms.TextBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.nudGiamgia = new System.Windows.Forms.NumericUpDown();
+            this.lblThue = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.lblTongtienDH = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nudSoluong)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudGiamgia)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDSSP)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudGiamgia)).BeginInit();
             this.SuspendLayout();
             // 
             // txtSDT
@@ -206,26 +209,18 @@
             // 
             // nudSoluong
             // 
-            this.nudSoluong.Location = new System.Drawing.Point(345, 22);
+            this.nudSoluong.Location = new System.Drawing.Point(339, 22);
             this.nudSoluong.Name = "nudSoluong";
             this.nudSoluong.Size = new System.Drawing.Size(124, 22);
             this.nudSoluong.TabIndex = 43;
             this.nudSoluong.ValueChanged += new System.EventHandler(this.nudSoluong_ValueChanged);
             // 
-            // nudGiamgia
+            // txtDongiaban
             // 
-            this.nudGiamgia.Location = new System.Drawing.Point(619, 22);
-            this.nudGiamgia.Name = "nudGiamgia";
-            this.nudGiamgia.Size = new System.Drawing.Size(124, 22);
-            this.nudGiamgia.TabIndex = 42;
-            this.nudGiamgia.ValueChanged += new System.EventHandler(this.nudGiamgia_ValueChanged);
-            // 
-            // txtDonGiaBan
-            // 
-            this.txtDonGiaBan.Location = new System.Drawing.Point(345, 59);
-            this.txtDonGiaBan.Name = "txtDonGiaBan";
-            this.txtDonGiaBan.Size = new System.Drawing.Size(124, 22);
-            this.txtDonGiaBan.TabIndex = 18;
+            this.txtDongiaban.Location = new System.Drawing.Point(339, 59);
+            this.txtDongiaban.Name = "txtDongiaban";
+            this.txtDongiaban.Size = new System.Drawing.Size(124, 22);
+            this.txtDongiaban.TabIndex = 18;
             // 
             // txtTenSP
             // 
@@ -252,19 +247,10 @@
             this.label20.TabIndex = 5;
             this.label20.Text = "Thảnh tiền";
             // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(502, 25);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(84, 16);
-            this.label19.TabIndex = 4;
-            this.label19.Text = "Giảm giá (%)";
-            // 
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(237, 59);
+            this.label18.Location = new System.Drawing.Point(256, 59);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(79, 16);
             this.label18.TabIndex = 3;
@@ -273,7 +259,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(240, 25);
+            this.label17.Location = new System.Drawing.Point(259, 25);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(60, 16);
             this.label17.TabIndex = 2;
@@ -413,19 +399,19 @@
             this.btnThem.UseVisualStyleBackColor = false;
             this.btnThem.Click += new System.EventHandler(this.btnThem_Click);
             // 
-            // lblTongtien
+            // lblTongtienSP
             // 
-            this.lblTongtien.AutoSize = true;
-            this.lblTongtien.Location = new System.Drawing.Point(800, 501);
-            this.lblTongtien.Name = "lblTongtien";
-            this.lblTongtien.Size = new System.Drawing.Size(66, 16);
-            this.lblTongtien.TabIndex = 79;
-            this.lblTongtien.Text = "Tổng tiền:";
+            this.lblTongtienSP.AutoSize = true;
+            this.lblTongtienSP.Location = new System.Drawing.Point(799, 503);
+            this.lblTongtienSP.Name = "lblTongtienSP";
+            this.lblTongtienSP.Size = new System.Drawing.Size(128, 16);
+            this.lblTongtienSP.TabIndex = 79;
+            this.lblTongtienSP.Text = "Tổng tiền sản phẩm:";
             // 
             // lblSoluongSP
             // 
             this.lblSoluongSP.AutoSize = true;
-            this.lblSoluongSP.Location = new System.Drawing.Point(800, 468);
+            this.lblSoluongSP.Location = new System.Drawing.Point(799, 470);
             this.lblSoluongSP.Name = "lblSoluongSP";
             this.lblSoluongSP.Size = new System.Drawing.Size(125, 16);
             this.lblSoluongSP.TabIndex = 78;
@@ -434,7 +420,7 @@
             // lblSoSP
             // 
             this.lblSoSP.AutoSize = true;
-            this.lblSoSP.Location = new System.Drawing.Point(800, 434);
+            this.lblSoSP.Location = new System.Drawing.Point(799, 436);
             this.lblSoSP.Name = "lblSoSP";
             this.lblSoSP.Size = new System.Drawing.Size(92, 16);
             this.lblSoSP.TabIndex = 77;
@@ -443,7 +429,7 @@
             // lblTongtienChu
             // 
             this.lblTongtienChu.AutoSize = true;
-            this.lblTongtienChu.Location = new System.Drawing.Point(5, 587);
+            this.lblTongtienChu.Location = new System.Drawing.Point(17, 580);
             this.lblTongtienChu.Name = "lblTongtienChu";
             this.lblTongtienChu.Size = new System.Drawing.Size(132, 16);
             this.lblTongtienChu.TabIndex = 76;
@@ -474,7 +460,7 @@
             this.groupBox2.Controls.Add(this.txtThanhtien);
             this.groupBox2.Controls.Add(this.nudSoluong);
             this.groupBox2.Controls.Add(this.nudGiamgia);
-            this.groupBox2.Controls.Add(this.txtDonGiaBan);
+            this.groupBox2.Controls.Add(this.txtDongiaban);
             this.groupBox2.Controls.Add(this.txtTenSP);
             this.groupBox2.Controls.Add(this.cboMaSP);
             this.groupBox2.Controls.Add(this.label20);
@@ -540,11 +526,58 @@
             this.txtDiachi.Size = new System.Drawing.Size(124, 22);
             this.txtDiachi.TabIndex = 14;
             // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(502, 25);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(84, 16);
+            this.label19.TabIndex = 4;
+            this.label19.Text = "Giảm giá (%)";
+            // 
+            // nudGiamgia
+            // 
+            this.nudGiamgia.Location = new System.Drawing.Point(619, 22);
+            this.nudGiamgia.Name = "nudGiamgia";
+            this.nudGiamgia.Size = new System.Drawing.Size(124, 22);
+            this.nudGiamgia.TabIndex = 42;
+            this.nudGiamgia.ValueChanged += new System.EventHandler(this.nudGiamgia_ValueChanged);
+            // 
+            // lblThue
+            // 
+            this.lblThue.AutoSize = true;
+            this.lblThue.Location = new System.Drawing.Point(799, 408);
+            this.lblThue.Name = "lblThue";
+            this.lblThue.Size = new System.Drawing.Size(67, 16);
+            this.lblThue.TabIndex = 45;
+            this.lblThue.Text = "Thuế (%): ";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(799, 381);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(58, 16);
+            this.label4.TabIndex = 91;
+            this.label4.Text = "Đặt cọc: ";
+            // 
+            // lblTongtienDH
+            // 
+            this.lblTongtienDH.AutoSize = true;
+            this.lblTongtienDH.Location = new System.Drawing.Point(799, 532);
+            this.lblTongtienDH.Name = "lblTongtienDH";
+            this.lblTongtienDH.Size = new System.Drawing.Size(125, 16);
+            this.lblTongtienDH.TabIndex = 92;
+            this.lblTongtienDH.Text = "Tổng tiền đơn hàng:";
+            // 
             // frmTaodonban
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1026, 699);
+            this.ClientSize = new System.Drawing.Size(1080, 699);
+            this.Controls.Add(this.lblTongtienDH);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.lblThue);
             this.Controls.Add(this.btnXoaHD);
             this.Controls.Add(this.btnInHD);
             this.Controls.Add(this.btnLuuHD);
@@ -556,7 +589,7 @@
             this.Controls.Add(this.btnSua);
             this.Controls.Add(this.btnXoa);
             this.Controls.Add(this.btnThem);
-            this.Controls.Add(this.lblTongtien);
+            this.Controls.Add(this.lblTongtienSP);
             this.Controls.Add(this.lblSoluongSP);
             this.Controls.Add(this.lblSoSP);
             this.Controls.Add(this.lblTongtienChu);
@@ -568,12 +601,12 @@
             this.Text = "frmTaodonban";
             this.Load += new System.EventHandler(this.frmTaodonban_Load);
             ((System.ComponentModel.ISupportInitialize)(this.nudSoluong)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudGiamgia)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDSSP)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudGiamgia)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -596,12 +629,10 @@
         private System.Windows.Forms.Button btnLuuHD;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown nudSoluong;
-        private System.Windows.Forms.NumericUpDown nudGiamgia;
-        private System.Windows.Forms.TextBox txtDonGiaBan;
+        private System.Windows.Forms.TextBox txtDongiaban;
         private System.Windows.Forms.TextBox txtTenSP;
         private System.Windows.Forms.ComboBox cboMaSP;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label11;
@@ -617,7 +648,7 @@
         private System.Windows.Forms.Button btnSua;
         private System.Windows.Forms.Button btnXoa;
         private System.Windows.Forms.Button btnThem;
-        private System.Windows.Forms.Label lblTongtien;
+        private System.Windows.Forms.Label lblTongtienSP;
         private System.Windows.Forms.Label lblSoluongSP;
         private System.Windows.Forms.Label lblSoSP;
         private System.Windows.Forms.Label lblTongtienChu;
@@ -628,5 +659,10 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ComboBox cboMaKH;
         private System.Windows.Forms.TextBox txtDiachi;
+        private System.Windows.Forms.NumericUpDown nudGiamgia;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label lblThue;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblTongtienDH;
     }
 }
