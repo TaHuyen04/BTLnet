@@ -18,8 +18,8 @@ namespace QLCHBanXeMay.Class
             // Connstring = "Data Source=XUAN;Initial Catalog=QLCH_BanXeMay;Integrated Security=True ";
             //hyn
             //Connstring = "Data Source=DESKTOP-R3DMC9I;Initial Catalog=QLCH_BanXe;Integrated Security=True";
-          //Connstring = "Data Source=Xuan;Initial Catalog=QLCH_BanXeMay;Integrated Security=True";
-            Connstring = "Data Source=PTMINH;Initial Catalog=QLCH_BanXe;Integrated Security=True";
+         Connstring = "Data Source=Xuan;Initial Catalog=QLCH_BanXeMay;Integrated Security=True";
+            //Connstring = "Data Source=PTMINH;Initial Catalog=QLCH_BanXe;Integrated Security=True";
             //Connstring = @"Data Source=LAPTOP-L1V19H5J\HOANGEXPRESS;Initial Catalog=QLCH_BanXe;Integrated Security=True;Encrypt=False";
             Conn = new SqlConnection();
             Conn.ConnectionString = Connstring;
