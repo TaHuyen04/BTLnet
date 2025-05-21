@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using QLCHBanXeMay.Class;
 
 namespace QLCHBanXeMay.form
 {
@@ -16,10 +18,580 @@ namespace QLCHBanXeMay.form
         {
             InitializeComponent();
         }
+        DataTable tblDSSP;
 
         private void frmTaodonban_Load(object sender, EventArgs e)
         {
+            // Đặt ReadOnly cho các TextBox để không cho nhập thủ công
+            txtTenSP.ReadOnly = true;
+            txtDonGiaBan.ReadOnly = true;
+            txtTenNV.ReadOnly = true;
+            txtTenKH.ReadOnly = true;
+            txtSDT.ReadOnly = true;
+            txtDiachi.ReadOnly = true;
+            txtThanhtien.ReadOnly = true;
+            txtMaHDB.ReadOnly = true; // Ngăn thay đổi mã hóa đơn sau khi tạo
 
+            // Load ComboBox Mã nhân viên 
+            string sqlNhanVien = "SELECT MaNV FROM tblNhanVien";
+            Class.Functions.FillCombo(sqlNhanVien, cboMaNV, "MaNV", "MaNV");
+            cboMaNV.SelectedIndex = -1;
+
+            // Load ComboBox Mã khách hàng 
+            string sqlNCC = "SELECT MaKhach FROM tblKhachHang";
+            Class.Functions.FillCombo(sqlNCC, cboMaKH, "MaKhach", "MaKhach");
+            cboMaKH.SelectedIndex = -1;
+
+            // Load ComboBox Mã sản phẩm 
+            string sqlSP = "SELECT MaHang FROM tblDMHang";
+            Class.Functions.FillCombo(sqlSP, cboMaSP, "MaHang", "MaHang");
+            cboMaSP.SelectedIndex = -1;
+            ;
+
+            // Tự sinh mã hóa đơn
+            txtMaHDB.Text = GenerateNewInvoiceCode();
+
+            ResetForm();
+            Load_dgvDSSP();
+            btnThem.Enabled = false;
+            btnBoqua.Enabled = false;
+            btnInHD.Enabled = false;
+            btnXoaHD.Enabled = false;
+            btnLuuHD.Enabled = false;
+        }
+        // Hàm tạo mã hóa đơn tự động
+        private string GenerateNewInvoiceCode()
+        {
+            string newCode = "DDH001"; // Mã mặc định nếu không có hóa đơn nào
+            string sql = "SELECT TOP 1 SoDDH FROM tblDonDatHang ORDER BY SoDDH DESC";
+            string lastCode = Functions.GetFieldValues(sql);
+
+            if (!string.IsNullOrEmpty(lastCode))
+            {
+                // Tách phần số từ mã (VD: "DDH01" -> "001")
+                string numberPart = lastCode.Substring(3); // Bỏ "DDH"
+                int number = int.Parse(numberPart) + 1; // Tăng số lên 1
+                newCode = "DDH" + number.ToString("D3"); // Định dạng lại (VD: "DDH002")
+            }
+
+            return newCode;
+        }
+
+        private void cboMaKH_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboMaKH.SelectedIndex != -1)
+            {
+                string sql = "SELECT TenKhach, DienThoai, Diachi FROM tblKhachHang WHERE MaKhach = '" + cboMaKH.SelectedValue + "'";
+                DataTable dt = Functions.getdatatotable(sql);
+                if (dt.Rows.Count > 0)
+                {
+                    txtTenKH.Text = dt.Rows[0]["TenKhach"].ToString();
+                    txtSDT.Text = dt.Rows[0]["DienThoai"].ToString();
+                    txtDiachi.Text = dt.Rows[0]["Diachi"].ToString();
+                }
+                else
+                {
+                    txtTenKH.Text = "";
+                    txtSDT.Text = "";
+                    txtDiachi.Text = "";
+                }
+            }
+            else
+            {
+                txtTenKH.Text = "";
+                txtSDT.Text = "";
+                txtDiachi.Text = "";
+            }
+        }
+
+        private void cboMaNV_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboMaNV.SelectedIndex != -1)
+            {
+                string sql = "SELECT TenNV FROM tblNhanVien WHERE MaNV = '" + cboMaNV.SelectedValue + "'";
+                DataTable dt = Functions.getdatatotable(sql);
+                if (dt.Rows.Count > 0)
+                {
+                    txtTenNV.Text = dt.Rows[0]["TenNV"].ToString();
+                }
+                else
+                {
+                    txtTenNV.Text = "";
+                }
+            }
+            else
+            {
+                txtTenNV.Text = "";
+            }
+        }
+
+        private void cboMaSP_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboMaSP.SelectedIndex != -1)
+            {
+                string sql = "SELECT TenHang, DonGiaBan FROM tblDMHang WHERE MaHang = '" + cboMaSP.SelectedValue + "'";
+                DataTable dt = Functions.getdatatotable(sql);
+                if (dt.Rows.Count > 0)
+                {
+                    txtTenSP.Text = dt.Rows[0]["TenHang"].ToString();
+                    txtDonGiaBan.Text = dt.Rows[0]["DonGiaBan"].ToString();
+                    TinhThanhTien(); // Tự động tính thành tiền khi chọn sản phẩm
+                }
+            }
+            else
+            {
+                txtTenSP.Text = "";
+                txtDonGiaBan.Text = "";
+                txtThanhtien.Text = "";
+            }
+
+        }
+        private void Load_dgvDSSP()
+        {// Sử dụng JOIN để lấy TenHang từ tblDMHang và thêm cột GiamGia
+            string sql = "SELECT bt.MaHang, dm.TenHang, bt.DonGia, bt.SoLuong, bt.GiamGia, bt.ThanhTien " +
+                         "FROM tblChiTietDonDatHang bt " +
+                         "INNER JOIN tblDMHang dm ON bt.MaHang = dm.MaHang " +
+                         "WHERE bt.SoDDH = '" + txtMaHDB.Text + "'";
+            tblDSSP = Functions.getdatatotable(sql);
+            dgvDSSP.DataSource = tblDSSP;
+
+            // Cập nhật header và độ rộng cột
+            if (dgvDSSP.Columns.Count > 0)
+            {
+                dgvDSSP.Columns[0].HeaderText = "Mã hàng";
+                dgvDSSP.Columns[1].HeaderText = "Tên hàng";
+                dgvDSSP.Columns[2].HeaderText = "Đơn giá nhập";
+                dgvDSSP.Columns[3].HeaderText = "Số lượng";
+                dgvDSSP.Columns[4].HeaderText = "Giảm giá (%)"; // Thêm cột giảm giá
+                dgvDSSP.Columns[5].HeaderText = "Thành tiền";
+
+                dgvDSSP.Columns[0].Width = 100;
+                dgvDSSP.Columns[1].Width = 200;
+                dgvDSSP.Columns[2].Width = 120;
+                dgvDSSP.Columns[3].Width = 80;
+                dgvDSSP.Columns[4].Width = 100; // Độ rộng cho cột giảm giá
+                dgvDSSP.Columns[5].Width = 120;
+            }
+
+            // Không cho chỉnh sửa trực tiếp trên lưới
+            dgvDSSP.AllowUserToAddRows = false;
+            dgvDSSP.EditMode = DataGridViewEditMode.EditProgrammatically;
+
+            TinhTongTien(); // Cập nhật tổng tiền sau khi tải dữ liệu
+        }
+
+        private void dgvDSSP_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (btnThem.Enabled == false)
+            {
+                MessageBox.Show("Đang ở chế độ thêm mới!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cboMaSP.Focus();
+                return;
+            }
+            if (dgvDSSP.Rows.Count == 0)
+            {
+                MessageBox.Show("Không có dữ liệu!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            cboMaSP.Text = dgvDSSP.CurrentRow.Cells["TenHang"].Value.ToString(); // Hiển thị tên để chọn
+            string maSP = dgvDSSP.CurrentRow.Cells["MaHang"].Value.ToString();
+            string sql = "SELECT TenHang, DonDatHang FROM tblDMHang WHERE MaHang = '" + maSP + "'";
+            DataTable dt = Functions.getdatatotable(sql);
+            if (dt.Rows.Count > 0)
+            {
+                txtTenSP.Text = dt.Rows[0]["TenHang"].ToString();
+                txtDonGiaBan.Text = dt.Rows[0]["DonDatHang"].ToString();
+            }
+            nudSoluong.Text = dgvDSSP.CurrentRow.Cells["SoLuong"].Value.ToString();
+            nudGiamgia.Value = Convert.ToDecimal(dgvDSSP.CurrentRow.Cells["GiamGia"].Value); // Cập nhật giảm giá
+            txtThanhtien.Text = dgvDSSP.CurrentRow.Cells["ThanhTien"].Value.ToString();
+            TinhThanhTien(); // Cập nhật thành tiền
+
+            btnSua.Enabled = true;
+            btnXoa.Enabled = true;
+            btnBoqua.Enabled = true;
+            btnThem.Enabled = false;
+        }
+        private void TinhThanhTien()
+        {
+            if (!string.IsNullOrEmpty(txtDonGiaBan.Text) && nudSoluong.Value > 0)
+            {
+                double donGia = Convert.ToDouble(txtDonGiaBan.Text);
+                int soLuong = Convert.ToInt32(nudSoluong.Value);
+                double giamGia = Convert.ToDouble(nudGiamgia.Value);
+                double thanhTien = soLuong * donGia * (1 - giamGia / 100);
+                txtThanhtien.Text = thanhTien.ToString("N0");
+            }
+            else
+            {
+                txtThanhtien.Text = "0";
+            }
+        }
+
+        private void nudSoluong_ValueChanged(object sender, EventArgs e)
+        {
+            TinhThanhTien();
+        }
+
+        private void nudGiamgia_ValueChanged(object sender, EventArgs e)
+        {
+            TinhThanhTien();
+        }
+        private void ResetValuesSP()
+        {
+            cboMaSP.SelectedIndex = -1;
+            txtTenSP.Text = "";
+            txtDonGiaBan.Text = "";
+            nudSoluong.Value = 1;
+            nudGiamgia.Value = 0;
+            txtThanhtien.Text = "";
+        }
+
+        private void ResetForm()
+        {
+            txtMaHDB.Text = GenerateNewInvoiceCode();
+            cboMaNV.SelectedIndex = -1;
+            cboMaKH.SelectedIndex = -1;
+            txtTenNV.Text = "";
+            txtTenKH.Text = "";
+            txtSDT.Text = "";
+            txtDiachi.Text = "";
+            dgvDSSP.DataSource = null;
+            lblTongtien.Text = "0";
+            lblSoluongSP.Text = "0";
+            lblSoSP.Text = "0";
+            lblTongtienChu.Text = "";
+
+            ResetValuesSP();
+            isHoaDonCreated = false;
+            isHoaDonSaved = false;
+
+            // Đặt lại trạng thái các nút
+            btnTaomoi.Enabled = true;
+            btnThem.Enabled = false;
+            btnSua.Enabled = false;
+            btnXoa.Enabled = false;
+            btnBoqua.Enabled = false;
+            btnBoquaHD.Enabled = false;
+            btnLuuHD.Enabled = false;
+            btnXoaHD.Enabled = false;
+            btnInHD.Enabled = false;
+            btnDong.Enabled = true;
+        }
+
+
+        private bool isHoaDonCreated = false; // Biến trạng thái kiểm tra hóa đơn đã tạo chưa
+
+        private void btnTaomoi_Click(object sender, EventArgs e)
+        {
+            if (cboMaNV.SelectedIndex == -1 || cboMaKH.SelectedIndex == -1)
+            {
+                MessageBox.Show("Vui lòng chọn mã nhân viên và mã nhà cung cấp!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string maDDH = txtMaHDB.Text.Trim();
+            string sqlCheck = "SELECT SoDDH FROM tblHoaDonNhap WHERE SoDDH = '" + maDDH + "'";
+            if (Functions.Checkkey(sqlCheck))
+            {
+                MessageBox.Show("Số hóa đơn này đã tồn tại. Hãy tạo mã khác!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtMaHDB.Text = GenerateNewInvoiceCode();
+                return;
+            }
+
+            string sqlInsert = "INSERT INTO tblHoaDonNhap (SoDDH, MaNV, MaNCC, NgayNhap, TongTien) " +
+                               "VALUES ('" + maDDH + "', '" + cboMaNV.SelectedValue + "', '" + cboMaKH.SelectedValue + "', '" + dtpNgayban.Value.ToString("yyyy-MM-dd") + "', 0)";
+            Functions.Runsql(sqlInsert);
+
+            isHoaDonCreated = true;
+            btnThem.Enabled = true;
+            btnBoqua.Enabled = true;
+            btnLuuHD.Enabled = true;
+            btnXoaHD.Enabled = true;
+            MessageBox.Show("Đã tạo hóa đơn. Tiếp tục thêm sản phẩm!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            Load_dgvDSSP();
+        }
+
+        private void btnBoquaHD_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Bạn có chắc chắn muốn bỏ qua hóa đơn hiện tại?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                ResetForm(); // Đặt lại toàn bộ form
+                btnThem.Enabled = true;
+                btnSua.Enabled = false;
+                btnXoa.Enabled = false;
+                btnBoqua.Enabled = false;
+                btnLuuHD.Enabled = false;
+                MessageBox.Show("Đã bỏ qua hóa đơn. Bạn có thể tạo hóa đơn mới!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void btnThem_Click(object sender, EventArgs e)
+        {
+            if (!isHoaDonCreated)
+            {
+                MessageBox.Show("Vui lòng tạo hóa đơn trước khi thêm sản phẩm!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                btnTaomoi.Focus();
+                return;
+            }
+
+            if (cboMaSP.SelectedIndex == -1)
+            {
+                MessageBox.Show("Bạn phải chọn mã sản phẩm!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cboMaSP.Focus();
+                return;
+            }
+
+            if (nudSoluong.Value <= 0)
+            {
+                MessageBox.Show("Số lượng phải lớn hơn 0!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string maDDH = txtMaHDB.Text.Trim();
+            string maSP = cboMaSP.SelectedValue.ToString();
+            double donGia = Convert.ToDouble(txtDonGiaBan.Text);
+            int soLuong = Convert.ToInt32(nudSoluong.Value);
+            double giamGia = Convert.ToDouble(nudGiamgia.Value);
+            double thanhTien = Convert.ToDouble(txtThanhtien.Text);
+
+            // Kiểm tra xem sản phẩm đã tồn tại trong hóa đơn chưa
+            string sqlCheck = "SELECT * FROM tblChiTietHoaDonNhap WHERE SoDDH = '" + maDDH + "' AND MaHang = '" + maSP + "'";
+            if (Functions.Checkkey(sqlCheck))
+            {
+                MessageBox.Show("Sản phẩm này đã có trong hóa đơn. Vui lòng chỉnh sửa thay vì thêm mới!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string sqlInsertCT = "INSERT INTO tblChiTietHoaDonNhap(SoDDH, MaHang, SoLuong, DonGia, GiamGia, ThanhTien) " +
+                                 "VALUES('" + maDDH + "', '" + maSP + "', " + soLuong + ", " + donGia + ", " + giamGia + ", " + thanhTien + ")";
+            Functions.Runsql(sqlInsertCT);
+
+            Load_dgvDSSP();
+            ResetValuesSP();
+            btnBoqua.Enabled = false;
+            btnThem.Enabled = true;
+            TinhTongTien();
+
+            isHoaDonSaved = false; // Đặt lại trạng thái lưu khi thêm sản phẩm mới
+        }
+        private void TinhTongTien()
+        {
+            double tong = 0;
+            int tongSL = 0;
+            for (int i = 0; i < dgvDSSP.Rows.Count; i++)
+            {
+                try
+                {
+                    tong += Convert.ToDouble(dgvDSSP.Rows[i].Cells["ThanhTien"].Value);
+                    tongSL += Convert.ToInt32(dgvDSSP.Rows[i].Cells["SoLuong"].Value);
+                }
+                catch
+                {
+                    // Bỏ qua nếu có lỗi chuyển đổi
+                }
+            }
+            lblTongtien.Text = tong.ToString("N0");
+            lblSoluongSP.Text = tongSL.ToString();
+            lblSoSP.Text = dgvDSSP.Rows.Count.ToString();
+
+            lblTongtienChu.Text = "Bằng chữ: " + Functions.ChuyenSoSangChu(tong.ToString());
+        }
+
+        private void btnXoa_Click(object sender, EventArgs e)
+        {
+            if (dgvDSSP.CurrentRow == null) return;
+
+            string maDDH = txtMaHDB.Text;
+            string maSP = dgvDSSP.CurrentRow.Cells["MaHang"].Value.ToString();
+
+            if (MessageBox.Show("Bạn có chắc muốn xóa sản phẩm này khỏi hóa đơn?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                string sql = "DELETE FROM tblChiTietHoaDonNhap WHERE SoDDH = '" + maDDH + "' AND MaHang = '" + maSP + "'";
+                Functions.Runsql(sql);
+                Load_dgvDSSP();
+                TinhTongTien();
+            }
+            isHoaDonSaved = false; // Đặt lại trạng thái lưu khi xóa sản phẩm
+        }
+
+        private void btnBoqua_Click(object sender, EventArgs e)
+        {
+            ResetValuesSP();
+            btnThem.Enabled = true;
+            btnSua.Enabled = false;
+            btnXoa.Enabled = false;
+            btnBoqua.Enabled = false;
+        }
+
+        private void btnSua_Click(object sender, EventArgs e)
+        {
+            // Vô hiệu hóa nút thêm khi bắt đầu sửa
+            btnThem.Enabled = false;
+
+            string maDDH = txtMaHDB.Text;
+            string maSP = dgvDSSP.CurrentRow.Cells["MaHang"].Value.ToString();
+
+            // Lấy giá trị cũ từ DataGridView
+            double donGiaCu = Convert.ToDouble(dgvDSSP.CurrentRow.Cells["DonGia"].Value);
+            int soLuongCu = Convert.ToInt32(dgvDSSP.CurrentRow.Cells["SoLuong"].Value);
+            double giamGiaCu = Convert.ToDouble(dgvDSSP.CurrentRow.Cells["GiamGia"].Value);
+            double thanhTienCu = Convert.ToDouble(dgvDSSP.CurrentRow.Cells["ThanhTien"].Value);
+
+            // Lấy giá trị mới từ các điều khiển
+            if (string.IsNullOrEmpty(txtDonGiaBan.Text) || nudSoluong.Value <= 0)
+            {
+                MessageBox.Show("Vui lòng nhập đầy đủ và hợp lệ Đơn giá và Số lượng!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            double donGia = Convert.ToDouble(txtDonGiaBan.Text);
+            int soLuong = Convert.ToInt32(nudSoluong.Value);
+            double giamGia = Convert.ToDouble(nudGiamgia.Value);
+            double thanhTien = soLuong * donGia * (1 - giamGia / 100);
+
+            // Kiểm tra nếu không có sự thay đổi
+            if (donGia == donGiaCu && soLuong == soLuongCu && giamGia == giamGiaCu && Math.Abs(thanhTien - thanhTienCu) < 0.01) // So sánh với độ chính xác nhỏ
+            {
+                MessageBox.Show("Không có thay đổi nào để cập nhật!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // Cập nhật bảng tblChiTietHoaDonNhap
+            string sql = "UPDATE tblChiTietDonDatHang SET SoLuong = " + soLuong + ", DonGia = " + donGia + ", GiamGia = " + giamGia + ", ThanhTien = " + thanhTien +
+                         " WHERE SoDDH = '" + maDDH + "' AND MaHang = '" + maSP + "'";
+            Functions.Runsql(sql);
+
+            Load_dgvDSSP();
+            TinhTongTien();
+            ResetValuesSP();
+            btnSua.Enabled = false;
+            btnXoa.Enabled = false;
+            btnBoqua.Enabled = false;
+            btnThem.Enabled = true; // Kích hoạt lại btnThem sau khi sửa thành công
+            MessageBox.Show("Thông tin sản phẩm đã được cập nhật!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            isHoaDonSaved = false;
+        }
+        private bool isHoaDonSaved = false; // biến kiểm tra trạng thái hóa đơn đã được lưu chưa
+
+        private void btnLuuHD_Click(object sender, EventArgs e)
+        {
+            if (dgvDSSP.Rows.Count == 0)
+            {
+                MessageBox.Show("Hóa đơn chưa có sản phẩm nào. Vui lòng thêm sản phẩm trước khi lưu!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            double tong = 0;
+            try
+            {
+                tong = dgvDSSP.Rows.Cast<DataGridViewRow>().Sum(r => Convert.ToDouble(r.Cells["ThanhTien"].Value));
+            }
+            catch
+            {
+                MessageBox.Show("Có lỗi khi tính tổng tiền. Vui lòng kiểm tra dữ liệu!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Cập nhật tổng tiền trong tblHoaDonNhap
+            string sqlUpdateHD = "UPDATE tblDonDatHang SET TongTien = " + tong + " WHERE SoDDH = '" + txtMaHDB.Text + "'";
+            Functions.Runsql(sqlUpdateHD);
+
+            // Cập nhật số lượng tồn kho trong tblDMHang
+            foreach (DataGridViewRow row in dgvDSSP.Rows)
+            {
+                string maHang = row.Cells["MaHang"].Value.ToString();
+                int soLuongNhap = Convert.ToInt32(row.Cells["SoLuong"].Value);
+
+                // Lấy số lượng tồn hiện tại
+                string sqlGetSoLuongTon = "SELECT SoLuong FROM tblDMHang WHERE MaHang = '" + maHang + "'";
+                string soLuongTonHienTaiStr = Functions.GetFieldValues(sqlGetSoLuongTon);
+                int soLuongTonHienTai = string.IsNullOrEmpty(soLuongTonHienTaiStr) ? 0 : Convert.ToInt32(soLuongTonHienTaiStr);
+
+                // Tính số lượng tồn mới
+                int soLuongTonMoi = soLuongTonHienTai + soLuongNhap;
+
+                // Cập nhật số lượng tồn trong tblDMHang
+                string sqlUpdateSP = "UPDATE tblDMHang SET SoLuong= " + soLuongTonMoi + " WHERE MaHang = '" + maHang + "'";
+                Functions.Runsql(sqlUpdateSP);
+            }
+
+            // Vô hiệu hóa các nút không cần thiết sau khi lưu
+            btnTaomoi.Enabled = false;
+            btnThem.Enabled = false;
+            btnSua.Enabled = false;
+            btnXoa.Enabled = false;
+            btnBoqua.Enabled = false;
+            btnBoquaHD.Enabled = false;
+            btnLuuHD.Enabled = false;
+
+            // Chỉ giữ các nút cần thiết
+            btnXoaHD.Enabled = true;
+            btnInHD.Enabled = true;
+            btnDong.Enabled = true;
+
+            MessageBox.Show("Hóa đơn đã được lưu và số lượng sản phẩm đã được cập nhật! Hóa đơn sẵn sàng để in", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            isHoaDonSaved = true;
+        }
+
+        private void btnXoaHD_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Bạn có chắc chắn muốn xóa toàn bộ hóa đơn và chi tiết?", "Cảnh báo", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                string sql1 = "DELETE FROM tblChiTietDonDatHang WHERE SoDDH = '" + txtMaHDB.Text + "'";
+                Functions.Runsql(sql1);
+                string sql2 = "DELETE FROM tblDonDatHang WHERE SoDDH = '" + txtMaHDB.Text + "'";
+                Functions.Runsql(sql2);
+                MessageBox.Show("Đã xóa hóa đơn nhập!", "Thông báo");
+                ResetForm();
+            }
+        }
+
+        private void btnInHD_Click(object sender, EventArgs e)
+        {
+            PrintDocument pd = new PrintDocument();
+            pd.PrintPage += new PrintPageEventHandler(PrintPage);
+            pd.Print();
+        }
+        private void PrintPage(object sender, PrintPageEventArgs e)
+        {
+            e.Graphics.DrawString("HÓA ĐƠN NHẬP HÀNG", new Font("Arial", 16), Brushes.Black, 100, 50);
+            e.Graphics.DrawString("Số hóa đơn: " + txtMaHDB.Text, new Font("Arial", 12), Brushes.Black, 100, 80);
+            // Thêm logic in chi tiết từ dgvDSSP
+        }
+
+        private void btnDong_Click(object sender, EventArgs e)
+        {
+            if (isHoaDonCreated && !isHoaDonSaved)
+            {
+                DialogResult result = MessageBox.Show("Vui lòng lưu hóa đơn trước khi đóng!", "Cảnh báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (result == DialogResult.Yes)
+                {
+                    btnLuuHD.PerformClick(); // Tự động kích hoạt lưu nếu chọn Yes
+                    if (!isHoaDonSaved) // Nếu lưu thất bại (do lỗi), không cho đóng
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    DialogResult confirmDiscard = MessageBox.Show("Các thay đổi sẽ không được lưu. Bạn có muốn xóa hóa đơn hiện tại?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (confirmDiscard == DialogResult.Yes)
+                    {
+                        string sql1 = "DELETE FROM tblChiTietDonDatHang WHERE SoDDH = '" + txtMaHDB.Text + "'";
+                        Functions.Runsql(sql1);
+                        string sql2 = "DELETE FROM tblDonDatHang WHERE SoDDH = '" + txtMaHDB.Text + "'";
+                        Functions.Runsql(sql2);
+                    }
+                    else
+                    {
+                        return; // Không đóng form nếu chọn No và không muốn xóa
+                    }
+                }
+                ResetForm(); // Đặt lại form trước khi đóng
+                this.Close();
+            }
         }
     }
 }
