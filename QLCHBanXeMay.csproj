@@ -59,6 +59,12 @@
     <Compile Include="form\frmBaocao.Designer.cs">
       <DependentUpon>frmBaocao.cs</DependentUpon>
     </Compile>
+    <Compile Include="form\frmBaoCaoSanPham.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="form\frmBaoCaoSanPham.Designer.cs">
+      <DependentUpon>frmBaoCaoSanPham.cs</DependentUpon>
+    </Compile>
     <Compile Include="form\frmChitietHDban.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -188,6 +194,9 @@
     </Compile>
     <EmbeddedResource Include="form\frmBaocao.resx">
       <DependentUpon>frmBaocao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="form\frmBaoCaoSanPham.resx">
+      <DependentUpon>frmBaoCaoSanPham.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="form\frmChitietHDban.resx">
       <DependentUpon>frmChitietHDban.cs</DependentUpon>

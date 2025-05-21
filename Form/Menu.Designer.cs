@@ -57,6 +57,7 @@
             this.button19 = new System.Windows.Forms.Button();
             this.button20 = new System.Windows.Forms.Button();
             this.button21 = new System.Windows.Forms.Button();
+            this.btnBCSP = new System.Windows.Forms.Button();
             this.panelMenu.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -77,14 +78,14 @@
             this.panelMenu.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.panelMenu.Location = new System.Drawing.Point(-3, -3);
             this.panelMenu.Name = "panelMenu";
-            this.panelMenu.Size = new System.Drawing.Size(195, 601);
+            this.panelMenu.Size = new System.Drawing.Size(195, 643);
             this.panelMenu.TabIndex = 0;
             // 
             // btnThoat
             // 
             this.btnThoat.BackColor = System.Drawing.Color.CornflowerBlue;
             this.btnThoat.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btnThoat.Location = new System.Drawing.Point(15, 534);
+            this.btnThoat.Location = new System.Drawing.Point(15, 574);
             this.btnThoat.Name = "btnThoat";
             this.btnThoat.Size = new System.Drawing.Size(164, 29);
             this.btnThoat.TabIndex = 2;
@@ -94,13 +95,14 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.btnBCSP);
             this.groupBox4.Controls.Add(this.btnBC);
             this.groupBox4.Controls.Add(this.btnTK);
             this.groupBox4.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.groupBox4.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBox4.Location = new System.Drawing.Point(15, 430);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(164, 98);
+            this.groupBox4.Size = new System.Drawing.Size(164, 138);
             this.groupBox4.TabIndex = 7;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Báo cáo";
@@ -109,7 +111,7 @@
             // 
             this.btnBC.BackColor = System.Drawing.Color.CornflowerBlue;
             this.btnBC.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btnBC.Location = new System.Drawing.Point(6, 57);
+            this.btnBC.Location = new System.Drawing.Point(6, 60);
             this.btnBC.Name = "btnBC";
             this.btnBC.Size = new System.Drawing.Size(146, 29);
             this.btnBC.TabIndex = 1;
@@ -121,7 +123,7 @@
             // 
             this.btnTK.BackColor = System.Drawing.Color.CornflowerBlue;
             this.btnTK.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btnTK.Location = new System.Drawing.Point(6, 21);
+            this.btnTK.Location = new System.Drawing.Point(6, 24);
             this.btnTK.Name = "btnTK";
             this.btnTK.Size = new System.Drawing.Size(146, 30);
             this.btnTK.TabIndex = 0;
@@ -426,12 +428,24 @@
             this.button21.UseVisualStyleBackColor = false;
             this.button21.Click += new System.EventHandler(this.button21_Click);
             // 
+            // btnBCSP
+            // 
+            this.btnBCSP.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.btnBCSP.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btnBCSP.Location = new System.Drawing.Point(6, 95);
+            this.btnBCSP.Name = "btnBCSP";
+            this.btnBCSP.Size = new System.Drawing.Size(146, 29);
+            this.btnBCSP.TabIndex = 2;
+            this.btnBCSP.Text = "Sản phẩm";
+            this.btnBCSP.UseVisualStyleBackColor = false;
+            this.btnBCSP.Click += new System.EventHandler(this.btnBCSP_Click);
+            // 
             // Menu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(1156, 586);
+            this.ClientSize = new System.Drawing.Size(1156, 616);
             this.Controls.Add(this.grbDM);
             this.Controls.Add(this.panelNhansu);
             this.Controls.Add(this.panelMenu);
@@ -481,6 +495,7 @@
         private System.Windows.Forms.Button button19;
         private System.Windows.Forms.Button button20;
         private System.Windows.Forms.Button button21;
+        private System.Windows.Forms.Button btnBCSP;
     }
 }
 
