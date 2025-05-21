@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using Excel = Microsoft.Office.Interop.Excel;
 using QLCHBanXeMay.Class;
 
 namespace QLCHBanXeMay.form
@@ -859,6 +860,225 @@ namespace QLCHBanXeMay.form
                 MessageBox.Show("Bạn phải chọn loại thời gian", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 cboThoigian.Focus();
             }
+        }
+
+        private void btnDong_Click(object sender, EventArgs e)
+        {
+            this.Close();
+       
+        
+        }
+
+        private void btnLammoi_Click(object sender, EventArgs e)
+        {
+            cboThoigian.SelectedIndex = 0;
+            lblBD.Visible = false;
+            lblKT.Visible = false;
+            cboBD.Text = "";
+            cboBD.Items.Clear();
+            cboKT.Items.Clear();
+            cboKT.Text = "";
+            cboNamBD.Items.Clear();
+            cboNamKT.Items.Clear();
+            cboNamBD.Text = "";
+            cboNamKT.Text = "";
+            dtpBD.Text = "";
+            dtpKT.Text = "";
+            cboBD.SelectedIndex = -1;
+            cboKT.SelectedIndex = -1;
+            cboNamBD.SelectedIndex = -1;
+            cboNamKT.SelectedIndex = -1;
+            gpbThoigian.Enabled = true;
+            cboBD.Visible = false;
+            cboKT.Visible = false;
+            cboNamBD.Visible = false;
+            cboNamKT.Visible = false;
+            dtpBD.Visible = false;
+            dtpKT.Visible = false;
+            lblNam1.Visible = false;
+            lblNam2.Visible = false;
+        }
+
+        private void btnXuatexcel_Click(object sender, EventArgs e)
+        {
+            // Kiểm tra nếu DataGridView không có dữ liệu
+            if (dgridBaoCao.Rows.Count == 0)
+            {
+                MessageBox.Show("Không có dữ liệu để xuất ra Excel!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Khởi tạo đối tượng Excel
+            Excel.Application excelApp = new Excel.Application();
+            excelApp.Visible = true;
+            Excel.Workbook workbook = excelApp.Workbooks.Add();
+            Excel.Worksheet worksheet = workbook.Sheets[1];
+
+            // Đặt tiêu đề cho các cột
+            worksheet.Cells[1, 1] = "Cửa hàng bán xe máy ";
+            worksheet.Cells[1, 1].Font.Color = Color.Blue;
+            worksheet.Cells[2, 1] = "Địa chỉ: 12 Chùa Bộc, Quang Trung, Đống Đa, Hà Nội ";
+            worksheet.Cells[2, 1].Font.Color = Color.Blue;
+            worksheet.Cells[3, 1] = "Số điện thoại: 070 531 1048 ";
+            worksheet.Cells[3, 1].Font.Color = Color.Blue;
+
+            Excel.Range mergeRange = worksheet.Range[worksheet.Cells[4, 1], worksheet.Cells[4, 8]];
+            mergeRange.Merge();
+            mergeRange.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            mergeRange.Value = "BÁO CÁO NHÂN VIÊN";
+            mergeRange.Font.Size = 22;
+            mergeRange.Font.Color = Color.Red;
+
+            worksheet.Cells[5, 1] = "Báo cáo theo: " + cboThoigian.Text;
+            worksheet.Cells[7, 1] = "Thời gian tạo báo cáo:  " + DateTime.Now;
+
+            if (cboThoigian.Text == "Hôm nay")
+            {
+                worksheet.Cells[5, 1] = "";
+                worksheet.Cells[6, 1] = "Ngày: " + DateTime.Today.ToString("dd/MM/yyyy");
+                worksheet.Cells[7, 1] = "Thời gian tạo báo cáo:  " + DateTime.Now;
+            }
+            if (cboThoigian.Text == "Ngày" && dtpBD.Text == dtpKT.Text)
+            {
+                worksheet.Cells[6, 1] = "Ngày: " + dtpBD.Text;
+            }
+            if (cboThoigian.Text == "Ngày" && dtpBD.Text != dtpKT.Text)
+            {
+                worksheet.Cells[6, 1] = "Từ ngày: " + dtpBD.Text + "   " + " Đến ngày: " + dtpKT.Text;
+            }
+
+            if (cboThoigian.Text == "Tháng" && cboBD.Text == cboKT.Text && cboNamBD.Text == cboNamKT.Text)
+            {
+                worksheet.Cells[6, 1] = "Tháng: " + cboBD.Text + "/" + cboNamBD.Text;
+            }
+            if (cboThoigian.Text == "Tháng" && cboBD.Text == cboKT.Text && cboNamBD.Text != cboNamKT.Text)
+            {
+                worksheet.Cells[6, 1] = "Từ tháng: " + cboBD.Text + "/" + cboNamBD.Text + " Đến tháng: " + cboKT.Text + "/" + cboNamKT.Text;
+            }
+            if (cboThoigian.Text == "Tháng" && cboBD.Text != cboKT.Text && cboNamBD.Text == cboNamKT.Text)
+            {
+                worksheet.Cells[6, 1] = "Từ tháng: " + cboBD.Text + "/" + cboNamBD.Text + " Đến tháng: " + cboKT.Text + "/" + cboNamKT.Text;
+            }
+            if (cboThoigian.Text == "Tháng" && cboBD.Text != cboKT.Text && cboNamBD.Text != cboNamKT.Text)
+            {
+                worksheet.Cells[6, 1] = "Từ tháng: " + cboBD.Text + "/" + cboNamBD.Text + " Đến tháng: " + cboKT.Text + "/" + cboNamKT.Text;
+            }
+
+            if (cboThoigian.Text == "Quý" && cboBD.Text == cboKT.Text && cboNamBD.Text == cboNamKT.Text)
+            {
+                worksheet.Cells[6, 1] = "Quý " + cboBD.Text + "/" + cboNamBD.Text;
+            }
+            if (cboThoigian.Text == "Quý" && cboBD.Text == cboKT.Text && cboNamBD.Text != cboNamKT.Text)
+            {
+                worksheet.Cells[6, 1] = "Từ: Quý " + cboBD.Text + "/" + cboNamBD.Text + "  Đến: Quý " + cboKT.Text + "/" + cboNamKT.Text;
+            }
+            if (cboThoigian.Text == "Quý" && cboBD.Text != cboKT.Text && cboNamBD.Text == cboNamKT.Text)
+            {
+                worksheet.Cells[6, 1] = "Từ: Quý " + cboBD.Text + "/" + cboNamBD.Text + "  Đến: Quý " + cboKT.Text + "/" + cboNamKT.Text;
+            }
+            if (cboThoigian.Text == "Quý" && cboBD.Text != cboKT.Text && cboNamBD.Text != cboNamKT.Text)
+            {
+                worksheet.Cells[6, 1] = "Từ: Quý " + cboBD.Text + "/" + cboNamBD.Text + "  Đến: Quý " + cboKT.Text + "/" + cboNamKT.Text;
+            }
+
+            if (cboThoigian.Text == "Năm" && cboBD.Text == cboKT.Text)
+            {
+                worksheet.Cells[6, 1] = "Năm: " + cboBD.Text;
+            }
+            if (cboThoigian.Text == "Năm" && cboBD.Text != cboKT.Text)
+            {
+                worksheet.Cells[6, 1] = "Từ năm: " + cboBD.Text + "   Đến năm: " + cboKT.Text;
+            }
+
+
+            // Đặt tiêu đề các cột và điền số thứ tự
+            worksheet.Cells[9, 2] = "STT";
+            worksheet.Cells[9, 2].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+            worksheet.Cells[9, 2].Borders.Weight = Excel.XlBorderWeight.xlThin;
+            worksheet.Cells[9, 2].Interior.Color = Color.LightPink;
+            worksheet.Cells[9, 2].Font.Size = 13;
+            worksheet.Cells[9, 2].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+
+            for (int i = 1; i <= dgridBaoCao.Columns.Count; i++)
+            {
+                worksheet.Cells[9, i + 2].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                worksheet.Cells[9, i + 2].Borders.Weight = Excel.XlBorderWeight.xlThin;
+                worksheet.Cells[9, i + 2].Value = dgridBaoCao.Columns[i - 1].HeaderText;
+                worksheet.Cells[9, i + 2].Interior.Color = Color.LightPink;
+                worksheet.Cells[9, i + 2].Font.Size = 13;
+                worksheet.Cells[9, i + 2].EntireColumn.AutoFit();
+                worksheet.Cells[9, i + 2].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            }
+
+            // Điền số thứ tự và đổ dữ liệu từ DataGridView vào Excel
+            for (int i = 0; i < dgridBaoCao.Rows.Count; i++)
+            {
+                worksheet.Cells[i + 10, 2].Value = i + 1; // Điền số thứ tự
+                worksheet.Cells[i + 10, 2].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                worksheet.Cells[i + 10, 2].Borders.Weight = Excel.XlBorderWeight.xlThin;
+                worksheet.Cells[i + 10, 2].Font.Size = 13;
+                worksheet.Cells[i + 10, 2].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            }
+            for (int j = 0; j < dgridBaoCao.Columns.Count; j++)
+                for (int i = 0; i < dgridBaoCao.Rows.Count; i++)
+                {
+                    worksheet.Cells[i + 10, j + 3].Value = dgridBaoCao.Rows[i].Cells[j].Value?.ToString();
+                    worksheet.Cells[i + 10, j + 3].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                    worksheet.Cells[i + 10, j + 3].Borders.Weight = Excel.XlBorderWeight.xlThin;
+                    worksheet.Cells[i + 10, j + 3].Font.Size = 13;
+                    worksheet.Cells[i + 10, j + 3].EntireColumn.AutoFit();
+                    worksheet.Cells[i + 10, j + 3].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                }
+            // Bảng báo cáo xếp hạng.
+            int startRow = dgridBaoCao.Rows.Count + 12; // 10 là bắt đầu dữ liệu + số dòng dữ liệu + 2 dòng trống
+
+            // Tiêu đề bảng thứ 2
+            Excel.Range mergeRange2 = worksheet.Range[worksheet.Cells[startRow, 1], worksheet.Cells[startRow, 8]];
+            mergeRange2.Merge();
+            mergeRange2.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            mergeRange2.Value = "BÁO CÁO XẾP HẠNG";
+            mergeRange2.Font.Size = 18;
+            mergeRange2.Font.Color = Color.Red;
+
+            // Dòng tiêu đề bảng xếp hạng
+            worksheet.Cells[startRow + 2, 2] = "STT";
+            worksheet.Cells[startRow + 2, 2].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+            worksheet.Cells[startRow + 2, 2].Borders.Weight = Excel.XlBorderWeight.xlThin;
+            worksheet.Cells[startRow + 2, 2].Interior.Color = Color.LightPink;
+            worksheet.Cells[startRow + 2, 2].Font.Size = 13;
+            worksheet.Cells[startRow + 2, 2].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+
+            for (int i = 1; i <= dgridXephang.Columns.Count; i++)
+            {
+                worksheet.Cells[startRow + 2, i + 2].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                worksheet.Cells[startRow + 2, i + 2].Borders.Weight = Excel.XlBorderWeight.xlThin;
+                worksheet.Cells[startRow + 2, i + 2].Value = dgridXephang.Columns[i - 1].HeaderText;
+                worksheet.Cells[startRow + 2, i + 2].Interior.Color = Color.LightPink;
+                worksheet.Cells[startRow + 2, i + 2].Font.Size = 13;
+                worksheet.Cells[startRow + 2, i + 2].EntireColumn.AutoFit();
+                worksheet.Cells[startRow + 2, i + 2].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            }
+
+            // Đổ dữ liệu bảng xếp hạng
+            for (int i = 0; i < dgridXephang.Rows.Count; i++)
+            {
+                worksheet.Cells[startRow + 3 + i, 2].Value = i + 1; // STT
+                worksheet.Cells[startRow + 3 + i, 2].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                worksheet.Cells[startRow + 3 + i, 2].Borders.Weight = Excel.XlBorderWeight.xlThin;
+                worksheet.Cells[startRow + 3 + i, 2].Font.Size = 13;
+                worksheet.Cells[startRow + 3 + i, 2].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            }
+
+            for (int j = 0; j < dgridXephang.Columns.Count; j++)
+                for (int i = 0; i < dgridXephang.Rows.Count; i++)
+                {
+                    worksheet.Cells[startRow + 3 + i, j + 3].Value = dgridXephang.Rows[i].Cells[j].Value?.ToString();
+                    worksheet.Cells[startRow + 3 + i, j + 3].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                    worksheet.Cells[startRow + 3 + i, j + 3].Borders.Weight = Excel.XlBorderWeight.xlThin;
+                    worksheet.Cells[startRow + 3 + i, j + 3].Font.Size = 13;
+                    worksheet.Cells[startRow + 3 + i, j + 3].EntireColumn.AutoFit();
+                    worksheet.Cells[startRow + 3 + i, j + 3].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                }
         }
     }
 }
