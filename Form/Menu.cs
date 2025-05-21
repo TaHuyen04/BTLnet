@@ -146,7 +146,7 @@ namespace QLCHBanXeMay.form
         {
             panelNhansu.Visible = false;
             grbDM.Visible = false;
-            frmNhanvien frmNhanvien = new frmNhanvien();
+            dtpNgaysinh frmNhanvien = new dtpNgaysinh();
             frmNhanvien.ShowDialog();
         }
 
