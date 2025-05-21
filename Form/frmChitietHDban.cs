@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using QLCHBanXeMay.Class;
+
 
 namespace QLCHBanXeMay.form
 {
@@ -19,78 +21,131 @@ namespace QLCHBanXeMay.form
         }
 
         private string soDDH;
+        private FormBorderStyle originalBorderStyle;
+        private bool originalTopLevel;
+        private bool originalControlBox;
+        private string originalText;
+
 
         public frmChitietHDban(string soDDH)
         {
             InitializeComponent();
             this.soDDH = soDDH;
         }
+        private PrintDocument printDocument1 = new PrintDocument();
         private void frmChitietdondathang_Load(object sender, EventArgs e)
         {
-            // 1. Lấy thông tin đơn hàng
-            string sqlInfo = $@"
-                SELECT 
-                    ddh.SoDDH,
-                    ddh.MaNV, nv.TenNV,
-                    ddh.MaKhach, kh.TenKhach, kh.DienThoai, kh.DiaChi
-                FROM tblDonDatHang ddh
-                JOIN tblNhanVien nv ON ddh.MaNV = nv.MaNV
-                JOIN tblKhachHang kh ON ddh.MaKhach = kh.MaKhach
-                WHERE ddh.SoDDH = '{soDDH}'";
+            LoadThongTinHoaDon();
+            LoadSanPham();
+            Hienthitien();
+        }
+        public void Hienthitien()
+        {
+            // Lấy tổng tiền
+            string sqlTongTien = $"SELECT TongTien FROM tblDonDatHang WHERE SoDDH = '{soDDH}'";
+            string tongtien = Functions.GetFieldValues(sqlTongTien);
+            lblTOngtien.Text = "Tổng tiền: " + tongtien;
 
-            DataTable dtInfo = Functions.getdatatotable(sqlInfo);
-            if (dtInfo.Rows.Count > 0)
+            // Lấy tổng số lượng sản phẩm
+            string sqlSoLuong = $"SELECT SUM(SoLuong) FROM tblChiTietDonDatHang WHERE SoDDH = '{soDDH}'";
+            string soluong = Functions.GetFieldValues(sqlSoLuong);
+            lblTongsoluongsanpham.Text = "Tổng số lượng sản phẩm: " + soluong;
+
+            // Chuyển tổng tiền sang chữ
+            string tongtienbangchu = Functions.ChuyenSoSangChu(tongtien);
+            lblTongtienbangchu.Text = "Tổng tiền bằng chữ: " + tongtienbangchu;
+        }
+ 
+
+        private void LoadSanPham()
+        {
+            if (string.IsNullOrEmpty(soDDH))
             {
-                DataRow row = dtInfo.Rows[0];
-                txtSoDDH.Text = row["SoDDH"].ToString();
-                txtMaNV.Text = row["MaNV"].ToString();
-                txtTenNV.Text = row["TenNV"].ToString();
-                txtMaKH.Text = row["MaKhach"].ToString();
-                txtTenKH.Text = row["TenKhach"].ToString();
-                txtSoDT.Text = row["DienThoai"].ToString();
-                txtDiachi.Text = row["DiaChi"].ToString();
+                MessageBox.Show("Chưa có số đơn đặt hàng!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
 
-            // 2. Đẩy danh sách sản phẩm lên dgv
-            string sqlProducts = $@"
-                SELECT 
-                    ctdh.MaHang, h.TenHang, tl.TenLoai,
-                    hsx.TenHangSX, ms.TenMau, px.TenPhanh,
-                    dc.TenDongCo, h.NamSX, h.DungTichBinhXang,
-                    nsx.TenNuocSX, tt.TenTinhTrang,
-                    h.DonGiaBan, ctdh.SoLuong, ctdh.GiamGia, ctdh.ThanhTien
-                FROM tblChiTietDonDatHang ctdh
-                JOIN tblDMHang h ON ctdh.MaHang = h.MaHang
-                JOIN tblTheLoai tl ON h.MaLoai = tl.MaLoai
-                JOIN tblHangSX hsx ON h.MaHangSX = hsx.MaHangSX
-                JOIN tblMauSac ms ON h.MaMau = ms.MaMau
-                JOIN tblPhanhXe px ON h.MaPhanh = px.MaPhanh
-                JOIN tblDongCo dc ON h.MaDongCo = dc.MaDongCo
-                JOIN tblNuocSX nsx ON h.MaNuocSX = nsx.MaNuocSX
-                JOIN tblTinhTrang tt ON h.MaTinhTrang = tt.MaTinhTrang
-                WHERE ctdh.SoDDH = '{soDDH}'";
-
-            DataTable dtProducts = Functions.getdatatotable(sqlProducts);
-            dgvDanhsachsanpham.DataSource = dtProducts;
-
-            // Đặt lại tiêu đề các cột
-            if (dgvDanhsachsanpham.Columns.Count > 0)
+            try
             {
-                dgvDanhsachsanpham.Columns["MaHang"].HeaderText = "Mã hàng";
-                dgvDanhsachsanpham.Columns["TenHang"].HeaderText = "Tên hàng";
-                dgvDanhsachsanpham.Columns["TenLoai"].HeaderText = "Loại";
-                dgvDanhsachsanpham.Columns["TenHangSX"].HeaderText = "Hãng sản xuất";
-                dgvDanhsachsanpham.Columns["TenMau"].HeaderText = "Màu";
-                dgvDanhsachsanpham.Columns["TenPhanh"].HeaderText = "Phanh";
-                dgvDanhsachsanpham.Columns["TenDongCo"].HeaderText = "Động cơ";
-                dgvDanhsachsanpham.Columns["NamSX"].HeaderText = "Năm sản xuất";
-                dgvDanhsachsanpham.Columns["DungTichBinhXang"].HeaderText = "Dung tích bình xăng";
-                dgvDanhsachsanpham.Columns["TenNuocSX"].HeaderText = "Nước sản xuất";
-                dgvDanhsachsanpham.Columns["TenTinhTrang"].HeaderText = "Tình trạng";
-                dgvDanhsachsanpham.Columns["DonGiaBan"].HeaderText = "Đơn giá bán";
-                dgvDanhsachsanpham.Columns["SoLuong"].HeaderText = "Số lượng";
-                dgvDanhsachsanpham.Columns["GiamGia"].HeaderText = "Giảm giá (%)";
-                dgvDanhsachsanpham.Columns["ThanhTien"].HeaderText = "Thành tiền";
+                string sql = $@"
+SELECT h.MaHang, h.TenHang, h.DonGiaBan, c.SoLuong, 
+       (h.DonGiaBan * c.SoLuong) AS ThanhTien
+FROM tblChiTietDonDatHang c
+INNER JOIN tblDMHang h ON c.MaHang = h.MaHang
+WHERE c.SoDDH = '{soDDH}'";
+
+                DataTable dt = Functions.getdatatotable(sql);
+                if (dt.Rows.Count == 0)
+                {
+                    MessageBox.Show("Đơn hàng không có sản phẩm nào.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                dgvDanhsachsanpham.DataSource = dt;
+
+                // Thiết lập tiêu đề cột
+                dgvDanhsachsanpham.Columns["MaHang"].HeaderText = "Mã Hàng";
+                dgvDanhsachsanpham.Columns["TenHang"].HeaderText = "Tên Hàng";
+                dgvDanhsachsanpham.Columns["DonGiaBan"].HeaderText = "Đơn Giá Bán";
+                dgvDanhsachsanpham.Columns["SoLuong"].HeaderText = "Số Lượng";
+                dgvDanhsachsanpham.Columns["ThanhTien"].HeaderText = "Thành Tiền";
+
+                // Căn đều các cột
+                dgvDanhsachsanpham.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+                // Căn giữa nội dung trong các cột (nếu cần)
+                foreach (DataGridViewColumn column in dgvDanhsachsanpham.Columns)
+                {
+                    column.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    column.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                }
+
+                // Đặt định dạng số cho các cột liên quan (nếu cần)
+                dgvDanhsachsanpham.Columns["DonGiaBan"].DefaultCellStyle.Format = "N0"; // Định dạng số nguyên, có dấu phân cách
+                dgvDanhsachsanpham.Columns["ThanhTien"].DefaultCellStyle.Format = "N0"; // Định dạng số nguyên, có dấu phân cách
+
+                dgvDanhsachsanpham.AutoResizeColumns();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tải dữ liệu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LoadThongTinHoaDon()
+        {
+            string sql = $"SELECT * FROM tblDonDatHang WHERE SoDDH = '{soDDH}'";
+            DataTable dtDDH = Functions.getdatatotable(sql);
+            if (dtDDH.Rows.Count > 0)
+            {
+                DataRow row = dtDDH.Rows[0];
+                txtSoDDH.Text = row["SoDDH"].ToString();
+                txtMaNV.Text = row["MaNV"].ToString();
+
+                // Lấy tên nhân viên
+                txtTenNV.Text = Functions.GetFieldValues($"SELECT TenNV FROM tblNhanVien WHERE MaNV = '{txtMaNV.Text}'");
+
+                txtMaKH.Text = row["MaKhach"].ToString();
+
+                // Lấy thông tin khách hàng
+                string sqlKH = $"SELECT TenKhach, DienThoai, DiaChi FROM tblKhachHang WHERE MaKhach = '{txtMaKH.Text}'";
+                DataTable dtKH = Functions.getdatatotable(sqlKH);
+                if (dtKH.Rows.Count > 0)
+                {
+                    txtTenKH.Text = dtKH.Rows[0]["TenKhach"].ToString();
+                    txtSoDT.Text = dtKH.Rows[0]["DienThoai"].ToString();
+                    txtDiachi.Text = dtKH.Rows[0]["DiaChi"].ToString();
+                }
+
+                // Gán ngày nhập
+                if (DateTime.TryParse(row["NgayMua"].ToString(), out DateTime ngayMua))
+                {
+                    dtpNgaynhap.Value = ngayMua;
+                }
+                else
+                {
+                    dtpNgaynhap.Value = DateTime.Now;
+                }
             }
         }
 
@@ -159,12 +214,12 @@ namespace QLCHBanXeMay.form
                 {
                     // Xóa chi tiết đơn đặt hàng trước
                     string sqlDeleteCT = $"DELETE FROM tblChiTietDonDatHang WHERE SoDDH = '{soDDH}'";
-                    
                     Functions.Runsql(sqlDeleteCT);
+
                     // Xóa đơn đặt hàng
                     string sqlDeleteDDH = $"DELETE FROM tblDonDatHang WHERE SoDDH = '{soDDH}'";
-                  
-                    Functions.Runsql(sqlDeleteCT);
+                    Functions.Runsql(sqlDeleteDDH);  // <-- Sửa chỗ này
+
                     MessageBox.Show("Xóa đơn hàng thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     // Đóng form
@@ -174,6 +229,73 @@ namespace QLCHBanXeMay.form
                 {
                     MessageBox.Show("Lỗi khi xóa đơn hàng: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+        }
+
+        private void lblTongtienbangchu_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblTongsosanpham_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblTongsoluongsanpham_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblTOngtien_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            // Ẩn tạm các nút không cần hiển thị trong bản in
+            button2.Visible = false;       // Nút Xem trước in
+            button1.Visible = false;       // Nút Xóa hóa đơn
+            button3.Visible = false;       // Nút Đóng form
+
+            // Bắt sự kiện in
+            printDocument1.PrintPage += new PrintPageEventHandler(PrintDocument1_PrintPage);
+
+            // Tạo hộp thoại xem trước in
+            PrintPreviewDialog previewDialog = new PrintPreviewDialog();
+            previewDialog.Document = printDocument1;
+            previewDialog.Width = 800;
+            previewDialog.Height = 600;
+
+            // Hiển thị hộp thoại xem trước in
+            previewDialog.ShowDialog();
+
+            // Hiện lại các nút sau khi xem trước in
+            button2.Visible = true;
+            button1.Visible = true;
+            button3.Visible = true;
+        }
+
+        private void PrintDocument1_PrintPage(object sender, PrintPageEventArgs e)
+        {
+            // Tạo bitmap chụp hình toàn bộ form
+            Bitmap bmp = new Bitmap(this.Width, this.Height);
+            this.DrawToBitmap(bmp, new Rectangle(0, 0, this.Width, this.Height));
+
+            // Vẽ bitmap lên trang in, có thể tùy chỉnh kích thước cho vừa trang in
+            e.Graphics.DrawImage(bmp, e.MarginBounds);
+
+            // Giải phóng tài nguyên
+            bmp.Dispose();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Bạn có chắc chắn muốn đóng form không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                this.Close();
             }
         }
     }

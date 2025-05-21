@@ -50,13 +50,13 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
+            this.lblTOngtien = new System.Windows.Forms.Label();
+            this.lblTongsoluongsanpham = new System.Windows.Forms.Label();
+            this.lblTongtienbangchu = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.lblXuatDS = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDanhsachsanpham)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -276,45 +276,39 @@
             this.label10.TabIndex = 9;
             this.label10.Text = "Danh sách sản phẩm";
             // 
-            // label11
+            // lblTOngtien
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(807, 639);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(122, 16);
-            this.label11.TabIndex = 23;
-            this.label11.Text = "Tổng số sản phẩm:";
+            this.lblTOngtien.AutoSize = true;
+            this.lblTOngtien.Location = new System.Drawing.Point(121, 666);
+            this.lblTOngtien.Name = "lblTOngtien";
+            this.lblTOngtien.Size = new System.Drawing.Size(66, 16);
+            this.lblTOngtien.TabIndex = 24;
+            this.lblTOngtien.Text = "Tổng tiền:";
+            this.lblTOngtien.Click += new System.EventHandler(this.lblTOngtien_Click);
             // 
-            // label12
+            // lblTongsoluongsanpham
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(854, 715);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(66, 16);
-            this.label12.TabIndex = 24;
-            this.label12.Text = "Tổng tiền:";
+            this.lblTongsoluongsanpham.AutoSize = true;
+            this.lblTongsoluongsanpham.Location = new System.Drawing.Point(121, 639);
+            this.lblTongsoluongsanpham.Name = "lblTongsoluongsanpham";
+            this.lblTongsoluongsanpham.Size = new System.Drawing.Size(158, 16);
+            this.lblTongsoluongsanpham.TabIndex = 25;
+            this.lblTongsoluongsanpham.Text = "Tổng số lượng sản phẩm:";
+            this.lblTongsoluongsanpham.Click += new System.EventHandler(this.lblTongsoluongsanpham_Click);
             // 
-            // label13
+            // lblTongtienbangchu
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(771, 679);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(158, 16);
-            this.label13.TabIndex = 25;
-            this.label13.Text = "Tổng số lượng sản phẩm:";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(121, 639);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(124, 16);
-            this.label14.TabIndex = 26;
-            this.label14.Text = "Tổng tiền bằng chữ:";
+            this.lblTongtienbangchu.AutoSize = true;
+            this.lblTongtienbangchu.Location = new System.Drawing.Point(121, 692);
+            this.lblTongtienbangchu.Name = "lblTongtienbangchu";
+            this.lblTongtienbangchu.Size = new System.Drawing.Size(124, 16);
+            this.lblTongtienbangchu.TabIndex = 26;
+            this.lblTongtienbangchu.Text = "Tổng tiền bằng chữ:";
+            this.lblTongtienbangchu.Click += new System.EventHandler(this.lblTongtienbangchu_Click);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(684, 760);
+            this.button1.Location = new System.Drawing.Point(530, 666);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(139, 23);
             this.button1.TabIndex = 27;
@@ -324,34 +318,48 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(857, 760);
+            this.button2.Location = new System.Drawing.Point(703, 666);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(139, 23);
             this.button2.TabIndex = 28;
             this.button2.Text = "In hóa đơn";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(1056, 760);
+            this.button3.Location = new System.Drawing.Point(902, 666);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(139, 23);
             this.button3.TabIndex = 29;
             this.button3.Text = "Đóng";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // lblXuatDS
+            // 
+            this.lblXuatDS.AutoSize = true;
+            this.lblXuatDS.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, ((System.Drawing.FontStyle)(((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic) 
+                | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblXuatDS.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.lblXuatDS.Location = new System.Drawing.Point(1201, 607);
+            this.lblXuatDS.Name = "lblXuatDS";
+            this.lblXuatDS.Size = new System.Drawing.Size(70, 18);
+            this.lblXuatDS.TabIndex = 30;
+            this.lblXuatDS.Text = "Xuất DS";
             // 
             // frmChitietHDban
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1295, 809);
+            this.ClientSize = new System.Drawing.Size(1295, 715);
+            this.Controls.Add(this.lblXuatDS);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.label14);
-            this.Controls.Add(this.label13);
-            this.Controls.Add(this.label12);
-            this.Controls.Add(this.label11);
+            this.Controls.Add(this.lblTongtienbangchu);
+            this.Controls.Add(this.lblTongsoluongsanpham);
+            this.Controls.Add(this.lblTOngtien);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dgvDanhsachsanpham);
@@ -394,12 +402,12 @@
         private System.Windows.Forms.TextBox txtTenKH;
         private System.Windows.Forms.TextBox txtMaKH;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label lblTOngtien;
+        private System.Windows.Forms.Label lblTongsoluongsanpham;
+        private System.Windows.Forms.Label lblTongtienbangchu;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Label lblXuatDS;
     }
 }

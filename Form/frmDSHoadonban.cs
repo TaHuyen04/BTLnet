@@ -19,16 +19,46 @@ namespace QLCHBanXeMay.form
         }
         private void frmDSHoadonban_Load(object sender, EventArgs e)
         {
-            string sql = "SELECT * FROM tblDonDatHang";
-            DataTable dtDDH = Functions.getdatatotable(sql);
-            dgvDanhsachhoadonban.DataSource = dtDDH;
-            dgvDanhsachhoadonban.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvDanhsachhoadonban.ReadOnly = true;
+            LoadDanhSachHoaDon();
+            dgvDanhsachhoadonban.CellDoubleClick += dgvDanhsachhoadonban_CellDoubleClick;
         }
+        private void LoadDanhSachHoaDon()
+        {
+            string sql = "SELECT SoDDH, MaNV, MaKhach, NgayMua, DatCoc, Thue, TongTien FROM tblDonDatHang";
+            DataTable dt = Class.Functions.getdatatotable(sql);
+            dgvDanhsachhoadonban.DataSource = dt;
+
+            dgvDanhsachhoadonban.AllowUserToAddRows = false;
+            dgvDanhsachhoadonban.EditMode = DataGridViewEditMode.EditProgrammatically;
+
+            dgvDanhsachhoadonban.Columns[0].HeaderText = "Số Đơn Đặt Hàng";
+            dgvDanhsachhoadonban.Columns[1].HeaderText = "Mã Nhân Viên";
+            dgvDanhsachhoadonban.Columns[2].HeaderText = "Mã Khách";
+            dgvDanhsachhoadonban.Columns[3].HeaderText = "Ngày Mua";
+            dgvDanhsachhoadonban.Columns[4].HeaderText = "Đặt Cọc";
+            dgvDanhsachhoadonban.Columns[5].HeaderText = "Thuế";
+            dgvDanhsachhoadonban.Columns[6].HeaderText = "Tổng Tiền";
+        }
+
 
         private void dgvDanhsachhoadonban_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             
+        }
+
+        private void dgvDanhsachhoadonban_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                string soDDH = dgvDanhsachhoadonban.Rows[e.RowIndex].Cells["SoDDH"].Value.ToString();
+
+                // Mở form chi tiết hóa đơn, truyền soDDH
+                frmChitietHDban chitietForm = new frmChitietHDban(soDDH);
+                chitietForm.ShowDialog();
+
+                // Có thể load lại danh sách nếu cần
+                LoadDanhSachHoaDon();
+            }
         }
 
         private void txtSoHDN_TextChanged(object sender, EventArgs e)
