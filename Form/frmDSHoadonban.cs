@@ -17,13 +17,7 @@ namespace QLCHBanXeMay.form
         {
             InitializeComponent();
         }
-
-        private void frmDondathang_Load(object sender, EventArgs e)
-        {
-            LoadDonDatHang();
-            dgvDanhsachhoadonban.CellDoubleClick += dgvDanhsachhoadonban_CellDoubleClick;
-        }
-        private void LoadDonDatHang()
+        private void frmDSHoadonban_Load(object sender, EventArgs e)
         {
             string sql = "SELECT * FROM tblDonDatHang";
             DataTable dtDDH = Functions.getdatatotable(sql);
@@ -31,44 +25,23 @@ namespace QLCHBanXeMay.form
             dgvDanhsachhoadonban.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvDanhsachhoadonban.ReadOnly = true;
         }
+
         private void dgvDanhsachhoadonban_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
-        }
-        private void dgvDanhsachhoadonban_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                // Lấy mã đơn đặt hàng từ dòng đang được double click
-                string soDDH = dgvDanhsachhoadonban.Rows[e.RowIndex].Cells["SoDDH"].Value.ToString();
-
-                // Gọi form chi tiết và truyền mã đơn đặt hàng sang
-                frmChitietHDban chitietForm = new frmChitietHDban(soDDH);
-                chitietForm.ShowDialog(); // hoặc .Show() nếu bạn không muốn chặn form chính
-            }
+            
         }
 
-        private void txtMaHDD_TextChanged(object sender, EventArgs e)
+        private void txtSoHDN_TextChanged(object sender, EventArgs e)
         {
 
         }
 
-        private void MaNV_TextChanged(object sender, EventArgs e)
+        private void txtMaNV_TextChanged(object sender, EventArgs e)
         {
 
         }
 
-        private void MaNCC_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dtpThoigiantu_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dtpThoigianden_ValueChanged(object sender, EventArgs e)
+        private void txtMaKH_TextChanged(object sender, EventArgs e)
         {
 
         }
@@ -83,9 +56,74 @@ namespace QLCHBanXeMay.form
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void dtpThoigiantu_ValueChanged(object sender, EventArgs e)
         {
 
         }
+
+        private void dtpThoigianden_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnTimkiem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string sql = "SELECT * FROM tblDonDatHang WHERE 1=1";
+
+                // Số hóa đơn
+                if (!string.IsNullOrWhiteSpace(txtSoHDN.Text))
+                {
+                    sql += $" AND SoDDH LIKE N'%{txtSoHDN.Text.Trim()}%'";
+                }
+
+                // Mã nhân viên
+                if (!string.IsNullOrWhiteSpace(txtMaNV.Text))
+                {
+                    sql += $" AND MaNV LIKE N'%{txtMaNV.Text.Trim()}%'";
+                }
+
+                // Mã nhà cung cấp
+                if (!string.IsNullOrWhiteSpace(txtMaKH.Text))
+                {
+                    sql += $" AND MaNCC LIKE N'%{txtMaKH.Text.Trim()}%'";
+                }
+
+                // Tổng tiền từ
+                if (!string.IsNullOrWhiteSpace(txtTongtientu.Text))
+                {
+                    if (decimal.TryParse(txtTongtientu.Text.Trim(), out decimal tongtientu))
+                    {
+                        sql += $" AND TongTien >= {tongtientu}";
+                    }
+                }
+
+                // Tổng tiền đến
+                if (!string.IsNullOrWhiteSpace(txtTongtienden.Text))
+                {
+                    if (decimal.TryParse(txtTongtienden.Text.Trim(), out decimal tongtienden))
+                    {
+                        sql += $" AND TongTien <= {tongtienden}";
+                    }
+                }
+
+                // Thời gian
+                if (dtpThoigiantu.Value <= dtpThoigianden.Value)
+                {
+                    sql += $" AND NgayBan >= '{dtpThoigiantu.Value:yyyy-MM-dd}' AND NgayBan <= '{dtpThoigianden.Value:yyyy-MM-dd}'";
+                }
+
+                DataTable dt = Functions.getdatatotable(sql);
+                dgvDanhsachhoadonban.DataSource = dt;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi tìm kiếm: " + ex.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            {
+           
     }
+    }
+    } 
 }

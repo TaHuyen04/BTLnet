@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.lblTongdoanhthu = new System.Windows.Forms.Label();
             this.lblTongHDN = new System.Windows.Forms.Label();
             this.lblTongSPN = new System.Windows.Forms.Label();
@@ -57,7 +57,7 @@
             this.btnHienthi = new System.Windows.Forms.Button();
             this.cboThoigian = new System.Windows.Forms.ComboBox();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.chart2 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.label1 = new System.Windows.Forms.Label();
             this.btnLammoi = new System.Windows.Forms.Button();
             this.btnXuatexcel = new System.Windows.Forms.Button();
@@ -65,7 +65,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgridBaoCao)).BeginInit();
             this.gpbThoigian.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chart2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
             this.SuspendLayout();
             // 
             // lblTongdoanhthu
@@ -288,6 +288,7 @@
             this.btnHienthi.TabIndex = 133;
             this.btnHienthi.Text = "Hiển thị";
             this.btnHienthi.UseVisualStyleBackColor = false;
+            this.btnHienthi.Click += new System.EventHandler(this.btnHienthi_Click);
             // 
             // cboThoigian
             // 
@@ -304,38 +305,39 @@
             this.cboThoigian.Name = "cboThoigian";
             this.cboThoigian.Size = new System.Drawing.Size(108, 24);
             this.cboThoigian.TabIndex = 29;
+            this.cboThoigian.SelectedIndexChanged += new System.EventHandler(this.cboThoigian_SelectedIndexChanged);
             // 
             // chart1
             // 
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
+            chartArea5.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea5);
+            legend5.Name = "Legend1";
+            this.chart1.Legends.Add(legend5);
             this.chart1.Location = new System.Drawing.Point(898, 49);
             this.chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chart1.Series.Add(series1);
+            series5.ChartArea = "ChartArea1";
+            series5.Legend = "Legend1";
+            series5.Name = "Series1";
+            this.chart1.Series.Add(series5);
             this.chart1.Size = new System.Drawing.Size(413, 214);
             this.chart1.TabIndex = 130;
             this.chart1.Text = "chart1";
             // 
-            // chart2
+            // chart
             // 
-            chartArea2.Name = "ChartArea1";
-            this.chart2.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.chart2.Legends.Add(legend2);
-            this.chart2.Location = new System.Drawing.Point(898, 369);
-            this.chart2.Name = "chart2";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.chart2.Series.Add(series2);
-            this.chart2.Size = new System.Drawing.Size(413, 216);
-            this.chart2.TabIndex = 131;
-            this.chart2.Text = "chart2";
+            chartArea6.Name = "ChartArea1";
+            this.chart.ChartAreas.Add(chartArea6);
+            legend6.Name = "Legend1";
+            this.chart.Legends.Add(legend6);
+            this.chart.Location = new System.Drawing.Point(898, 369);
+            this.chart.Name = "chart";
+            series6.ChartArea = "ChartArea1";
+            series6.Legend = "Legend1";
+            series6.Name = "Series1";
+            this.chart.Series.Add(series6);
+            this.chart.Size = new System.Drawing.Size(413, 216);
+            this.chart.TabIndex = 131;
+            this.chart.Text = "chart2";
             // 
             // label1
             // 
@@ -390,7 +392,7 @@
             this.Controls.Add(this.btnXuatexcel);
             this.Controls.Add(this.btnLammoi);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.chart2);
+            this.Controls.Add(this.chart);
             this.Controls.Add(this.chart1);
             this.Controls.Add(this.lblTongdoanhthu);
             this.Controls.Add(this.lblTongHDN);
@@ -407,7 +409,7 @@
             this.gpbThoigian.ResumeLayout(false);
             this.gpbThoigian.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chart2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -437,7 +439,7 @@
         private System.Windows.Forms.GroupBox gpbThoigian;
         private System.Windows.Forms.ComboBox cboThoigian;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnHienthi;
         private System.Windows.Forms.Button btnLammoi;
