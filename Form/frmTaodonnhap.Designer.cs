@@ -75,7 +75,6 @@
             this.btnInHD = new System.Windows.Forms.Button();
             this.btnXoaHD = new System.Windows.Forms.Button();
             this.btnTaomoi = new System.Windows.Forms.Button();
-            this.btnLuu = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudSoluong)).BeginInit();
@@ -431,7 +430,7 @@
             // btnDong
             // 
             this.btnDong.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.btnDong.Location = new System.Drawing.Point(1038, 617);
+            this.btnDong.Location = new System.Drawing.Point(958, 616);
             this.btnDong.Name = "btnDong";
             this.btnDong.Size = new System.Drawing.Size(64, 33);
             this.btnDong.TabIndex = 42;
@@ -442,9 +441,9 @@
             // btnBoquaHD
             // 
             this.btnBoquaHD.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.btnBoquaHD.Location = new System.Drawing.Point(907, 172);
+            this.btnBoquaHD.Location = new System.Drawing.Point(885, 148);
             this.btnBoquaHD.Name = "btnBoquaHD";
-            this.btnBoquaHD.Size = new System.Drawing.Size(89, 33);
+            this.btnBoquaHD.Size = new System.Drawing.Size(105, 33);
             this.btnBoquaHD.TabIndex = 43;
             this.btnBoquaHD.Text = "Bỏ qua";
             this.btnBoquaHD.UseVisualStyleBackColor = false;
@@ -453,7 +452,7 @@
             // btnLuuHD
             // 
             this.btnLuuHD.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.btnLuuHD.Location = new System.Drawing.Point(567, 617);
+            this.btnLuuHD.Location = new System.Drawing.Point(609, 616);
             this.btnLuuHD.Name = "btnLuuHD";
             this.btnLuuHD.Size = new System.Drawing.Size(105, 33);
             this.btnLuuHD.TabIndex = 44;
@@ -511,7 +510,7 @@
             // btnInHD
             // 
             this.btnInHD.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.btnInHD.Location = new System.Drawing.Point(687, 617);
+            this.btnInHD.Location = new System.Drawing.Point(729, 616);
             this.btnInHD.Name = "btnInHD";
             this.btnInHD.Size = new System.Drawing.Size(105, 33);
             this.btnInHD.TabIndex = 49;
@@ -522,7 +521,7 @@
             // btnXoaHD
             // 
             this.btnXoaHD.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.btnXoaHD.Location = new System.Drawing.Point(802, 617);
+            this.btnXoaHD.Location = new System.Drawing.Point(844, 616);
             this.btnXoaHD.Name = "btnXoaHD";
             this.btnXoaHD.Size = new System.Drawing.Size(105, 33);
             this.btnXoaHD.TabIndex = 50;
@@ -533,7 +532,7 @@
             // btnTaomoi
             // 
             this.btnTaomoi.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.btnTaomoi.Location = new System.Drawing.Point(917, 617);
+            this.btnTaomoi.Location = new System.Drawing.Point(885, 107);
             this.btnTaomoi.Name = "btnTaomoi";
             this.btnTaomoi.Size = new System.Drawing.Size(105, 33);
             this.btnTaomoi.TabIndex = 51;
@@ -541,24 +540,11 @@
             this.btnTaomoi.UseVisualStyleBackColor = false;
             this.btnTaomoi.Click += new System.EventHandler(this.btnTaomoi_Click);
             // 
-            // btnLuu
-            // 
-            this.btnLuu.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.btnLuu.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.btnLuu.Location = new System.Drawing.Point(1026, 262);
-            this.btnLuu.Name = "btnLuu";
-            this.btnLuu.Size = new System.Drawing.Size(76, 33);
-            this.btnLuu.TabIndex = 52;
-            this.btnLuu.Text = "Lưu";
-            this.btnLuu.UseVisualStyleBackColor = false;
-            this.btnLuu.Click += new System.EventHandler(this.btnLuu_Click);
-            // 
             // frmTaodonnhap
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1160, 672);
-            this.Controls.Add(this.btnLuu);
+            this.ClientSize = new System.Drawing.Size(1073, 672);
             this.Controls.Add(this.btnTaomoi);
             this.Controls.Add(this.btnXoaHD);
             this.Controls.Add(this.btnInHD);
@@ -642,6 +628,5 @@
         private System.Windows.Forms.Button btnInHD;
         private System.Windows.Forms.Button btnXoaHD;
         private System.Windows.Forms.Button btnTaomoi;
-        private System.Windows.Forms.Button btnLuu;
     }
 }

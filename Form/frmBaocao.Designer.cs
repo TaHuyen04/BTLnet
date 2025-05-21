@@ -267,7 +267,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Arial", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label1.Location = new System.Drawing.Point(480, 9);
+            this.label1.Location = new System.Drawing.Point(445, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(462, 33);
             this.label1.TabIndex = 133;
@@ -280,9 +280,9 @@
             this.label2.ForeColor = System.Drawing.Color.MidnightBlue;
             this.label2.Location = new System.Drawing.Point(12, 462);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(345, 24);
+            this.label2.Size = new System.Drawing.Size(337, 24);
             this.label2.TabIndex = 134;
-            this.label2.Text = "Nhân viên có doanh thu cao nhất";
+            this.label2.Text = "Nhân viên có doanh số cao nhất";
             // 
             // btnDong
             // 
@@ -294,6 +294,7 @@
             this.btnDong.TabIndex = 140;
             this.btnDong.Text = "Đóng";
             this.btnDong.UseVisualStyleBackColor = false;
+            this.btnDong.Click += new System.EventHandler(this.btnDong_Click);
             // 
             // btnXuatexcel
             // 
@@ -305,6 +306,7 @@
             this.btnXuatexcel.TabIndex = 139;
             this.btnXuatexcel.Text = "Xuất Excel";
             this.btnXuatexcel.UseVisualStyleBackColor = false;
+            this.btnXuatexcel.Click += new System.EventHandler(this.btnXuatexcel_Click);
             // 
             // btnLammoi
             // 
@@ -316,6 +318,7 @@
             this.btnLammoi.TabIndex = 138;
             this.btnLammoi.Text = "Làm mới";
             this.btnLammoi.UseVisualStyleBackColor = false;
+            this.btnLammoi.Click += new System.EventHandler(this.btnLammoi_Click);
             // 
             // chart
             // 
