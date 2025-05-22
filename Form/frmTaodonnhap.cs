@@ -21,7 +21,8 @@ namespace QLCHBanXeMay.form
             
         }
 
-        DataTable tblDSSP;
+        private bool isHoaDonCreated = false; // Biến trạng thái kiểm tra hóa đơn đã tạo chưa
+        private bool isHoaDonSaved = false; // biến kiểm tra trạng thái hóa đơn đã được lưu chưa
 
 
         private void frmTaodonnhap_Load(object sender, EventArgs e)
@@ -151,13 +152,15 @@ namespace QLCHBanXeMay.form
         }
 
 
+
+
         private void Load_dgvDSSP()
         {// Sử dụng JOIN để lấy TenHang từ tblDMHang và thêm cột GiamGia
             string sql = "SELECT ct.MaHang, dm.TenHang, ct.DonGia, ct.SoLuong, ct.GiamGia, ct.ThanhTien " +
                          "FROM tblChiTietHoaDonNhap ct " +
                          "INNER JOIN tblDMHang dm ON ct.MaHang = dm.MaHang " +
                          "WHERE ct.SoHDN = '" + txtMaHDN.Text + "'";
-            tblDSSP = Functions.getdatatotable(sql);
+             DataTable tblDSSP = Functions.getdatatotable(sql);
             dgvDSSP.DataSource = tblDSSP;
 
             // Cập nhật header và độ rộng cột
@@ -260,10 +263,10 @@ namespace QLCHBanXeMay.form
             txtSDT.Text = "";
             txtDiachi.Text = "";
             dgvDSSP.DataSource = null;
-            lblTongtien.Text = "0";
-            lblSoluongSP.Text = "0";
-            lblSoSP.Text = "0";
-            lblTongtienChu.Text = "";
+            lblTongtien.Text = lblTongtien.Text;
+            lblSoluongSP.Text = lblSoluongSP.Text;
+            lblSoSP.Text = lblSoSP.Text;
+            lblTongtienChu.Text = lblTongtienChu.Text;
 
             ResetValuesSP();
             isHoaDonCreated = false;
@@ -283,7 +286,7 @@ namespace QLCHBanXeMay.form
         }
 
 
-        private bool isHoaDonCreated = false; // Biến trạng thái kiểm tra hóa đơn đã tạo chưa
+        
 
         private void btnTaomoi_Click(object sender, EventArgs e)
         {
@@ -397,11 +400,11 @@ namespace QLCHBanXeMay.form
                     // Bỏ qua nếu có lỗi chuyển đổi
                 }
             }
-            lblTongtien.Text = tong.ToString("N0");
-            lblSoluongSP.Text = tongSL.ToString();
-            lblSoSP.Text = dgvDSSP.Rows.Count.ToString();
+            lblTongtien.Text = lblTongtien.Text+ tong.ToString("N0");
+            lblSoluongSP.Text = lblSoluongSP.Text + tongSL.ToString();
+            lblSoSP.Text = lblSoSP.Text + dgvDSSP.Rows.Count.ToString();
 
-            lblTongtienChu.Text = "Bằng chữ: " + Functions.ChuyenSoSangChu(tong.ToString());
+            lblTongtienChu.Text = lblTongtienChu.Text + Functions.ChuyenSoSangChu(tong.ToString());
         }
 
         private void btnXoa_Click(object sender, EventArgs e)
@@ -480,7 +483,6 @@ namespace QLCHBanXeMay.form
 
 
 
-        private bool isHoaDonSaved = false; // biến kiểm tra trạng thái hóa đơn đã được lưu chưa
         private void btnLuuHD_Click(object sender, EventArgs e)
         {
             if (dgvDSSP.Rows.Count == 0)

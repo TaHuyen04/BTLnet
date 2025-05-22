@@ -271,13 +271,13 @@ namespace QLCHBanXeMay.form
             txtSDT.Text = "";
             txtDiachi.Text = "";
             dgvDSSP.DataSource = null;
-            lblTongtienSP.Text = "0";
-            lblDatcoc.Text = "0";
-            lblThue.Text = "0";
-            lblTongtienDH.Text = "0";
-            lblSoluongSP.Text = "0";
-            lblSoSP.Text = "0";
-            lblTongtienChu.Text = "";
+            lblTongtienSP.Text = lblTongtienSP.Text;
+            lblDatcoc.Text = lblDatcoc.Text;
+            lblThue.Text = lblThue.Text;
+            lblTongtienDH.Text = lblTongtienDH.Text;
+            lblSoluongSP.Text = lblSoluongSP.Text;
+            lblSoSP.Text = lblSoSP.Text;
+            lblTongtienChu.Text = lblTongtienChu.Text;
 
             ResetValuesSP();
             isHoaDonCreated = false;
@@ -431,14 +431,14 @@ namespace QLCHBanXeMay.form
             double tongTienDonHang = tongTienSP + thue;
 
             // Hiển thị trên form
-            lblTongtienSP.Text = tongTienSP.ToString("N0");
-            lblDatcoc.Text = datCoc.ToString("N0");
-            lblThue.Text = thue.ToString("N0");
-            lblTongtienDH.Text = tongTienDonHang.ToString("N0");
-            lblSoluongSP.Text = tongSL.ToString();
-            lblSoSP.Text = dgvDSSP.Rows.Count.ToString();
+            lblTongtienSP.Text = lblTongtienSP.Text + tongTienSP.ToString("N0");
+            lblDatcoc.Text = lblDatcoc.Text + datCoc.ToString("N0");
+            lblThue.Text = lblThue.Text + thue.ToString("N0");
+            lblTongtienDH.Text = lblTongtienDH.Text+ tongTienDonHang.ToString("N0");
+            lblSoluongSP.Text = lblSoluongSP.Text + tongSL.ToString();
+            lblSoSP.Text = lblSoSP.Text + dgvDSSP.Rows.Count.ToString();
 
-            lblTongtienChu.Text = "Bằng chữ: " + Functions.ChuyenSoSangChu(tongTienDonHang.ToString());
+            lblTongtienChu.Text = lblTongtienChu.Text + Functions.ChuyenSoSangChu(tongTienDonHang.ToString());
         }
 
         private void btnXoa_Click(object sender, EventArgs e)
