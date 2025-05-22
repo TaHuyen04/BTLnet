@@ -21,7 +21,8 @@ namespace QLCHBanXeMay.form
             
         }
 
-        DataTable tblDSSP;
+        private bool isHoaDonCreated = false; // Biến trạng thái kiểm tra hóa đơn đã tạo chưa
+        private bool isHoaDonSaved = false; // biến kiểm tra trạng thái hóa đơn đã được lưu chưa
 
 
         private void frmTaodonnhap_Load(object sender, EventArgs e)
@@ -73,12 +74,10 @@ namespace QLCHBanXeMay.form
 
             if (!string.IsNullOrEmpty(lastCode))
             {
-                // Tách phần số từ mã (VD: "HDN01" -> "001")
                 string numberPart = lastCode.Substring(3); // Bỏ "HDN"
                 int number = int.Parse(numberPart) + 1; // Tăng số lên 1
-                newCode = "HDN" + number.ToString("D3"); // Định dạng lại (VD: "HDN002")
+                newCode = "HDN" + number.ToString("D3"); // Định dạng lại 
             }
-
             return newCode;
         }
 
@@ -87,13 +86,13 @@ namespace QLCHBanXeMay.form
 
             if (cboMaNCC.SelectedIndex != -1)
             {
-                string sql = "SELECT TenNCC, DienThoai, Diachi FROM tblNhaCungCap WHERE MaNCC = '" + cboMaNCC.SelectedValue + "'";
+                string sql = "SELECT TenNCC, DienThoai, DiaChi FROM tblNhaCungCap WHERE MaNCC = '" + cboMaNCC.SelectedValue + "'";
                 DataTable dt = Functions.getdatatotable(sql);
                 if (dt.Rows.Count > 0)
                 {
                     txtTenNCC.Text = dt.Rows[0]["TenNCC"].ToString();
                     txtSDT.Text = dt.Rows[0]["DienThoai"].ToString();
-                    txtDiachi.Text = dt.Rows[0]["Diachi"].ToString();
+                    txtDiachi.Text = dt.Rows[0]["DiaChi"].ToString();
                 }
                 else
                 {
@@ -153,13 +152,15 @@ namespace QLCHBanXeMay.form
         }
 
 
+
+
         private void Load_dgvDSSP()
         {// Sử dụng JOIN để lấy TenHang từ tblDMHang và thêm cột GiamGia
             string sql = "SELECT ct.MaHang, dm.TenHang, ct.DonGia, ct.SoLuong, ct.GiamGia, ct.ThanhTien " +
                          "FROM tblChiTietHoaDonNhap ct " +
                          "INNER JOIN tblDMHang dm ON ct.MaHang = dm.MaHang " +
                          "WHERE ct.SoHDN = '" + txtMaHDN.Text + "'";
-            tblDSSP = Functions.getdatatotable(sql);
+             DataTable tblDSSP = Functions.getdatatotable(sql);
             dgvDSSP.DataSource = tblDSSP;
 
             // Cập nhật header và độ rộng cột
@@ -262,10 +263,10 @@ namespace QLCHBanXeMay.form
             txtSDT.Text = "";
             txtDiachi.Text = "";
             dgvDSSP.DataSource = null;
-            lblTongtien.Text = "0";
-            lblSoluongSP.Text = "0";
-            lblSoSP.Text = "0";
-            lblTongtienChu.Text = "";
+            lblTongtien.Text = lblTongtien.Text;
+            lblSoluongSP.Text = lblSoluongSP.Text;
+            lblSoSP.Text = lblSoSP.Text;
+            lblTongtienChu.Text = lblTongtienChu.Text;
 
             ResetValuesSP();
             isHoaDonCreated = false;
@@ -277,7 +278,7 @@ namespace QLCHBanXeMay.form
             btnSua.Enabled = false;
             btnXoa.Enabled = false;
             btnBoqua.Enabled = false;
-            btnBoquaHD.Enabled = false;
+            btnBoquaHD.Enabled = true;
             btnLuuHD.Enabled = false;
             btnXoaHD.Enabled = false;
             btnInHD.Enabled = false;
@@ -285,7 +286,7 @@ namespace QLCHBanXeMay.form
         }
 
 
-        private bool isHoaDonCreated = false; // Biến trạng thái kiểm tra hóa đơn đã tạo chưa
+        
 
         private void btnTaomoi_Click(object sender, EventArgs e)
         {
@@ -297,13 +298,8 @@ namespace QLCHBanXeMay.form
             }
 
             string maHDN = txtMaHDN.Text.Trim();
-            string sqlCheck = "SELECT SoHDN FROM tblHoaDonNhap WHERE SoHDN = '" + maHDN + "'";
-            if (Functions.Checkkey(sqlCheck))
-            {
-                MessageBox.Show("Số hóa đơn này đã tồn tại. Hãy tạo mã khác!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtMaHDN.Text = GenerateNewInvoiceCode();
-                return;
-            }
+            txtMaHDN.Text = GenerateNewInvoiceCode();
+               
 
             string sqlInsert = "INSERT INTO tblHoaDonNhap (SoHDN, MaNV, MaNCC, NgayNhap, TongTien) " +
                                "VALUES ('" + maHDN + "', '" + cboMaNV.SelectedValue + "', '" + cboMaNCC.SelectedValue + "', '" + dtpNgaynhap.Value.ToString("yyyy-MM-dd") + "', 0)";
@@ -314,6 +310,7 @@ namespace QLCHBanXeMay.form
             btnBoqua.Enabled = true;
             btnLuuHD.Enabled = true;
             btnXoaHD.Enabled = true;
+            btnBoquaHD.Enabled = false;
             MessageBox.Show("Đã tạo hóa đơn. Tiếp tục thêm sản phẩm!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             Load_dgvDSSP();
         }
@@ -334,23 +331,10 @@ namespace QLCHBanXeMay.form
 
         private void btnThem_Click(object sender, EventArgs e)
         {
-            if (!isHoaDonCreated)
-            {
-                MessageBox.Show("Vui lòng tạo hóa đơn trước khi thêm sản phẩm!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                btnTaomoi.Focus();
-                return;
-            }
-
             if (cboMaSP.SelectedIndex == -1)
             {
                 MessageBox.Show("Bạn phải chọn mã sản phẩm!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cboMaSP.Focus();
-                return;
-            }
-
-            if (nudSoluong.Value <= 0)
-            {
-                MessageBox.Show("Số lượng phải lớn hơn 0!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -399,11 +383,11 @@ namespace QLCHBanXeMay.form
                     // Bỏ qua nếu có lỗi chuyển đổi
                 }
             }
-            lblTongtien.Text = tong.ToString("N0");
-            lblSoluongSP.Text = tongSL.ToString();
-            lblSoSP.Text = dgvDSSP.Rows.Count.ToString();
+            lblTongtien.Text = lblTongtien.Text+ tong.ToString("N0");
+            lblSoluongSP.Text = lblSoluongSP.Text + tongSL.ToString();
+            lblSoSP.Text = lblSoSP.Text + dgvDSSP.Rows.Count.ToString();
 
-            lblTongtienChu.Text = "Bằng chữ: " + Functions.ChuyenSoSangChu(tong.ToString());
+            lblTongtienChu.Text = lblTongtienChu.Text + Functions.ChuyenSoSangChu(tong.ToString());
         }
 
         private void btnXoa_Click(object sender, EventArgs e)
@@ -482,7 +466,6 @@ namespace QLCHBanXeMay.form
 
 
 
-        private bool isHoaDonSaved = false; // biến kiểm tra trạng thái hóa đơn đã được lưu chưa
         private void btnLuuHD_Click(object sender, EventArgs e)
         {
             if (dgvDSSP.Rows.Count == 0)
@@ -542,6 +525,7 @@ namespace QLCHBanXeMay.form
             MessageBox.Show("Hóa đơn đã được lưu và số lượng sản phẩm đã được cập nhật! Hóa đơn sẵn sàng để in", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             isHoaDonSaved = true;
         }
+
         private void btnXoaHD_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Bạn có chắc chắn muốn xóa toàn bộ hóa đơn và chi tiết?", "Cảnh báo", MessageBoxButtons.YesNo) == DialogResult.Yes)
