@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using QLCHBanXeMay.Class;
+using Excel = Microsoft.Office.Interop.Excel;
 
 
 namespace QLCHBanXeMay.form
@@ -199,7 +200,45 @@ WHERE c.SoDDH = '{soDDH}'";
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+
+        private void lblTongtienbangchu_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblTongsosanpham_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblTongsoluongsanpham_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblTOngtien_Click(object sender, EventArgs e)
+        {
+
+        }
+
+       
+
+        private void PrintDocument1_PrintPage(object sender, PrintPageEventArgs e)
+        {
+            // Tạo bitmap chụp hình toàn bộ form
+            Bitmap bmp = new Bitmap(this.Width, this.Height);
+            this.DrawToBitmap(bmp, new Rectangle(0, 0, this.Width, this.Height));
+
+            // Vẽ bitmap lên trang in, có thể tùy chỉnh kích thước cho vừa trang in
+            e.Graphics.DrawImage(bmp, e.MarginBounds);
+
+            // Giải phóng tài nguyên
+            bmp.Dispose();
+        }
+
+        
+
+        private void btnXoa_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(soDDH))
             {
@@ -232,65 +271,92 @@ WHERE c.SoDDH = '{soDDH}'";
             }
         }
 
-        private void lblTongtienbangchu_Click(object sender, EventArgs e)
+        private void btnIn_Click(object sender, EventArgs e)
         {
+            Excel.Application xlApp = new Excel.Application();
+            if (xlApp == null)
+            {
+                MessageBox.Show("Không thể khởi tạo Excel. Vui lòng kiểm tra cài đặt Office.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
+            Excel.Workbook xlWorkBook = xlApp.Workbooks.Add(Type.Missing);
+            Excel.Worksheet xlSheet = (Excel.Worksheet)xlWorkBook.Worksheets[1];
+            xlSheet.Name = "PhieuDonHang";
+
+            xlApp.StandardFontSize = 12;
+            xlApp.StandardFont = "Times New Roman";
+
+            // Tiêu đề phiếu
+            xlSheet.Range["A1", "E1"].Merge();
+            xlSheet.Cells[1, 1] = "PHIẾU ĐẶT HÀNG";
+            xlSheet.Range["A1"].Font.Size = 18;
+            xlSheet.Range["A1"].Font.Bold = true;
+            xlSheet.Range["A1"].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+
+            // Thông tin chung
+            xlSheet.Cells[3, 1] = "Số đơn hàng:";
+            xlSheet.Cells[3, 2] = txtSoDDH.Text;
+            xlSheet.Cells[4, 1] = "Ngày mua:";
+            xlSheet.Cells[4, 2] = dtpNgaynhap.Text;
+            xlSheet.Cells[5, 1] = "Nhân viên:";
+            xlSheet.Cells[5, 2] = txtTenNV.Text;
+            xlSheet.Cells[6, 1] = "Khách hàng:";
+            xlSheet.Cells[6, 2] = txtTenKH.Text;
+            xlSheet.Cells[7, 1] = "Điện thoại:";
+            xlSheet.Cells[7, 2] = txtSoDT.Text;
+            xlSheet.Cells[8, 1] = "Địa chỉ:";
+            xlSheet.Cells[8, 2] = txtDiachi.Text;
+
+            // Dòng tiêu đề sản phẩm
+            int startRow = 10;
+            xlSheet.Cells[startRow, 1] = "STT";
+            xlSheet.Cells[startRow, 2] = "Tên hàng";
+            xlSheet.Cells[startRow, 3] = "Đơn giá";
+            xlSheet.Cells[startRow, 4] = "Số lượng";
+            xlSheet.Cells[startRow, 5] = "Thành tiền";
+
+            Excel.Range headerRange = xlSheet.Range["A" + startRow, "E" + startRow];
+            headerRange.Font.Bold = true;
+            headerRange.Interior.Color = Color.LightGray;
+            headerRange.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+
+            // Đổ dữ liệu sản phẩm
+            for (int i = 0; i < dgvDanhsachsanpham.Rows.Count; i++)
+            {
+                DataGridViewRow row = dgvDanhsachsanpham.Rows[i];
+                xlSheet.Cells[i + startRow + 1, 1] = i + 1;
+                xlSheet.Cells[i + startRow + 1, 2] = row.Cells["TenHang"].Value;
+                xlSheet.Cells[i + startRow + 1, 3] = row.Cells["DonGiaBan"].Value;
+                xlSheet.Cells[i + startRow + 1, 4] = row.Cells["SoLuong"].Value;
+                xlSheet.Cells[i + startRow + 1, 5] = row.Cells["ThanhTien"].Value;
+            }
+
+            // Tổng kết
+            int endRow = startRow + dgvDanhsachsanpham.Rows.Count + 1;
+            xlSheet.Cells[endRow, 4] = "Tổng SL:";
+            xlSheet.Cells[endRow, 5] = lblTongsoluongsanpham.Text.Replace("Tổng số lượng sản phẩm: ", "");
+
+            xlSheet.Cells[endRow + 1, 4] = "Tổng tiền:";
+            xlSheet.Cells[endRow + 1, 5] = lblTOngtien.Text.Replace("Tổng tiền: ", "");
+
+            xlSheet.Range["A" + (endRow + 3), "E" + (endRow + 3)].Merge();
+            xlSheet.Cells[endRow + 3, 1] = "Bằng chữ: " + lblTongtienbangchu.Text.Replace("Tổng tiền bằng chữ: ", "");
+            xlSheet.Range["A" + (endRow + 3)].Font.Italic = true;
+
+            // Kẻ bảng
+            Excel.Range fullTable = xlSheet.Range["A" + startRow, "E" + (endRow + 1)];
+            fullTable.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+            fullTable.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+
+            // Autofit
+            xlSheet.Columns.AutoFit();
+
+            // Hiện Excel
+            xlApp.Visible = true;
         }
 
-        private void lblTongsosanpham_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblTongsoluongsanpham_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblTOngtien_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            // Ẩn tạm các nút không cần hiển thị trong bản in
-            button2.Visible = false;       // Nút Xem trước in
-            button1.Visible = false;       // Nút Xóa hóa đơn
-            button3.Visible = false;       // Nút Đóng form
-
-            // Bắt sự kiện in
-            printDocument1.PrintPage += new PrintPageEventHandler(PrintDocument1_PrintPage);
-
-            // Tạo hộp thoại xem trước in
-            PrintPreviewDialog previewDialog = new PrintPreviewDialog();
-            previewDialog.Document = printDocument1;
-            previewDialog.Width = 800;
-            previewDialog.Height = 600;
-
-            // Hiển thị hộp thoại xem trước in
-            previewDialog.ShowDialog();
-
-            // Hiện lại các nút sau khi xem trước in
-            button2.Visible = true;
-            button1.Visible = true;
-            button3.Visible = true;
-        }
-
-        private void PrintDocument1_PrintPage(object sender, PrintPageEventArgs e)
-        {
-            // Tạo bitmap chụp hình toàn bộ form
-            Bitmap bmp = new Bitmap(this.Width, this.Height);
-            this.DrawToBitmap(bmp, new Rectangle(0, 0, this.Width, this.Height));
-
-            // Vẽ bitmap lên trang in, có thể tùy chỉnh kích thước cho vừa trang in
-            e.Graphics.DrawImage(bmp, e.MarginBounds);
-
-            // Giải phóng tài nguyên
-            bmp.Dispose();
-        }
-
-        private void button3_Click(object sender, EventArgs e)
+        private void btnDong_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("Bạn có chắc chắn muốn đóng form không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)

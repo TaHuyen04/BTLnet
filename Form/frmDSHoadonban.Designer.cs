@@ -319,6 +319,7 @@
             this.btnDong.TabIndex = 48;
             this.btnDong.Text = "Đóng";
             this.btnDong.UseVisualStyleBackColor = false;
+            this.btnDong.Click += new System.EventHandler(this.btnDong_Click);
             // 
             // frmDSHoadonban
             // 
