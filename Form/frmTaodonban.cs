@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Drawing.Printing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using QLCHBanXeMay.Class;
 using Excel = Microsoft.Office.Interop.Excel;
@@ -19,7 +14,6 @@ namespace QLCHBanXeMay.form
         {
             InitializeComponent();
         }
-        DataTable tblDSSP;
         private bool isHoaDonCreated = false;
         private bool isHoaDonSaved = false;
 
@@ -153,7 +147,7 @@ namespace QLCHBanXeMay.form
                          "FROM tblChiTietDonDatHang bt " +
                          "INNER JOIN tblDMHang dm ON bt.MaHang = dm.MaHang " +
                          "WHERE bt.SoDDH = '" + txtMaHDB.Text + "'";
-            tblDSSP = Functions.getdatatotable(sql);
+            DataTable tblDSSP = Functions.getdatatotable(sql);
             dgvDSSP.DataSource = tblDSSP;
 
             if (dgvDSSP.Columns.Count > 0)
@@ -288,7 +282,7 @@ namespace QLCHBanXeMay.form
             btnSua.Enabled = false;
             btnXoa.Enabled = false;
             btnBoqua.Enabled = false;
-            btnBoquaHD.Enabled = false;
+            btnBoquaHD.Enabled = true;
             btnLuuHD.Enabled = false;
             btnXoaHD.Enabled = false;
             btnInHD.Enabled = false;
@@ -305,12 +299,6 @@ namespace QLCHBanXeMay.form
 
             string maDDH = txtMaHDB.Text.Trim();
             string sqlCheck = "SELECT SoDDH FROM tblDonDatHang WHERE SoDDH = '" + maDDH + "'";
-            if (Functions.Checkkey(sqlCheck))
-            {
-                MessageBox.Show("Số hóa đơn này đã tồn tại. Hãy tạo mã khác!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtMaHDB.Text = GenerateNewInvoiceCode();
-                return;
-            }
 
             string sqlInsert = "INSERT INTO tblDonDatHang (SoDDH, MaNV, MaKhach, NgayMua, TongTien, DatCoc, Thue) " +
                                "VALUES ('" + maDDH + "', '" + cboMaNV.SelectedValue + "', '" + cboMaKH.SelectedValue + "', '" + dtpNgayban.Value.ToString("yyyy-MM-dd") + "', 0, 0, 0)";
@@ -321,49 +309,32 @@ namespace QLCHBanXeMay.form
             btnBoqua.Enabled = true;
             btnLuuHD.Enabled = true;
             btnXoaHD.Enabled = true;
+            btnBoquaHD.Enabled = false;
             MessageBox.Show("Đã tạo hóa đơn. Tiếp tục thêm sản phẩm!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             Load_dgvDSSP();
         }
 
         private void btnBoquaHD_Click(object sender, EventArgs e)
         {
-            if (!isHoaDonCreated)
-            {
-                MessageBox.Show("Không có hóa đơn để bỏ qua!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-
             if (MessageBox.Show("Bạn có chắc chắn muốn bỏ qua hóa đơn hiện tại?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                string sql1 = "DELETE FROM tblChiTietDonDatHang WHERE SoDDH = '" + txtMaHDB.Text + "'";
-                Functions.Runsql(sql1);
-                string sql2 = "DELETE FROM tblDonDatHang WHERE SoDDH = '" + txtMaHDB.Text + "'";
-                Functions.Runsql(sql2);
-
-                ResetForm();
+                ResetForm(); // Đặt lại toàn bộ form
+                btnThem.Enabled = true;
+                btnSua.Enabled = false;
+                btnXoa.Enabled = false;
+                btnBoqua.Enabled = false;
+                btnLuuHD.Enabled = false;
                 MessageBox.Show("Đã bỏ qua hóa đơn. Bạn có thể tạo hóa đơn mới!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
         private void btnThem_Click(object sender, EventArgs e)
         {
-            if (!isHoaDonCreated)
-            {
-                MessageBox.Show("Vui lòng tạo hóa đơn trước khi thêm sản phẩm!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                btnTaomoi.Focus();
-                return;
-            }
 
             if (cboMaSP.SelectedIndex == -1)
             {
                 MessageBox.Show("Bạn phải chọn mã sản phẩm!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cboMaSP.Focus();
-                return;
-            }
-
-            if (nudSoluong.Value <= 0)
-            {
-                MessageBox.Show("Số lượng phải lớn hơn 0!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 

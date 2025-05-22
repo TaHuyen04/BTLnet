@@ -278,7 +278,7 @@ namespace QLCHBanXeMay.form
             btnSua.Enabled = false;
             btnXoa.Enabled = false;
             btnBoqua.Enabled = false;
-            btnBoquaHD.Enabled = false;
+            btnBoquaHD.Enabled = true;
             btnLuuHD.Enabled = false;
             btnXoaHD.Enabled = false;
             btnInHD.Enabled = false;
@@ -298,13 +298,8 @@ namespace QLCHBanXeMay.form
             }
 
             string maHDN = txtMaHDN.Text.Trim();
-            string sqlCheck = "SELECT SoHDN FROM tblHoaDonNhap WHERE SoHDN = '" + maHDN + "'";
-            if (Functions.Checkkey(sqlCheck))
-            {
-                MessageBox.Show("Số hóa đơn này đã tồn tại. Hãy tạo mã khác!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtMaHDN.Text = GenerateNewInvoiceCode();
-                return;
-            }
+            txtMaHDN.Text = GenerateNewInvoiceCode();
+               
 
             string sqlInsert = "INSERT INTO tblHoaDonNhap (SoHDN, MaNV, MaNCC, NgayNhap, TongTien) " +
                                "VALUES ('" + maHDN + "', '" + cboMaNV.SelectedValue + "', '" + cboMaNCC.SelectedValue + "', '" + dtpNgaynhap.Value.ToString("yyyy-MM-dd") + "', 0)";
@@ -315,6 +310,7 @@ namespace QLCHBanXeMay.form
             btnBoqua.Enabled = true;
             btnLuuHD.Enabled = true;
             btnXoaHD.Enabled = true;
+            btnBoquaHD.Enabled = false;
             MessageBox.Show("Đã tạo hóa đơn. Tiếp tục thêm sản phẩm!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             Load_dgvDSSP();
         }
@@ -335,23 +331,10 @@ namespace QLCHBanXeMay.form
 
         private void btnThem_Click(object sender, EventArgs e)
         {
-            if (!isHoaDonCreated)
-            {
-                MessageBox.Show("Vui lòng tạo hóa đơn trước khi thêm sản phẩm!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                btnTaomoi.Focus();
-                return;
-            }
-
             if (cboMaSP.SelectedIndex == -1)
             {
                 MessageBox.Show("Bạn phải chọn mã sản phẩm!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cboMaSP.Focus();
-                return;
-            }
-
-            if (nudSoluong.Value <= 0)
-            {
-                MessageBox.Show("Số lượng phải lớn hơn 0!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -542,6 +525,7 @@ namespace QLCHBanXeMay.form
             MessageBox.Show("Hóa đơn đã được lưu và số lượng sản phẩm đã được cập nhật! Hóa đơn sẵn sàng để in", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             isHoaDonSaved = true;
         }
+
         private void btnXoaHD_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Bạn có chắc chắn muốn xóa toàn bộ hóa đơn và chi tiết?", "Cảnh báo", MessageBoxButtons.YesNo) == DialogResult.Yes)
