@@ -31,6 +31,7 @@
             this.panelMenu = new System.Windows.Forms.Panel();
             this.btnThoat = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.btnBCSP = new System.Windows.Forms.Button();
             this.btnBC = new System.Windows.Forms.Button();
             this.btnTK = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -57,7 +58,6 @@
             this.button19 = new System.Windows.Forms.Button();
             this.button20 = new System.Windows.Forms.Button();
             this.button21 = new System.Windows.Forms.Button();
-            this.btnBCSP = new System.Windows.Forms.Button();
             this.panelMenu.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -87,7 +87,7 @@
             this.btnThoat.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.btnThoat.Location = new System.Drawing.Point(15, 574);
             this.btnThoat.Name = "btnThoat";
-            this.btnThoat.Size = new System.Drawing.Size(164, 29);
+            this.btnThoat.Size = new System.Drawing.Size(165, 29);
             this.btnThoat.TabIndex = 2;
             this.btnThoat.Text = "Thoát";
             this.btnThoat.UseVisualStyleBackColor = false;
@@ -102,10 +102,22 @@
             this.groupBox4.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBox4.Location = new System.Drawing.Point(15, 430);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(164, 138);
+            this.groupBox4.Size = new System.Drawing.Size(165, 138);
             this.groupBox4.TabIndex = 7;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Báo cáo";
+            // 
+            // btnBCSP
+            // 
+            this.btnBCSP.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.btnBCSP.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btnBCSP.Location = new System.Drawing.Point(6, 95);
+            this.btnBCSP.Name = "btnBCSP";
+            this.btnBCSP.Size = new System.Drawing.Size(146, 29);
+            this.btnBCSP.TabIndex = 2;
+            this.btnBCSP.Text = "Sản phẩm";
+            this.btnBCSP.UseVisualStyleBackColor = false;
+            this.btnBCSP.Click += new System.EventHandler(this.btnBCSP_Click);
             // 
             // btnBC
             // 
@@ -139,7 +151,7 @@
             this.groupBox3.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBox3.Location = new System.Drawing.Point(15, 326);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(164, 98);
+            this.groupBox3.Size = new System.Drawing.Size(165, 98);
             this.groupBox3.TabIndex = 6;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Bán hàng";
@@ -176,7 +188,7 @@
             this.groupBox2.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBox2.Location = new System.Drawing.Point(15, 226);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(164, 94);
+            this.groupBox2.Size = new System.Drawing.Size(165, 94);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Nhập hàng";
@@ -216,7 +228,7 @@
             this.groupBox1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBox1.Location = new System.Drawing.Point(15, 15);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(164, 205);
+            this.groupBox1.Size = new System.Drawing.Size(165, 205);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Quản lý chung";
@@ -427,18 +439,6 @@
             this.button21.Text = "Loại xe";
             this.button21.UseVisualStyleBackColor = false;
             this.button21.Click += new System.EventHandler(this.button21_Click);
-            // 
-            // btnBCSP
-            // 
-            this.btnBCSP.BackColor = System.Drawing.Color.CornflowerBlue;
-            this.btnBCSP.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btnBCSP.Location = new System.Drawing.Point(6, 95);
-            this.btnBCSP.Name = "btnBCSP";
-            this.btnBCSP.Size = new System.Drawing.Size(146, 29);
-            this.btnBCSP.TabIndex = 2;
-            this.btnBCSP.Text = "Sản phẩm";
-            this.btnBCSP.UseVisualStyleBackColor = false;
-            this.btnBCSP.Click += new System.EventHandler(this.btnBCSP_Click);
             // 
             // Menu
             // 
