@@ -69,20 +69,20 @@
             this.dgvDSSP = new System.Windows.Forms.DataGridView();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.nudGiamgia = new System.Windows.Forms.NumericUpDown();
-            this.label19 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cboMaKH = new System.Windows.Forms.ComboBox();
             this.txtDiachi = new System.Windows.Forms.TextBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.nudGiamgia = new System.Windows.Forms.NumericUpDown();
             this.lblThue = new System.Windows.Forms.Label();
             this.lblDatcoc = new System.Windows.Forms.Label();
             this.lblTongtienDH = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nudSoluong)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDSSP)).BeginInit();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudGiamgia)).BeginInit();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudGiamgia)).BeginInit();
             this.SuspendLayout();
             // 
             // txtSDT
@@ -210,19 +210,9 @@
             // nudSoluong
             // 
             this.nudSoluong.Location = new System.Drawing.Point(339, 22);
-            this.nudSoluong.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
             this.nudSoluong.Name = "nudSoluong";
             this.nudSoluong.Size = new System.Drawing.Size(124, 22);
             this.nudSoluong.TabIndex = 43;
-            this.nudSoluong.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
             this.nudSoluong.ValueChanged += new System.EventHandler(this.nudSoluong_ValueChanged);
             // 
             // txtDongiaban
@@ -486,23 +476,6 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Thông tin sản phẩm";
             // 
-            // nudGiamgia
-            // 
-            this.nudGiamgia.Location = new System.Drawing.Point(619, 22);
-            this.nudGiamgia.Name = "nudGiamgia";
-            this.nudGiamgia.Size = new System.Drawing.Size(124, 22);
-            this.nudGiamgia.TabIndex = 42;
-            this.nudGiamgia.ValueChanged += new System.EventHandler(this.nudGiamgia_ValueChanged);
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(502, 25);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(84, 16);
-            this.label19.TabIndex = 4;
-            this.label19.Text = "Giảm giá (%)";
-            // 
             // label15
             // 
             this.label15.AutoSize = true;
@@ -552,6 +525,23 @@
             this.txtDiachi.Name = "txtDiachi";
             this.txtDiachi.Size = new System.Drawing.Size(124, 22);
             this.txtDiachi.TabIndex = 14;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(502, 25);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(84, 16);
+            this.label19.TabIndex = 4;
+            this.label19.Text = "Giảm giá (%)";
+            // 
+            // nudGiamgia
+            // 
+            this.nudGiamgia.Location = new System.Drawing.Point(619, 22);
+            this.nudGiamgia.Name = "nudGiamgia";
+            this.nudGiamgia.Size = new System.Drawing.Size(124, 22);
+            this.nudGiamgia.TabIndex = 42;
+            this.nudGiamgia.ValueChanged += new System.EventHandler(this.nudGiamgia_ValueChanged);
             // 
             // lblThue
             // 
@@ -614,9 +604,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvDSSP)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudGiamgia)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudGiamgia)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

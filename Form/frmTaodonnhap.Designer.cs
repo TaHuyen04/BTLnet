@@ -281,9 +281,19 @@
             // nudSoluong
             // 
             this.nudSoluong.Location = new System.Drawing.Point(345, 22);
+            this.nudSoluong.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.nudSoluong.Name = "nudSoluong";
             this.nudSoluong.Size = new System.Drawing.Size(124, 22);
             this.nudSoluong.TabIndex = 43;
+            this.nudSoluong.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.nudSoluong.ValueChanged += new System.EventHandler(this.nudSoluong_ValueChanged);
             // 
             // nudGiamgia
