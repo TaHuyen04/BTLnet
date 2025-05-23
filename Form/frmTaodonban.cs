@@ -402,14 +402,14 @@ namespace QLCHBanXeMay.form
             double tongTienDonHang = tongTienSP + thue;
 
             // Hiển thị trên form
-            lblTongtienSP.Text = lblTongtienSP.Text + tongTienSP.ToString("N0");
-            lblDatcoc.Text = lblDatcoc.Text + datCoc.ToString("N0");
-            lblThue.Text = lblThue.Text + thue.ToString("N0");
-            lblTongtienDH.Text = lblTongtienDH.Text+ tongTienDonHang.ToString("N0");
-            lblSoluongSP.Text = lblSoluongSP.Text + tongSL.ToString();
-            lblSoSP.Text = lblSoSP.Text + dgvDSSP.Rows.Count.ToString();
+            lblTongtienSP.Text = "Tổng tiền: " + tongTienSP.ToString("N0");
+            lblDatcoc.Text = "Đặt cọc: " + datCoc.ToString("N0");
+            lblThue.Text = "Thuế: " + thue.ToString("N0");
+            lblTongtienDH.Text = "Tổng tiền đơn hàng: "+ tongTienDonHang.ToString("N0");
+            lblSoluongSP.Text ="Số lượng sản phẩm" + tongSL.ToString();
+            lblSoSP.Text = "Số sản phẩm: " + dgvDSSP.Rows.Count.ToString();
 
-            lblTongtienChu.Text = lblTongtienChu.Text + Functions.ChuyenSoSangChu(tongTienDonHang.ToString());
+            lblTongtienChu.Text = "Tổng tiền bằng chữ: " + Functions.ChuyenSoSangChu(tongTienDonHang.ToString());
         }
 
         private void btnXoa_Click(object sender, EventArgs e)

@@ -383,11 +383,11 @@ namespace QLCHBanXeMay.form
                     // Bỏ qua nếu có lỗi chuyển đổi
                 }
             }
-            lblTongtien.Text = lblTongtien.Text+ tong.ToString("N0");
-            lblSoluongSP.Text = lblSoluongSP.Text + tongSL.ToString();
-            lblSoSP.Text = lblSoSP.Text + dgvDSSP.Rows.Count.ToString();
+            lblTongtien.Text = "Tổng tiền: "+ tong.ToString("N0");
+            lblSoluongSP.Text = "Số lượng sản phẩm" + tongSL.ToString();
+            lblSoSP.Text = "Số sản phẩm" + dgvDSSP.Rows.Count.ToString();
 
-            lblTongtienChu.Text = lblTongtienChu.Text + Functions.ChuyenSoSangChu(tong.ToString());
+            lblTongtienChu.Text = "Tổng tiền bằng chữ: " + Functions.ChuyenSoSangChu(tong.ToString());
         }
 
         private void btnXoa_Click(object sender, EventArgs e)
