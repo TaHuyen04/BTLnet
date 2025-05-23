@@ -93,6 +93,28 @@ namespace QLCHBanXeMay.form
             DataTable dtProducts = Functions.getdatatotable(sqlProducts);
             dgridDanhsachSP.DataSource = dtProducts;
 
+            // ✅ Tính toán số liệu dựa trên DataGridView
+            int sumSoluongSP = 0;
+            int sumSP = dgridDanhsachSP.Rows.Count;
+            decimal sumTongtien = 0;
+
+            foreach (DataGridViewRow row in dgridDanhsachSP.Rows)
+            {
+                if (row.IsNewRow) continue; // bỏ qua dòng mới nếu có
+
+                if (int.TryParse(row.Cells["SoLuong"].Value?.ToString(), out int soLuong))
+                    sumSoluongSP += soLuong;
+
+                if (decimal.TryParse(row.Cells["ThanhTien"].Value?.ToString(), out decimal thanhTien))
+                    sumTongtien += thanhTien;
+            }
+
+            lblTongSP.Text = "Số lượng sản phẩm: " + sumSoluongSP;
+            lblSoluongSP.Text = "Số sản phẩm: " + sumSP;
+            lblTongtien.Text = "Tổng tiền: " + sumTongtien.ToString("N0") + " VNĐ";
+            lblBangchu.Text = "Tổng tiền (bằng chữ): " + Functions.ChuyenSoSangChu(sumTongtien.ToString());
+        
+
             // Đặt lại tiêu đề các cột
             if (dgridDanhsachSP.Columns.Count > 0)
             {
@@ -113,20 +135,7 @@ namespace QLCHBanXeMay.form
                 dgridDanhsachSP.Columns["ThanhTien"].HeaderText = "Thành tiền";
             }
 
-            //tính toán sản phẩm trong hóa đơn
-            int sumSoluongSP = 0;
-            int sumSP = DS.Rows.Count;
-            decimal sumTongtien = 0;
-
-            for (int i = 0; i < DS.Rows.Count; i++)
-            {
-                sumSoluongSP += Convert.ToInt32(DS.Rows[i]["Soluong"]);
-                sumTongtien += Convert.ToDecimal(DS.Rows[i]["Thanhtien"]);
-            }
-            lblTongSP.Text = "Số lượng sản phẩm: " + sumSoluongSP;
-            lblSoluongSP.Text = "Số sản phẩm: " + sumSP;
-            lblTongtien.Text = "Tổng tiền: " + sumTongtien;
-            lblBangchu.Text = "Tổng tiền (bằng chữ): " + Functions.ChuyenSoSangChu(sumTongtien.ToString());
+            
         }
 
 
