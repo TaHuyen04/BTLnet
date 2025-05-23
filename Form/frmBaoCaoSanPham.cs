@@ -216,14 +216,14 @@ namespace QLCHBanXeMay.form
                 if (cboBD.Items.Count == 0)
                 {
                     cboBD.Items.AddRange(new object[] {
-                "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "13"
+                "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"
             });
                 }
 
                 if (cboKT.Items.Count == 0)
                 {
                     cboKT.Items.AddRange(new object[] {
-                "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "13"
+                "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"
             });
                 }
 
