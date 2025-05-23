@@ -320,6 +320,7 @@
             this.btnXoa.TabIndex = 32;
             this.btnXoa.Text = "Xóa Hóa Đơn";
             this.btnXoa.UseVisualStyleBackColor = false;
+            this.btnXoa.Click += new System.EventHandler(this.btnXoa_Click);
             // 
             // btnIn
             // 
@@ -331,6 +332,7 @@
             this.btnIn.TabIndex = 33;
             this.btnIn.Text = "In Hóa Đơn";
             this.btnIn.UseVisualStyleBackColor = false;
+            this.btnIn.Click += new System.EventHandler(this.btnIn_Click);
             // 
             // btnDong
             // 
@@ -342,6 +344,7 @@
             this.btnDong.TabIndex = 34;
             this.btnDong.Text = "Đóng";
             this.btnDong.UseVisualStyleBackColor = false;
+            this.btnDong.Click += new System.EventHandler(this.btnDong_Click);
             // 
             // label10
             // 
