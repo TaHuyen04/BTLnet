@@ -4,9 +4,6 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using QLCHBanXeMay.Class;
 
@@ -14,344 +11,554 @@ namespace QLCHBanXeMay.form
 {
     public partial class frmSanpham : Form
     {
+       
+
         public frmSanpham()
         {
             InitializeComponent();
         }
+        private string imageFolder = "Images"; // Thư mục lưu ảnh, nằm trong thư mục gốc của ứng dụng
 
-        // Biến lưu trạng thái ban đầu của các trường khi nhấn Sửa
-        private Dictionary<string, string> initialValues = new Dictionary<string, string>();
+        // Biến trạng thái kiểm tra chế độ
+        private bool isAdding = false; // Đang thêm mới sản phẩm
+        private bool isEditing = false; // Đang sửa sản phẩm
+        private DataTable tblHang; // Lưu dữ liệu sản phẩm
+
+        // Biến lưu trạng thái ban đầu khi sửa
+        private string initialMaSP, initialTenSP, initialAnh;
+        private string initialSoLuong, initialDonGiaNhap, initialDonGiaBan, initialThoiGianBH;
+        private string initialMaLoai, initialMaNhaSX, initialMaMau, initialMaPhanh, initialMaDongCo, initialMaTinhTrang, initialMaNuocSX;
 
         private void frmSanpham_Load(object sender, EventArgs e)
         {
-                txtMaSP.Enabled = false;
-                btnLuu.Enabled = false;
-                btnBoQua.Enabled = false;
-                Load_DataGridView();
-                Functions.FillCombo("SELECT MaMau, TenMau FROM tblMauSac", cboMauSac, "MaMau", "TenMau");
+            // Đặt ReadOnly cho các TextBox
+            txtMaSP.ReadOnly = false; // Cho phép nhập để tìm kiếm
+            txtTenSP.ReadOnly = false; // Cho phép nhập để tìm kiếm
+            txtSoLuong.ReadOnly = false; // Cho phép nhập để tìm kiếm
+            txtDonGiaNhap.ReadOnly = false; // Cho phép nhập để tìm kiếm
+            txtDonGiaBan.ReadOnly = false; // Cho phép nhập để tìm kiếm
+            txtThoiGianBH.ReadOnly = false; // Cho phép nhập để tìm kiếm
+            txtAnh.ReadOnly = false; // Cho phép nhập để tìm kiếm
+
+            // Vô hiệu hóa các nút thao tác
+            btnLuu.Enabled = false;
+            btnBoQua.Enabled = false;
+            btnSua.Enabled = false;
+            btnXoa.Enabled = false;
+
+            // Tải dữ liệu vào DataGridView
+            Load_dgvSanPham();
+
+            // Nạp dữ liệu vào các ComboBox
+            Functions.FillCombo("SELECT MaMau, TenMau FROM tblMauSac", cboMauSac, "MaMau", "TenMau");
             cboMauSac.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboMauSac.SelectedIndex = -1;
+
             Functions.FillCombo("SELECT MaLoai, TenLoai FROM tblTheLoai", cboLoai, "MaLoai", "TenLoai");
             cboLoai.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboLoai.SelectedIndex = -1;
+
             Functions.FillCombo("SELECT MaHangSX, TenHangSX FROM tblHangSX", cboNhaSX, "MaHangSX", "TenHangSX");
             cboNhaSX.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboNhaSX.SelectedIndex = -1;
+
             Functions.FillCombo("SELECT MaPhanh, TenPhanh FROM tblPhanhXe", cboPhanh, "MaPhanh", "TenPhanh");
             cboPhanh.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboPhanh.SelectedIndex = -1;
+
             Functions.FillCombo("SELECT MaDongCo, TenDongCo FROM tblDongCo", cboDongCo, "MaDongCo", "TenDongCo");
             cboDongCo.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboDongCo.SelectedIndex = -1;
+
             Functions.FillCombo("SELECT MaTinhTrang, TenTinhTrang FROM tblTinhTrang", cboTinhTrang, "MaTinhTrang", "TenTinhTrang");
             cboTinhTrang.DropDownStyle = ComboBoxStyle.DropDownList;
-            Functions.FillCombo("SELECT MaNuocSX, TenNuocSX FROM tblNuocSX", cboNuocSX, "MaNuocSX", "TenNuocSX");
-                cboNuocSX.SelectedIndex = -1;
-            cboNuocSX.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboTinhTrang.SelectedIndex = -1;
 
+            Functions.FillCombo("SELECT MaNuocSX, TenNuocSX FROM tblNuocSX", cboNuocSX, "MaNuocSX", "TenNuocSX");
+            cboNuocSX.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboNuocSX.SelectedIndex = -1;
+
+            // Xóa dữ liệu đầu vào
             ResetValues();
-            
+
+            // Tạo thư mục Images nếu chưa tồn tại
+            string imagePath = Path.Combine(Application.StartupPath, imageFolder);
+            if (!Directory.Exists(imagePath))
+            {
+                Directory.CreateDirectory(imagePath);
+            }
         }
 
-        DataTable tblHang;
-
-        private void Load_DataGridView()
+        private void Load_dgvSanPham()
         {
-                string sql = @"
-            SELECT 
-                H.MaHang AS [Mã xe],
-                H.TenHang AS [Tên xe],
-                L.TenLoai AS [Loại],
-                SX.TenHangSX AS [Hãng SX],
-                MS.TenMau AS [Màu],
-                P.TenPhanh AS [Phanh],
-                D.TenDongCo AS [Động cơ],
-                NSX.TenNuocSX AS [Nước sản xuất],
-                H.SoLuong AS [Số lượng],
-                H.DonGiaNhap AS [Đơn giá nhập],
-                H.DonGiaBan AS [Đơn giá bán],
-                TTT.TenTinhTrang AS [Tình trạng],
-                H.ThoiGianBaoHanh AS [Bảo hành (tháng)],
-                H.Anh AS [Ảnh]
-            FROM tblDMHang H
-            LEFT JOIN tblTheLoai L ON H.MaLoai = L.MaLoai
-            LEFT JOIN tblHangSX SX ON H.MaHangSX = SX.MaHangSX
-            LEFT JOIN tblMauSac MS ON H.MaMau = MS.MaMau
-            LEFT JOIN tblPhanhXe P ON H.MaPhanh = P.MaPhanh
-            LEFT JOIN tblDongCo D ON H.MaDongCo = D.MaDongCo
-            LEFT JOIN tblTinhTrang TTT ON H.MaTinhTrang = TTT.MaTinhTrang
-            LEFT JOIN tblNuocSX NSX ON H.MaNuocSX = NSX.MaNuocSX
-        ";
+            // Tải toàn bộ dữ liệu sản phẩm
+            string sql = @"
+                SELECT 
+                    H.MaHang AS [Mã xe],
+                    H.TenHang AS [Tên xe],
+                    L.TenLoai AS [Loại],
+                    SX.TenHangSX AS [Hãng SX],
+                    MS.TenMau AS [Màu],
+                    P.TenPhanh AS [Phanh],
+                    D.TenDongCo AS [Động cơ],
+                    NSX.TenNuocSX AS [Nước sản xuất],
+                    H.SoLuong AS [Số lượng],
+                    H.DonGiaNhap AS [Đơn giá nhập],
+                    H.DonGiaBan AS [Đơn giá bán],
+                    TTT.TenTinhTrang AS [Tình trạng],
+                    H.ThoiGianBaoHanh AS [Bảo hành (tháng)],
+                    H.Anh AS [Ảnh]
+                FROM tblDMHang H
+                LEFT JOIN tblTheLoai L ON H.MaLoai = L.MaLoai
+                LEFT JOIN tblHangSX SX ON H.MaHangSX = SX.MaHangSX
+                LEFT JOIN tblMauSac MS ON H.MaMau = MS.MaMau
+                LEFT JOIN tblPhanhXe P ON H.MaPhanh = P.MaPhanh
+                LEFT JOIN tblDongCo D ON H.MaDongCo = D.MaDongCo
+                LEFT JOIN tblTinhTrang TTT ON H.MaTinhTrang = TTT.MaTinhTrang
+                LEFT JOIN tblNuocSX NSX ON H.MaNuocSX = NSX.MaNuocSX";
+            tblHang = Functions.getdatatotable(sql);
+            dgvSanPham.DataSource = tblHang;
 
-                tblHang = Functions.getdatatotable(sql);
-                dgvSanPham.DataSource = tblHang;
-
-                dgvSanPham.AllowUserToAddRows = false;
-                dgvSanPham.EditMode = DataGridViewEditMode.EditProgrammatically;
-
-                // Chọn lại dòng hiện tại nếu có (sau khi thêm/sửa)
-                if (!string.IsNullOrEmpty(txtMaSP.Text) && tblHang.Rows.Count > 0)
-                {
-                    foreach (DataRow row in tblHang.Rows)
-                    {
-                        if (row["Mã xe"].ToString() == txtMaSP.Text)
-                        {
-                            int rowIndex = tblHang.Rows.IndexOf(row);
-                            dgvSanPham.ClearSelection();
-                            dgvSanPham.Rows[rowIndex].Selected = true;
-                            dgvSanPham.CurrentCell = dgvSanPham.Rows[rowIndex].Cells[0];
-                            break;
-                        }
-                    }
-                }
+            // Ngăn chỉnh sửa thủ công
+            dgvSanPham.AllowUserToAddRows = false;
+            dgvSanPham.EditMode = DataGridViewEditMode.EditProgrammatically;
         }
 
         private void ResetValues()
         {
+            // Xóa dữ liệu đầu vào
             txtMaSP.Text = "";
             txtTenSP.Text = "";
-            txtSoLuong.Text = "0";
-            txtDonGiaNhap.Text = "0";
-            txtDonGiaBan.Text = "0";
-            txtThoiGianBH.Text = "0";
+            txtSoLuong.Text = "";
+            txtDonGiaNhap.Text = "";
+            txtDonGiaBan.Text = "";
+            txtThoiGianBH.Text = "";
             txtAnh.Text = "";
             picAnh.Image = null;
+
             cboLoai.SelectedIndex = -1;
+            cboNhaSX.SelectedIndex = -1;
             cboMauSac.SelectedIndex = -1;
             cboPhanh.SelectedIndex = -1;
             cboDongCo.SelectedIndex = -1;
             cboTinhTrang.SelectedIndex = -1;
-            cboNhaSX.SelectedIndex = -1;
             cboNuocSX.SelectedIndex = -1;
 
-            // Xóa trạng thái ban đầu khi reset
-            initialValues.Clear();
+            // Đặt lại trạng thái
+            isAdding = false;
+            isEditing = false;
+            initialMaSP = initialTenSP = initialAnh = initialSoLuong = initialDonGiaNhap = initialDonGiaBan = initialThoiGianBH = "";
+            initialMaLoai = initialMaNhaSX = initialMaMau = initialMaPhanh = initialMaDongCo = initialMaTinhTrang = initialMaNuocSX = "";
         }
 
         private void SaveInitialValues()
         {
-            initialValues.Clear();
-            initialValues["txtMaSP"] = txtMaSP.Text;
-            initialValues["txtTenSP"] = txtTenSP.Text;
-            initialValues["txtSoLuong"] = txtSoLuong.Text;
-            initialValues["txtDonGiaNhap"] = txtDonGiaNhap.Text;
-            initialValues["txtDonGiaBan"] = txtDonGiaBan.Text;
-            initialValues["txtThoiGianBH"] = txtThoiGianBH.Text;
-            initialValues["txtAnh"] = txtAnh.Text;
-            initialValues["cboLoai"] = cboLoai.SelectedValue?.ToString() ?? "";
-            initialValues["cboNhaSX"] = cboNhaSX.SelectedValue?.ToString() ?? "";
-            initialValues["cboMauSac"] = cboMauSac.SelectedValue?.ToString() ?? "";
-            initialValues["cboPhanh"] = cboPhanh.SelectedValue?.ToString() ?? "";
-            initialValues["cboDongCo"] = cboDongCo.SelectedValue?.ToString() ?? "";
-            initialValues["cboTinhTrang"] = cboTinhTrang.SelectedValue?.ToString() ?? "";
-            initialValues["cboNuocSX"] = cboNuocSX.SelectedValue?.ToString() ?? "";
+            // Lưu trạng thái ban đầu khi sửa
+            initialMaSP = txtMaSP.Text;
+            initialTenSP = txtTenSP.Text;
+            initialSoLuong = txtSoLuong.Text;
+            initialDonGiaNhap = txtDonGiaNhap.Text;
+            initialDonGiaBan = txtDonGiaBan.Text;
+            initialThoiGianBH = txtThoiGianBH.Text;
+            initialAnh = txtAnh.Text;
+            initialMaLoai = cboLoai.SelectedValue?.ToString() ?? "";
+            initialMaNhaSX = cboNhaSX.SelectedValue?.ToString() ?? "";
+            initialMaMau = cboMauSac.SelectedValue?.ToString() ?? "";
+            initialMaPhanh = cboPhanh.SelectedValue?.ToString() ?? "";
+            initialMaDongCo = cboDongCo.SelectedValue?.ToString() ?? "";
+            initialMaTinhTrang = cboTinhTrang.SelectedValue?.ToString() ?? "";
+            initialMaNuocSX = cboNuocSX.SelectedValue?.ToString() ?? "";
         }
 
         private bool HasChanges()
         {
-            return txtMaSP.Text != initialValues["txtMaSP"] ||
-                   txtTenSP.Text != initialValues["txtTenSP"] ||
-                   txtSoLuong.Text != initialValues["txtSoLuong"] ||
-                   txtDonGiaNhap.Text != initialValues["txtDonGiaNhap"] ||
-                   txtDonGiaBan.Text != initialValues["txtDonGiaBan"] ||
-                   txtThoiGianBH.Text != initialValues["txtThoiGianBH"] ||
-                   txtAnh.Text != initialValues["txtAnh"] ||
-                   (cboLoai.SelectedValue?.ToString() ?? "") != initialValues["cboLoai"] ||
-                   (cboNhaSX.SelectedValue?.ToString() ?? "") != initialValues["cboNhaSX"] ||
-                   (cboMauSac.SelectedValue?.ToString() ?? "") != initialValues["cboMauSac"] ||
-                   (cboPhanh.SelectedValue?.ToString() ?? "") != initialValues["cboPhanh"] ||
-                   (cboDongCo.SelectedValue?.ToString() ?? "") != initialValues["cboDongCo"] ||
-                   (cboTinhTrang.SelectedValue?.ToString() ?? "") != initialValues["cboTinhTrang"] ||
-                   (cboNuocSX.SelectedValue?.ToString() ?? "") != initialValues["cboNuocSX"];
+            // Kiểm tra thay đổi dữ liệu
+            return txtMaSP.Text != initialMaSP ||
+                   txtTenSP.Text != initialTenSP ||
+                   txtSoLuong.Text != initialSoLuong ||
+                   txtDonGiaNhap.Text != initialDonGiaNhap ||
+                   txtDonGiaBan.Text != initialDonGiaBan ||
+                   txtThoiGianBH.Text != initialThoiGianBH ||
+                   txtAnh.Text != initialAnh ||
+                   (cboLoai.SelectedValue?.ToString() ?? "") != initialMaLoai ||
+                   (cboNhaSX.SelectedValue?.ToString() ?? "") != initialMaNhaSX ||
+                   (cboMauSac.SelectedValue?.ToString() ?? "") != initialMaMau ||
+                   (cboPhanh.SelectedValue?.ToString() ?? "") != initialMaPhanh ||
+                   (cboDongCo.SelectedValue?.ToString() ?? "") != initialMaDongCo ||
+                   (cboTinhTrang.SelectedValue?.ToString() ?? "") != initialMaTinhTrang ||
+                   (cboNuocSX.SelectedValue?.ToString() ?? "") != initialMaNuocSX;
+        }
+
+        private string GenerateNewMaSP()
+        {
+            // Tạo mã sản phẩm tự động (H01, H02, ...)
+            string sql = "SELECT MAX(MaHang) FROM tblDMHang";
+            string lastMaSP = Functions.GetFieldValues(sql);
+            if (string.IsNullOrEmpty(lastMaSP))
+                return "H01";
+            int number = int.Parse(lastMaSP.Substring(1)) + 1;
+            return "H" + number.ToString("D2");
         }
 
         private void btnThem_Click(object sender, EventArgs e)
         {
+            // Cho phép nhập liệu cho thêm
+            txtMaSP.ReadOnly = false;
+            txtTenSP.ReadOnly = false;
+            txtSoLuong.ReadOnly = false;
+            txtDonGiaNhap.ReadOnly = false;
+            txtDonGiaBan.ReadOnly = true; // Giá bán tự động tính
+            txtThoiGianBH.ReadOnly = false;
+            txtAnh.ReadOnly = false;
+
+            // Điều chỉnh trạng thái nút
             btnSua.Enabled = false;
             btnXoa.Enabled = false;
-            btnBoQua.Enabled = true;
             btnLuu.Enabled = true;
+            btnBoQua.Enabled = true;
             btnThem.Enabled = false;
 
+            // Reset và sinh mã sản phẩm mới
             ResetValues();
-            txtMaSP.Enabled = true;
-            btnLuu.Enabled = true;
-            btnBoQua.Enabled = true;
+            txtMaSP.Text = GenerateNewMaSP();
+            isAdding = true;
             txtMaSP.Focus();
         }
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(txtMaSP.Text))
+            {
+                MessageBox.Show("Bạn chưa chọn sản phẩm để xóa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (MessageBox.Show("Bạn có chắc chắn muốn xóa sản phẩm này?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                return;
+
             try
             {
-                if (txtMaSP.Text == "")
-                {
-                    MessageBox.Show("Bạn chưa chọn bản ghi nào", "Thông báo");
-                    return;
-                }
-                string sql = "DELETE tblDMHang WHERE MaHang='" + txtMaSP.Text + "'";
-                Functions.Runsqldel(sql);
-                Load_DataGridView();
+                string sql = "DELETE FROM tblDMHang WHERE MaHang = '" + txtMaSP.Text + "'";
+                Functions.Runsql(sql);
+                Load_dgvSanPham();
                 ResetValues();
+                btnSua.Enabled = false;
+                btnXoa.Enabled = false;
+                MessageBox.Show("Đã xóa sản phẩm thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi khi xóa dữ liệu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Không thể xóa sản phẩm do lỗi: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void btnSua_Click(object sender, EventArgs e)
         {
-                if (tblHang.Rows.Count == 0)
-                {
-                    MessageBox.Show("Không có dữ liệu để sửa!", "Thông báo");
-                    return;
-                }
+            if (tblHang.Rows.Count == 0)
+            {
+                MessageBox.Show("Không có sản phẩm để sửa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-                if (txtMaSP.Text.Trim() == "")
-                {
-                    MessageBox.Show("Bạn chưa chọn sản phẩm cần sửa!", "Thông báo");
-                    return;
-                }
+            if (string.IsNullOrEmpty(txtMaSP.Text))
+            {
+                MessageBox.Show("Bạn chưa chọn sản phẩm để sửa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-                // Lưu trạng thái ban đầu của các trường
-                SaveInitialValues();
+            // Cho phép nhập liệu cho sửa
+            txtMaSP.ReadOnly = false;
+            txtTenSP.ReadOnly = false;
+            txtSoLuong.ReadOnly = false;
+            txtDonGiaNhap.ReadOnly = false;
+            txtDonGiaBan.ReadOnly = true; // Giá bán tự động tính
+            txtThoiGianBH.ReadOnly = false;
+            txtAnh.ReadOnly = false;
 
-                // Bật các nút điều khiển
-                btnThem.Enabled = false;
-                btnXoa.Enabled = false;
-                btnLuu.Enabled = true;
-                btnBoQua.Enabled = true;
-                btnSua.Enabled = false;
+            // Lưu trạng thái ban đầu
+            SaveInitialValues();
+            isEditing = true;
+            btnThem.Enabled = false;
+            btnXoa.Enabled = false;
+            btnLuu.Enabled = true;
+            btnBoQua.Enabled = true;
+            btnSua.Enabled = false;
+            txtTenSP.Focus();
         }
 
         private void btnTimkiem_Click(object sender, EventArgs e)
         {
-                string sql = "SELECT * FROM tblDMHang WHERE 1=1";
-                if (txtMaSP.Text != "")
-                    sql += " AND MaHang LIKE N'%" + txtMaSP.Text + "%'";
-                if (txtTenSP.Text != "")
-                    sql += " AND TenHang LIKE N'%" + txtTenSP.Text + "%'";
-                tblHang = Functions.getdatatotable(sql);
-                dgvSanPham.DataSource = tblHang;
+            if (isAdding || isEditing)
+            {
+                MessageBox.Show("Vui lòng hoàn tất hoặc hủy thao tác thêm/sửa trước khi tìm kiếm!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Kiểm tra xem có nhập ít nhất một trường
+            if (string.IsNullOrEmpty(txtMaSP.Text) &&
+                string.IsNullOrEmpty(txtTenSP.Text) &&
+                string.IsNullOrEmpty(txtSoLuong.Text) &&
+                string.IsNullOrEmpty(txtDonGiaNhap.Text) &&
+                string.IsNullOrEmpty(txtDonGiaBan.Text) &&
+                string.IsNullOrEmpty(txtThoiGianBH.Text) &&
+                string.IsNullOrEmpty(txtAnh.Text) &&
+                cboLoai.SelectedIndex == -1 &&
+                cboNhaSX.SelectedIndex == -1 &&
+                cboMauSac.SelectedIndex == -1 &&
+                cboPhanh.SelectedIndex == -1 &&
+                cboDongCo.SelectedIndex == -1 &&
+                cboTinhTrang.SelectedIndex == -1 &&
+                cboNuocSX.SelectedIndex == -1)
+            {
+                MessageBox.Show("Vui lòng nhập hoặc chọn ít nhất một trường để tìm kiếm!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Xây dựng câu lệnh SQL tìm kiếm
+            string sql = @"
+                SELECT 
+                    H.MaHang AS [Mã xe],
+                    H.TenHang AS [Tên xe],
+                    L.TenLoai AS [Loại],
+                    SX.TenHangSX AS [Hãng SX],
+                    MS.TenMau AS [Màu],
+                    P.TenPhanh AS [Phanh],
+                    D.TenDongCo AS [Động cơ],
+                    NSX.TenNuocSX AS [Nước sản xuất],
+                    H.SoLuong AS [Số lượng],
+                    H.DonGiaNhap AS [Đơn giá nhập],
+                    H.DonGiaBan AS [Đơn giá bán],
+                    TTT.TenTinhTrang AS [Tình trạng],
+                    H.ThoiGianBaoHanh AS [Bảo hành (tháng)],
+                    H.Anh AS [Ảnh]
+                FROM tblDMHang H
+                LEFT JOIN tblTheLoai L ON H.MaLoai = L.MaLoai
+                LEFT JOIN tblHangSX SX ON H.MaHangSX = SX.MaHangSX
+                LEFT JOIN tblMauSac MS ON H.MaMau = MS.MaMau
+                LEFT JOIN tblPhanhXe P ON H.MaPhanh = P.MaPhanh
+                LEFT JOIN tblDongCo D ON H.MaDongCo = D.MaDongCo
+                LEFT JOIN tblTinhTrang TTT ON H.MaTinhTrang = TTT.MaTinhTrang
+                LEFT JOIN tblNuocSX NSX ON H.MaNuocSX = NSX.MaNuocSX
+                WHERE 1=1";
+
+            // Thêm điều kiện tìm kiếm
+            if (!string.IsNullOrEmpty(txtMaSP.Text))
+                sql += " AND H.MaHang LIKE '%" + txtMaSP.Text + "%'";
+            if (!string.IsNullOrEmpty(txtTenSP.Text))
+                sql += " AND H.TenHang LIKE '%" + txtTenSP.Text + "%'";
+            if (!string.IsNullOrEmpty(txtSoLuong.Text) && int.TryParse(txtSoLuong.Text, out int soLuong))
+                sql += " AND H.SoLuong = " + soLuong;
+            if (!string.IsNullOrEmpty(txtDonGiaNhap.Text) && decimal.TryParse(txtDonGiaNhap.Text, out decimal donGiaNhap))
+                sql += " AND H.DonGiaNhap = " + donGiaNhap;
+            if (!string.IsNullOrEmpty(txtDonGiaBan.Text) && decimal.TryParse(txtDonGiaBan.Text, out decimal donGiaBan))
+                sql += " AND H.DonGiaBan = " + donGiaBan;
+            if (!string.IsNullOrEmpty(txtThoiGianBH.Text) && int.TryParse(txtThoiGianBH.Text, out int thoiGianBH))
+                sql += " AND H.ThoiGianBaoHanh = " + thoiGianBH;
+            if (!string.IsNullOrEmpty(txtAnh.Text))
+                sql += " AND H.Anh LIKE '%" + txtAnh.Text + "%'";
+            if (cboLoai.SelectedIndex != -1)
+                sql += " AND H.MaLoai = '" + cboLoai.SelectedValue + "'";
+            if (cboNhaSX.SelectedIndex != -1)
+                sql += " AND H.MaHangSX = '" + cboNhaSX.SelectedValue + "'";
+            if (cboMauSac.SelectedIndex != -1)
+                sql += " AND H.MaMau = '" + cboMauSac.SelectedValue + "'";
+            if (cboPhanh.SelectedIndex != -1)
+                sql += " AND H.MaPhanh = '" + cboPhanh.SelectedValue + "'";
+            if (cboDongCo.SelectedIndex != -1)
+                sql += " AND H.MaDongCo = '" + cboDongCo.SelectedValue + "'";
+            if (cboTinhTrang.SelectedIndex != -1)
+                sql += " AND H.MaTinhTrang = '" + cboTinhTrang.SelectedValue + "'";
+            if (cboNuocSX.SelectedIndex != -1)
+                sql += " AND H.MaNuocSX = '" + cboNuocSX.SelectedValue + "'";
+
+            tblHang = Functions.getdatatotable(sql);
+            dgvSanPham.DataSource = tblHang;
+
+            if (tblHang.Rows.Count == 0)
+            {
+                MessageBox.Show("Không tìm thấy sản phẩm nào!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void btnHienthiDS_Click(object sender, EventArgs e)
         {
-            Load_DataGridView();
+            Load_dgvSanPham();
+            ResetValues();
+            btnSua.Enabled = false;
+            btnXoa.Enabled = false;
+
+            // Khôi phục trạng thái cho phép tìm kiếm
+            txtMaSP.ReadOnly = false;
+            txtTenSP.ReadOnly = false;
+            txtSoLuong.ReadOnly = false;
+            txtDonGiaNhap.ReadOnly = false;
+            txtDonGiaBan.ReadOnly = false;
+            txtThoiGianBH.ReadOnly = false;
+            txtAnh.ReadOnly = false;
         }
+
 
         private void btnBoQua_Click(object sender, EventArgs e)
         {
             // Khôi phục trạng thái ban đầu nếu đang sửa
-            if (initialValues.Count > 0)
+            if (isEditing)
             {
-                txtMaSP.Text = initialValues["txtMaSP"];
-                txtTenSP.Text = initialValues["txtTenSP"];
-                txtSoLuong.Text = initialValues["txtSoLuong"];
-                txtDonGiaNhap.Text = initialValues["txtDonGiaNhap"];
-                txtDonGiaBan.Text = initialValues["txtDonGiaBan"];
-                txtThoiGianBH.Text = initialValues["txtThoiGianBH"];
-                txtAnh.Text = initialValues["txtAnh"];
-                cboLoai.SelectedValue = initialValues["cboLoai"] != "" ? initialValues["cboLoai"] : null;
-                cboNhaSX.SelectedValue = initialValues["cboNhaSX"] != "" ? initialValues["cboNhaSX"] : null;
-                cboMauSac.SelectedValue = initialValues["cboMauSac"] != "" ? initialValues["cboMauSac"] : null;
-                cboPhanh.SelectedValue = initialValues["cboPhanh"] != "" ? initialValues["cboPhanh"] : null;
-                cboDongCo.SelectedValue = initialValues["cboDongCo"] != "" ? initialValues["cboDongCo"] : null;
-                cboTinhTrang.SelectedValue = initialValues["cboTinhTrang"] != "" ? initialValues["cboTinhTrang"] : null;
-                cboNuocSX.SelectedValue = initialValues["cboNuocSX"] != "" ? initialValues["cboNuocSX"] : null;
-
-                // Khôi phục ảnh
-                try
-                {
-                    if (!string.IsNullOrEmpty(txtAnh.Text) && System.IO.File.Exists(txtAnh.Text))
-                    {
-                        picAnh.Image = Image.FromFile(txtAnh.Text);
-                        picAnh.SizeMode = PictureBoxSizeMode.StretchImage;
-                    }
-                    else
-                    {
-                        picAnh.Image = null;
-                    }
-                }
-                catch
-                {
-                    picAnh.Image = null;
-                }
+                txtMaSP.Text = initialMaSP;
+                txtTenSP.Text = initialTenSP;
+                txtSoLuong.Text = initialSoLuong;
+                txtDonGiaNhap.Text = initialDonGiaNhap;
+                txtDonGiaBan.Text = initialDonGiaBan;
+                txtThoiGianBH.Text = initialThoiGianBH;
+                txtAnh.Text = initialAnh;
+                cboLoai.SelectedValue = initialMaLoai != "" ? initialMaLoai : null;
+                cboNhaSX.SelectedValue = initialMaNhaSX != "" ? initialMaNhaSX : null;
+                cboMauSac.SelectedValue = initialMaMau != "" ? initialMaMau : null;
+                cboPhanh.SelectedValue = initialMaPhanh != "" ? initialMaPhanh : null;
+                cboDongCo.SelectedValue = initialMaDongCo != "" ? initialMaDongCo : null;
+                cboTinhTrang.SelectedValue = initialMaTinhTrang != "" ? initialMaTinhTrang : null;
+                cboNuocSX.SelectedValue = initialMaNuocSX != "" ? initialMaNuocSX : null;
+                DisplayImageFromPath(txtAnh.Text);
             }
             else
             {
                 ResetValues();
             }
 
+            // Đặt lại trạng thái giao diện
+            txtMaSP.ReadOnly = false;
+            txtTenSP.ReadOnly = false;
+            txtSoLuong.ReadOnly = false;
+            txtDonGiaNhap.ReadOnly = false;
+            txtDonGiaBan.ReadOnly = false;
+            txtThoiGianBH.ReadOnly = false;
+            txtAnh.ReadOnly = false;
+
             btnLuu.Enabled = false;
             btnBoQua.Enabled = false;
             btnThem.Enabled = true;
-            btnSua.Enabled = true;
-            btnXoa.Enabled = true;
-            txtMaSP.Enabled = false;
+            btnSua.Enabled = false;
+            btnXoa.Enabled = false;
+            isAdding = false;
+            isEditing = false;
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
-                OpenFileDialog dlg = new OpenFileDialog();
-                dlg.Filter = "Image Files (*.jpg;*.jpeg;*.png)|*.jpg;*.jpeg;*.png";
-                if (dlg.ShowDialog() == DialogResult.OK)
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "Image Files (*.jpg;*.jpeg;*.png)|*.jpg;*.jpeg;*.png";
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                try
                 {
-                    if (System.IO.File.Exists(dlg.FileName))
+                    if (File.Exists(dlg.FileName))
                     {
-                        txtAnh.Text = dlg.FileName;
-                        picAnh.Image = Image.FromFile(dlg.FileName);
-                        picAnh.SizeMode = PictureBoxSizeMode.StretchImage;
+                        // Lấy đường dẫn gốc của ứng dụng
+                        string appPath = Application.StartupPath;
+                        string imagePath = Path.Combine(appPath, imageFolder);
+
+                        // Sao chép file ảnh vào thư mục Images của dự án
+                        string fileName = Path.GetFileName(dlg.FileName);
+                        string destPath = Path.Combine(imagePath, fileName);
+
+                        // Nếu file đã tồn tại, thêm số thứ tự để tránh ghi đè
+                        int counter = 1;
+                        string newFileName = fileName;
+                        while (File.Exists(destPath))
+                        {
+                            string fileNameWithoutExt = Path.GetFileNameWithoutExtension(fileName);
+                            string fileExt = Path.GetExtension(fileName);
+                            newFileName = $"{fileNameWithoutExt}_{counter}{fileExt}";
+                            destPath = Path.Combine(imagePath, newFileName);
+                            counter++;
+                        }
+
+                        File.Copy(dlg.FileName, destPath, false);
+
+                        // Lưu đường dẫn tương đối vào txtAnh
+                        txtAnh.Text = Path.Combine(imageFolder, newFileName);
+                        DisplayImageFromPath(txtAnh.Text);
                     }
                     else
                     {
                         MessageBox.Show("Đường dẫn ảnh không tồn tại!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Lỗi khi tải ảnh: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
 
         private void btnLuu_Click(object sender, EventArgs e)
         {
+            // Kiểm tra dữ liệu
+            if (string.IsNullOrEmpty(txtTenSP.Text.Trim()))
+            {
+                MessageBox.Show("Vui lòng nhập tên sản phẩm!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTenSP.Focus();
+                return;
+            }
+            if (cboLoai.SelectedIndex == -1 || cboNhaSX.SelectedIndex == -1 || cboMauSac.SelectedIndex == -1 ||
+                cboPhanh.SelectedIndex == -1 || cboDongCo.SelectedIndex == -1 || cboTinhTrang.SelectedIndex == -1 ||
+                cboNuocSX.SelectedIndex == -1)
+            {
+                MessageBox.Show("Vui lòng chọn đầy đủ thông tin (Loại, Hãng SX, Màu, Phanh, Động cơ, Tình trạng, Nước SX)!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (!int.TryParse(txtSoLuong.Text, out int soLuong) || soLuong < 0)
+            {
+                MessageBox.Show("Số lượng phải là số nguyên không âm!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtSoLuong.Focus();
+                return;
+            }
+            if (!decimal.TryParse(txtDonGiaNhap.Text, out decimal donGiaNhap) || donGiaNhap < 0)
+            {
+                MessageBox.Show("Đơn giá nhập phải là số không âm!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtDonGiaNhap.Focus();
+                return;
+            }
+            if (!decimal.TryParse(txtDonGiaBan.Text, out decimal donGiaBan) || donGiaBan < 0)
+            {
+                MessageBox.Show("Đơn giá bán phải là số không âm!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtDonGiaBan.Focus();
+                return;
+            }
+            if (!int.TryParse(txtThoiGianBH.Text, out int thoiGianBH) || thoiGianBH < 0)
+            {
+                MessageBox.Show("Thời gian bảo hành phải là số nguyên không âm!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtThoiGianBH.Focus();
+                return;
+            }
+
+            // Kiểm tra ký tự đặc biệt trong mã và tên để giảm rủi ro SQL Injection
+            if (txtMaSP.Text.Contains("'") || txtTenSP.Text.Contains("'"))
+            {
+                MessageBox.Show("Mã hoặc tên sản phẩm không được chứa ký tự nháy đơn (')!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             try
             {
-                // Kiểm tra xem đang thêm mới hay sửa
-                bool isEditMode = initialValues.Count > 0;
-
-                if (isEditMode)
+                if (isEditing)
                 {
-                    // Kiểm tra có thay đổi nào không
+                    // Kiểm tra thay đổi
                     if (!HasChanges())
                     {
-                        MessageBox.Show("Bạn chưa chỉnh sửa thông tin nào!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        return;
-                    }
-
-                    // Kiểm tra dữ liệu bắt buộc khi sửa
-                    if (txtTenSP.Text.Trim() == "")
-                    {
-                        MessageBox.Show("Bạn phải nhập TÊN SẢN PHẨM", "Thông báo");
-                        txtTenSP.Focus();
-                        return;
-                    }
-                    if (cboLoai.SelectedIndex == -1 || cboNhaSX.SelectedIndex == -1 || cboMauSac.SelectedIndex == -1 ||
-                        cboPhanh.SelectedIndex == -1 || cboDongCo.SelectedIndex == -1 || cboTinhTrang.SelectedIndex == -1 ||
-                        cboNuocSX.SelectedIndex == -1)
-                    {
-                        MessageBox.Show("Bạn phải chọn đầy đủ thông tin (Loại, Hãng SX, Màu, Phanh, Động cơ, Tình trạng, Nước SX)", "Thông báo");
-                        return;
-                    }
-                    if (!int.TryParse(txtSoLuong.Text, out _) || !decimal.TryParse(txtDonGiaNhap.Text, out _) ||
-                        !decimal.TryParse(txtDonGiaBan.Text, out _) || !int.TryParse(txtThoiGianBH.Text, out _))
-                    {
-                        MessageBox.Show("Số lượng, đơn giá nhập, đơn giá bán và thời gian bảo hành phải là số!", "Thông báo");
+                        MessageBox.Show("Không có thay đổi nào để lưu!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         return;
                     }
 
                     // Kiểm tra trùng mã sản phẩm
-                    if (Functions.Checkkey("SELECT MaHang FROM tblDMHang WHERE MaHang = '" + txtMaSP.Text.Trim() + "' AND MaHang != '" + initialValues["txtMaSP"] + "'"))
+                    string sqlCheck = "SELECT MaHang FROM tblDMHang WHERE MaHang = '" + txtMaSP.Text + "' AND MaHang != '" + initialMaSP + "'";
+                    if (Functions.Checkkey(sqlCheck))
                     {
-                        MessageBox.Show("Mã sản phẩm này đã tồn tại. Hãy nhập mã khác!", "Thông báo");
+                        MessageBox.Show("Mã sản phẩm này đã tồn tại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         txtMaSP.Focus();
                         return;
                     }
 
-                    // Thực hiện sửa
+                    // Cập nhật sản phẩm
                     string sql = "UPDATE tblDMHang SET " +
                                  "TenHang = N'" + txtTenSP.Text + "', " +
                                  "MaLoai = '" + cboLoai.SelectedValue + "', " +
@@ -361,255 +568,196 @@ namespace QLCHBanXeMay.form
                                  "MaDongCo = '" + cboDongCo.SelectedValue + "', " +
                                  "MaNuocSX = '" + cboNuocSX.SelectedValue + "', " +
                                  "MaTinhTrang = '" + cboTinhTrang.SelectedValue + "', " +
-                                 "SoLuong = " + txtSoLuong.Text + ", " +
-                                 "DonGiaNhap = " + txtDonGiaNhap.Text + ", " +
-                                 "DonGiaBan = " + txtDonGiaBan.Text + ", " +
-                                 "ThoiGianBaoHanh = " + txtThoiGianBH.Text + ", " +
-                                 "Anh = '" + txtAnh.Text + "' " +
-                                 "WHERE MaHang = '" + initialValues["txtMaSP"] + "'";
-
+                                 "SoLuong = " + soLuong + ", " +
+                                 "DonGiaNhap = " + donGiaNhap + ", " +
+                                 "DonGiaBan = " + donGiaBan + ", " +
+                                 "ThoiGianBaoHanh = " + thoiGianBH + ", " +
+                                 "Anh = N'" + (string.IsNullOrEmpty(txtAnh.Text) ? "" : txtAnh.Text) + "' " +
+                                 "WHERE MaHang = '" + initialMaSP + "'";
                     Functions.Runsql(sql);
-                    Load_DataGridView();
-                    ResetValues();
-                    btnBoQua.Enabled = false;
-                    btnLuu.Enabled = false;
-                    btnThem.Enabled = true;
-                    btnSua.Enabled = true;
-                    btnXoa.Enabled = true;
-                    txtMaSP.Enabled = false;
+                    MessageBox.Show("Đã cập nhật sản phẩm thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                else
+                else if (isAdding)
                 {
-                    // Chế độ thêm mới
-                    if (txtMaSP.Text.Trim() == "")
+                    if (string.IsNullOrEmpty(txtMaSP.Text.Trim()))
                     {
-                        MessageBox.Show("Bạn phải nhập MÃ SẢN PHẨM", "Thông báo");
-                        txtMaSP.Focus();
-                        return;
-                    }
-                    if (txtTenSP.Text.Trim() == "")
-                    {
-                        MessageBox.Show("Bạn phải nhập TÊN SẢN PHẨM", "Thông báo");
-                        txtTenSP.Focus();
-                        return;
-                    }
-                    if (txtSoLuong.Text.Trim() == "")
-                    {
-                        MessageBox.Show("Bạn phải nhập SỐ LƯỢNG", "Thông báo");
-                        txtSoLuong.Focus();
-                        return;
-                    }
-                    if (!int.TryParse(txtSoLuong.Text, out _))
-                    {
-                        MessageBox.Show("Số lượng phải là số nguyên!");
-                        txtSoLuong.Focus();
-                        return;
-                    }
-                    if (txtDonGiaNhap.Text.Trim() == "")
-                    {
-                        MessageBox.Show("Bạn phải nhập ĐƠN GIÁ NHẬP", "Thông báo");
-                        txtDonGiaNhap.Focus();
-                        return;
-                    }
-                    if (txtDonGiaBan.Text.Trim() == "")
-                    {
-                        MessageBox.Show("Bạn phải nhập ĐƠN GIÁ BÁN", "Thông báo");
-                        txtDonGiaBan.Focus();
-                        return;
-                    }
-                    if (txtThoiGianBH.Text.Trim() == "")
-                    {
-                        MessageBox.Show("Bạn phải nhập THỜI GIAN BẢO HÀNH", "Thông báo");
-                        txtThoiGianBH.Focus();
-                        return;
-                    }
-                    if (!decimal.TryParse(txtDonGiaNhap.Text, out _) || !decimal.TryParse(txtDonGiaBan.Text, out _) || !int.TryParse(txtThoiGianBH.Text, out _))
-                    {
-                        MessageBox.Show("Đơn giá nhập, đơn giá bán và thời gian bảo hành phải là số!", "Thông báo");
-                        return;
-                    }
-
-                    // Kiểm tra các ComboBox bắt buộc chọn
-                    if (cboLoai.SelectedIndex == -1)
-                    {
-                        MessageBox.Show("Bạn phải chọn LOẠI", "Thông báo");
-                        cboLoai.Focus();
-                        return;
-                    }
-                    if (cboNhaSX.SelectedIndex == -1)
-                    {
-                        MessageBox.Show("Bạn phải chọn NHÀ SẢN XUẤT", "Thông báo");
-                        cboNhaSX.Focus();
-                        return;
-                    }
-                    if (cboMauSac.SelectedIndex == -1)
-                    {
-                        MessageBox.Show("Bạn phải chọn MÀU SẮC", "Thông báo");
-                        cboMauSac.Focus();
-                        return;
-                    }
-                    if (cboPhanh.SelectedIndex == -1)
-                    {
-                        MessageBox.Show("Bạn phải chọn PHANH", "Thông báo");
-                        cboPhanh.Focus();
-                        return;
-                    }
-                    if (cboDongCo.SelectedIndex == -1)
-                    {
-                        MessageBox.Show("Bạn phải chọn ĐỘNG CƠ", "Thông báo");
-                        cboDongCo.Focus();
-                        return;
-                    }
-                    if (cboTinhTrang.SelectedIndex == -1)
-                    {
-                        MessageBox.Show("Bạn phải chọn TÌNH TRẠNG", "Thông báo");
-                        cboTinhTrang.Focus();
-                        return;
-                    }
-                    if (cboNuocSX.SelectedIndex == -1)
-                    {
-                        MessageBox.Show("Bạn phải chọn NƯỚC SẢN XUẤT", "Thông báo");
-                        cboNuocSX.Focus();
-                        return;
-                    }
-
-                    // Kiểm tra trùng khóa
-                    if (Functions.Checkkey("SELECT MaHang FROM tblDMHang WHERE MaHang = '" + txtMaSP.Text.Trim() + "'"))
-                    {
-                        MessageBox.Show("Mã sản phẩm này đã tồn tại. Hãy nhập mã khác!", "Thông báo");
+                        MessageBox.Show("Vui lòng nhập mã sản phẩm!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         txtMaSP.Focus();
                         return;
                     }
 
-                    // Nếu hợp lệ → thực hiện thêm mới
+                    // Kiểm tra trùng mã sản phẩm
+                    string sqlCheck = "SELECT MaHang FROM tblDMHang WHERE MaHang = '" + txtMaSP.Text + "'";
+                    if (Functions.Checkkey(sqlCheck))
+                    {
+                        MessageBox.Show("Mã sản phẩm này đã tồn tại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        txtMaSP.Focus();
+                        return;
+                    }
+
+                    // Thêm sản phẩm mới
                     string sql = "INSERT INTO tblDMHang(MaHang, TenHang, MaLoai, MaHangSX, MaMau, MaPhanh, MaDongCo, MaNuocSX, MaTinhTrang, SoLuong, DonGiaNhap, DonGiaBan, ThoiGianBaoHanh, Anh) " +
-                      "VALUES('" + txtMaSP.Text + "', N'" + txtTenSP.Text + "', '" + cboLoai.SelectedValue +
-                      "', '" + cboNhaSX.SelectedValue + "', '" + cboMauSac.SelectedValue + "', '" + cboPhanh.SelectedValue +
-                      "', '" + cboDongCo.SelectedValue + "', '" + cboNuocSX.SelectedValue + "', '" + cboTinhTrang.SelectedValue + "', " +
-                      txtSoLuong.Text + ", " + txtDonGiaNhap.Text + ", " + txtDonGiaBan.Text + ", " + txtThoiGianBH.Text + ", '" + txtAnh.Text + "')";
-
+                                 "VALUES('" + txtMaSP.Text + "', N'" + txtTenSP.Text + "', '" + cboLoai.SelectedValue + "', '" + cboNhaSX.SelectedValue + "', '" + cboMauSac.SelectedValue + "', '" +
+                                 cboPhanh.SelectedValue + "', '" + cboDongCo.SelectedValue + "', '" + cboNuocSX.SelectedValue + "', '" + cboTinhTrang.SelectedValue + "', " +
+                                 soLuong + ", " + donGiaNhap + ", " + donGiaBan + ", " + thoiGianBH + ", N'" + (string.IsNullOrEmpty(txtAnh.Text) ? "" : txtAnh.Text) + "')";
                     Functions.Runsql(sql);
-                    Load_DataGridView();
-                    ResetValues();
-                    btnBoQua.Enabled = false;
-                    btnLuu.Enabled = false;
-                    btnThem.Enabled = true;
-                    btnSua.Enabled = true;
-                    btnXoa.Enabled = true;
-                    txtMaSP.Enabled = false;
+                    MessageBox.Show("Đã thêm sản phẩm thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+
+                // Cập nhật giao diện
+                Load_dgvSanPham();
+                ResetValues();
+                btnLuu.Enabled = false;
+                btnBoQua.Enabled = false;
+                btnThem.Enabled = true;
+                btnSua.Enabled = false;
+                btnXoa.Enabled = false;
+
+                // Khôi phục trạng thái cho phép tìm kiếm
+                txtMaSP.ReadOnly = false;
+                txtTenSP.ReadOnly = false;
+                txtSoLuong.ReadOnly = false;
+                txtDonGiaNhap.ReadOnly = false;
+                txtDonGiaBan.ReadOnly = false;
+                txtThoiGianBH.ReadOnly = false;
+                txtAnh.ReadOnly = false;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi khi lưu dữ liệu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Lỗi khi lưu sản phẩm: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void btnDong_Click(object sender, EventArgs e)
         {
+            if (isAdding || isEditing)
+            {
+                DialogResult result = MessageBox.Show("Bạn đang thêm hoặc sửa sản phẩm. Bạn có muốn lưu trước khi đóng?", "Cảnh báo", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+                if (result == DialogResult.Yes)
+                {
+                    btnLuu_Click(null, null);
+                    if (isAdding || isEditing) // Nếu lưu thất bại, không đóng
+                        return;
+                }
+                else if (result == DialogResult.Cancel)
+                {
+                    return;
+                }
+            }
             this.Close();
         }
 
         private void dgvSanPham_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-                if (e.RowIndex >= 0)
-                {
-                    DataGridViewRow row = dgvSanPham.Rows[e.RowIndex];
-
-                    txtMaSP.Text = row.Cells["Mã xe"].Value?.ToString() ?? "";
-                    txtTenSP.Text = row.Cells["Tên xe"].Value?.ToString() ?? "";
-                    txtSoLuong.Text = row.Cells["Số lượng"].Value?.ToString() ?? "0";
-                    txtDonGiaNhap.Text = row.Cells["Đơn giá nhập"].Value?.ToString() ?? "0";
-                    txtDonGiaBan.Text = row.Cells["Đơn giá bán"].Value?.ToString() ?? "0";
-                    txtThoiGianBH.Text = row.Cells["Bảo hành (tháng)"].Value?.ToString() ?? "0";
-                    txtAnh.Text = row.Cells["Ảnh"].Value?.ToString() ?? "";
-
-
-                    // Lấy mã dựa vào tên hiển thị
-                    cboLoai.SelectedValue = Functions.GetFieldValues("SELECT MaLoai FROM tblTheLoai WHERE TenLoai = N'" + (row.Cells["Loại"].Value?.ToString() ?? "") + "'");
-                    cboNhaSX.SelectedValue = Functions.GetFieldValues("SELECT MaHangSX FROM tblHangSX WHERE TenHangSX = N'" + (row.Cells["Hãng SX"].Value?.ToString() ?? "") + "'");
-                    cboMauSac.SelectedValue = Functions.GetFieldValues("SELECT MaMau FROM tblMauSac WHERE TenMau = N'" + (row.Cells["Màu"].Value?.ToString() ?? "") + "'");
-                    cboPhanh.SelectedValue = Functions.GetFieldValues("SELECT MaPhanh FROM tblPhanhXe WHERE TenPhanh = N'" + (row.Cells["Phanh"].Value?.ToString() ?? "") + "'");
-                    cboDongCo.SelectedValue = Functions.GetFieldValues("SELECT MaDongCo FROM tblDongCo WHERE TenDongCo = N'" + (row.Cells["Động cơ"].Value?.ToString() ?? "") + "'");
-                    cboNuocSX.SelectedValue = Functions.GetFieldValues("SELECT MaNuocSX FROM tblNuocSX WHERE TenNuocSX = N'" + (row.Cells["Nước sản xuất"].Value?.ToString() ?? "") + "'");
-                    cboTinhTrang.SelectedValue = Functions.GetFieldValues("SELECT MaTinhTrang FROM tblTinhTrang WHERE TenTinhTrang = N'" + (row.Cells["Tình trạng"].Value?.ToString() ?? "") + "'");
-
-                    // Hiển thị ảnh từ cột "Ảnh"
-                    DisplayImageFromPath(txtAnh.Text);
-
-                    // Bật các nút thao tác
-                    txtMaSP.Enabled = false;
-                    btnSua.Enabled = true;
-                    btnXoa.Enabled = true;
-                    btnBoQua.Enabled = true;
-                }          
-        }
-
-        // Phương thức hiển thị ảnh từ đường dẫn
-        private void DisplayImageFromPath(string imagePath)
-        {
-              picAnh.Image = null;
-
-            if (!string.IsNullOrEmpty(imagePath) && System.IO.File.Exists(imagePath))
+            if (e.RowIndex >= 0)
             {
-                using (var fs = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
+                if (isAdding || isEditing)
                 {
-                    Image img = Image.FromStream(fs);
-                    picAnh.Image = new Bitmap(img);
+                    MessageBox.Show("Vui lòng hoàn tất hoặc hủy thao tác thêm/sửa trước!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
                 }
 
-                picAnh.SizeMode = PictureBoxSizeMode.StretchImage;
-            }
-            else
-            {
-                MessageBox.Show("File ảnh không tồn tại tại:\n" + imagePath, "Ảnh không tìm thấy", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                DataGridViewRow row = dgvSanPham.Rows[e.RowIndex];
+                txtMaSP.Text = row.Cells["Mã xe"].Value?.ToString() ?? "";
+                txtTenSP.Text = row.Cells["Tên xe"].Value?.ToString() ?? "";
+                txtSoLuong.Text = row.Cells["Số lượng"].Value?.ToString() ?? "";
+                txtDonGiaNhap.Text = row.Cells["Đơn giá nhập"].Value?.ToString() ?? "";
+                txtDonGiaBan.Text = row.Cells["Đơn giá bán"].Value?.ToString() ?? "";
+                txtThoiGianBH.Text = row.Cells["Bảo hành (tháng)"].Value?.ToString() ?? "";
+                txtAnh.Text = row.Cells["Ảnh"].Value?.ToString() ?? "";
+
+                string sqlLoai = "SELECT MaLoai FROM tblTheLoai WHERE TenLoai = N'" + (row.Cells["Loại"].Value?.ToString() ?? "") + "'";
+                cboLoai.SelectedValue = Functions.GetFieldValues(sqlLoai);
+
+                string sqlNhaSX = "SELECT MaHangSX FROM tblHangSX WHERE TenHangSX = N'" + (row.Cells["Hãng SX"].Value?.ToString() ?? "") + "'";
+                cboNhaSX.SelectedValue = Functions.GetFieldValues(sqlNhaSX);
+
+                string sqlMau = "SELECT MaMau FROM tblMauSac WHERE TenMau = N'" + (row.Cells["Màu"].Value?.ToString() ?? "") + "'";
+                cboMauSac.SelectedValue = Functions.GetFieldValues(sqlMau);
+
+                string sqlPhanh = "SELECT MaPhanh FROM tblPhanhXe WHERE TenPhanh = N'" + (row.Cells["Phanh"].Value?.ToString() ?? "") + "'";
+                cboPhanh.SelectedValue = Functions.GetFieldValues(sqlPhanh);
+
+                string sqlDongCo = "SELECT MaDongCo FROM tblDongCo WHERE TenDongCo = N'" + (row.Cells["Động cơ"].Value?.ToString() ?? "") + "'";
+                cboDongCo.SelectedValue = Functions.GetFieldValues(sqlDongCo);
+
+                string sqlNuocSX = "SELECT MaNuocSX FROM tblNuocSX WHERE TenNuocSX = N'" + (row.Cells["Nước sản xuất"].Value?.ToString() ?? "") + "'";
+                cboNuocSX.SelectedValue = Functions.GetFieldValues(sqlNuocSX);
+
+                string sqlTinhTrang = "SELECT MaTinhTrang FROM tblTinhTrang WHERE TenTinhTrang = N'" + (row.Cells["Tình trạng"].Value?.ToString() ?? "") + "'";
+                cboTinhTrang.SelectedValue = Functions.GetFieldValues(sqlTinhTrang);
+
+                DisplayImageFromPath(txtAnh.Text);
+                btnSua.Enabled = true;
+                btnXoa.Enabled = true;
             }
         }
 
-        private void dgvSanPham_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void DisplayImageFromPath(string relativePath)
         {
+            picAnh.Image = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(relativePath))
+                {
+                    // Chuyển đường dẫn tương đối thành đường dẫn tuyệt đối
+                    string absolutePath = Path.Combine(Application.StartupPath, relativePath);
+                    if (File.Exists(absolutePath))
+                    {
+                        picAnh.Image = Image.FromFile(absolutePath);
+                        picAnh.SizeMode = PictureBoxSizeMode.StretchImage;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Không tìm thấy file ảnh: " + relativePath, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi tải ảnh: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
+        private void txtDonGiaNhap_TextChanged(object sender, EventArgs e)
+        {
+            // Tự động tính giá bán = 110% giá nhập khi đang thêm hoặc sửa
+            if (isAdding || isEditing)
+            {
+                if (decimal.TryParse(txtDonGiaNhap.Text, out decimal donGiaNhap) && donGiaNhap >= 0)
+                {
+                    decimal donGiaBan = donGiaNhap * 1.1m;
+                    txtDonGiaBan.Text = donGiaBan.ToString("F2"); // Định dạng 2 chữ số thập phân
+                }
+                else
+                {
+                    txtDonGiaBan.Text = "";
+                }
+            }
         }
 
         private void txtSoLuong_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (((e.KeyChar >= '0') && (e.KeyChar <= '9')) || (e.KeyChar == '-') ||
-  (e.KeyChar == '.') || (Convert.ToInt32(e.KeyChar) == 8) || (Convert.ToInt32(e.KeyChar) == 13))
-                e.Handled = false;
-            else
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)8)
                 e.Handled = true;
         }
 
         private void txtDonGiaNhap_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (((e.KeyChar >= '0') && (e.KeyChar <= '9')) || (e.KeyChar == '-') ||
-  (e.KeyChar == '.') || (Convert.ToInt32(e.KeyChar) == 8) || (Convert.ToInt32(e.KeyChar) == 13))
-                e.Handled = false;
-            else
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '.' && e.KeyChar != (char)8)
                 e.Handled = true;
         }
 
         private void txtDonGiaBan_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (((e.KeyChar >= '0') && (e.KeyChar <= '9')) || (e.KeyChar == '-') ||
-  (e.KeyChar == '.') || (Convert.ToInt32(e.KeyChar) == 8) || (Convert.ToInt32(e.KeyChar) == 13))
-                e.Handled = false;
-            else
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '.' && e.KeyChar != (char)8)
                 e.Handled = true;
         }
 
         private void txtThoiGianBH_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (((e.KeyChar >= '0') && (e.KeyChar <= '9')) || (e.KeyChar == '-') ||
-  (e.KeyChar == '.') || (Convert.ToInt32(e.KeyChar) == 8) || (Convert.ToInt32(e.KeyChar) == 13))
-                e.Handled = false;
-            else
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)8)
                 e.Handled = true;
-        }
-
-        private void txtSoLuong_TextChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }

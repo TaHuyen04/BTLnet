@@ -325,7 +325,6 @@
             this.txtSoLuong.Name = "txtSoLuong";
             this.txtSoLuong.Size = new System.Drawing.Size(158, 22);
             this.txtSoLuong.TabIndex = 9;
-            this.txtSoLuong.TextChanged += new System.EventHandler(this.txtSoLuong_TextChanged);
             this.txtSoLuong.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSoLuong_KeyPress);
             // 
             // txtTenSP
@@ -389,7 +388,6 @@
             this.dgvSanPham.Size = new System.Drawing.Size(880, 208);
             this.dgvSanPham.TabIndex = 9;
             this.dgvSanPham.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSanPham_CellClick);
-            this.dgvSanPham.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSanPham_CellContentClick);
             // 
             // groupBox3
             // 
@@ -479,6 +477,7 @@
             this.btnTimkiem.TabIndex = 22;
             this.btnTimkiem.Text = "Tìm kiếm";
             this.btnTimkiem.UseVisualStyleBackColor = false;
+            this.btnTimkiem.Click += new System.EventHandler(this.btnTimkiem_Click);
             // 
             // btnHienthiDS
             // 
@@ -489,6 +488,7 @@
             this.btnHienthiDS.TabIndex = 23;
             this.btnHienthiDS.Text = "Hiển thị danh sách";
             this.btnHienthiDS.UseVisualStyleBackColor = false;
+            this.btnHienthiDS.Click += new System.EventHandler(this.btnHienthiDS_Click);
             // 
             // label1
             // 
