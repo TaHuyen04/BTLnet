@@ -47,6 +47,7 @@
             this.btnHienthi = new System.Windows.Forms.Button();
             this.btnBoqua = new System.Windows.Forms.Button();
             this.btnDong = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgridKhach)).BeginInit();
             this.SuspendLayout();
@@ -61,9 +62,9 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(30, 12);
+            this.groupBox1.Location = new System.Drawing.Point(30, 34);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(871, 199);
+            this.groupBox1.Size = new System.Drawing.Size(871, 177);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Thông tin Khách Hàng";
@@ -81,7 +82,7 @@
             this.txtDiaChi.Location = new System.Drawing.Point(498, 57);
             this.txtDiaChi.Multiline = true;
             this.txtDiaChi.Name = "txtDiaChi";
-            this.txtDiaChi.Size = new System.Drawing.Size(292, 125);
+            this.txtDiaChi.Size = new System.Drawing.Size(292, 113);
             this.txtDiaChi.TabIndex = 7;
             // 
             // txtTenKH
@@ -251,11 +252,23 @@
             this.btnDong.UseVisualStyleBackColor = false;
             this.btnDong.Click += new System.EventHandler(this.btnDong_Click);
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Arial", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.label7.Location = new System.Drawing.Point(368, 9);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(205, 33);
+            this.label7.TabIndex = 40;
+            this.label7.Text = "KHÁCH HÀNG";
+            // 
             // frmKhachhang
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(929, 560);
+            this.ClientSize = new System.Drawing.Size(943, 569);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.btnDong);
             this.Controls.Add(this.btnBoqua);
             this.Controls.Add(this.btnHienthi);
@@ -299,5 +312,6 @@
         private System.Windows.Forms.Button btnHienthi;
         private System.Windows.Forms.Button btnBoqua;
         private System.Windows.Forms.Button btnDong;
+        private System.Windows.Forms.Label label7;
     }
 }

@@ -47,6 +47,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.DgridNCC)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -176,9 +177,9 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(37, 10);
+            this.groupBox1.Location = new System.Drawing.Point(37, 31);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(871, 199);
+            this.groupBox1.Size = new System.Drawing.Size(871, 178);
             this.groupBox1.TabIndex = 41;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Thông tin Nhà Cung Cấp";
@@ -196,7 +197,7 @@
             this.txtDiaChi.Location = new System.Drawing.Point(498, 57);
             this.txtDiaChi.Multiline = true;
             this.txtDiaChi.Name = "txtDiaChi";
-            this.txtDiaChi.Size = new System.Drawing.Size(292, 125);
+            this.txtDiaChi.Size = new System.Drawing.Size(292, 113);
             this.txtDiaChi.TabIndex = 7;
             // 
             // txtTenNCC
@@ -249,11 +250,23 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Mã Nhà Cung Cấp";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Arial", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.label6.Location = new System.Drawing.Point(346, 9);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(230, 33);
+            this.label6.TabIndex = 19;
+            this.label6.Text = "NHÀ CUNG CẤP";
+            // 
             // frmNCC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(942, 546);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.btnDong);
             this.Controls.Add(this.btnBoqua);
             this.Controls.Add(this.btnHienthi);
@@ -297,5 +310,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label6;
     }
 }
