@@ -144,6 +144,7 @@
             this.txtkhoangbd.Name = "txtkhoangbd";
             this.txtkhoangbd.Size = new System.Drawing.Size(100, 22);
             this.txtkhoangbd.TabIndex = 27;
+            this.txtkhoangbd.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtkhoangbd_KeyPress);
             // 
             // txtMaNCC
             // 
@@ -228,6 +229,7 @@
             this.txtkhoangkt.Name = "txtkhoangkt";
             this.txtkhoangkt.Size = new System.Drawing.Size(100, 22);
             this.txtkhoangkt.TabIndex = 35;
+            this.txtkhoangkt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtkhoangkt_KeyPress);
             // 
             // groupBox1
             // 

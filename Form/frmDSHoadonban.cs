@@ -244,5 +244,23 @@ namespace QLCHBanXeMay.form
         {
             this.Close();
         }
+
+        private void txtTongtientu_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (((e.KeyChar >= '0') && (e.KeyChar <= '9')) || (e.KeyChar == '-') ||
+  (e.KeyChar == '.') || (Convert.ToInt32(e.KeyChar) == 8) || (Convert.ToInt32(e.KeyChar) == 13))
+                e.Handled = false;
+            else
+                e.Handled = true;
+        }
+
+        private void txtTongtienden_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (((e.KeyChar >= '0') && (e.KeyChar <= '9')) || (e.KeyChar == '-') ||
+  (e.KeyChar == '.') || (Convert.ToInt32(e.KeyChar) == 8) || (Convert.ToInt32(e.KeyChar) == 13))
+                e.Handled = false;
+            else
+                e.Handled = true;
+        }
     }
 }

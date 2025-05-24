@@ -187,5 +187,14 @@ namespace QLCHBanXeMay.form
             LoadData();
             ResetForm();
         }
+
+        private void txtLuongthang_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (((e.KeyChar >= '0') && (e.KeyChar <= '9')) || (e.KeyChar == '-') ||
+  (e.KeyChar == '.') || (Convert.ToInt32(e.KeyChar) == 8) || (Convert.ToInt32(e.KeyChar) == 13))
+                e.Handled = false;
+            else
+                e.Handled = true;
+        }
     }
 }

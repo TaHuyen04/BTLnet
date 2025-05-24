@@ -32,17 +32,17 @@ namespace QLCHBanXeMay.form
             string sqlNhanVien = "SELECT MaNV FROM tblNhanVien";
             Class.Functions.FillCombo(sqlNhanVien, cboMaNV, "MaNV", "MaNV");
             cboMaNV.SelectedIndex = -1;
-
+            cboMaNV.DropDownStyle = ComboBoxStyle.DropDownList;
             // Load ComboBox Mã khách hàng 
             string sqlNCC = "SELECT MaKhach FROM tblKhachHang";
             Class.Functions.FillCombo(sqlNCC, cboMaKH, "MaKhach", "MaKhach");
             cboMaKH.SelectedIndex = -1;
-
+            cboMaKH.DropDownStyle = ComboBoxStyle.DropDownList;
             // Load ComboBox Mã sản phẩm 
             string sqlSP = "SELECT MaHang FROM tblDMHang";
             Class.Functions.FillCombo(sqlSP, cboMaSP, "MaHang", "MaHang");
             cboMaSP.SelectedIndex = -1;
-
+            cboMaSP.DropDownStyle = ComboBoxStyle.DropDownList;
             // Tự sinh mã hóa đơn
             txtMaHDB.Text = GenerateNewInvoiceCode();
 
@@ -54,6 +54,7 @@ namespace QLCHBanXeMay.form
             btnInHD.Enabled = false;
             btnXoaHD.Enabled = false;
             btnLuuHD.Enabled = false;
+            txtDongiaban.ReadOnly = true;
         }
 
         private string GenerateNewInvoiceCode()
@@ -719,6 +720,11 @@ namespace QLCHBanXeMay.form
 
             ResetForm();
             this.Close();
+        }
+
+        private void txtDongiaban_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

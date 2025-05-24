@@ -29,15 +29,22 @@ namespace QLCHBanXeMay.form
                 btnBoQua.Enabled = false;
                 Load_DataGridView();
                 Functions.FillCombo("SELECT MaMau, TenMau FROM tblMauSac", cboMauSac, "MaMau", "TenMau");
-                Functions.FillCombo("SELECT MaLoai, TenLoai FROM tblTheLoai", cboLoai, "MaLoai", "TenLoai");
-                Functions.FillCombo("SELECT MaHangSX, TenHangSX FROM tblHangSX", cboNhaSX, "MaHangSX", "TenHangSX");
-                Functions.FillCombo("SELECT MaPhanh, TenPhanh FROM tblPhanhXe", cboPhanh, "MaPhanh", "TenPhanh");
-                Functions.FillCombo("SELECT MaDongCo, TenDongCo FROM tblDongCo", cboDongCo, "MaDongCo", "TenDongCo");
-                Functions.FillCombo("SELECT MaTinhTrang, TenTinhTrang FROM tblTinhTrang", cboTinhTrang, "MaTinhTrang", "TenTinhTrang");
-                Functions.FillCombo("SELECT MaNuocSX, TenNuocSX FROM tblNuocSX", cboNuocSX, "MaNuocSX", "TenNuocSX");
+            cboMauSac.DropDownStyle = ComboBoxStyle.DropDownList;
+            Functions.FillCombo("SELECT MaLoai, TenLoai FROM tblTheLoai", cboLoai, "MaLoai", "TenLoai");
+            cboLoai.DropDownStyle = ComboBoxStyle.DropDownList;
+            Functions.FillCombo("SELECT MaHangSX, TenHangSX FROM tblHangSX", cboNhaSX, "MaHangSX", "TenHangSX");
+            cboNhaSX.DropDownStyle = ComboBoxStyle.DropDownList;
+            Functions.FillCombo("SELECT MaPhanh, TenPhanh FROM tblPhanhXe", cboPhanh, "MaPhanh", "TenPhanh");
+            cboPhanh.DropDownStyle = ComboBoxStyle.DropDownList;
+            Functions.FillCombo("SELECT MaDongCo, TenDongCo FROM tblDongCo", cboDongCo, "MaDongCo", "TenDongCo");
+            cboDongCo.DropDownStyle = ComboBoxStyle.DropDownList;
+            Functions.FillCombo("SELECT MaTinhTrang, TenTinhTrang FROM tblTinhTrang", cboTinhTrang, "MaTinhTrang", "TenTinhTrang");
+            cboTinhTrang.DropDownStyle = ComboBoxStyle.DropDownList;
+            Functions.FillCombo("SELECT MaNuocSX, TenNuocSX FROM tblNuocSX", cboNuocSX, "MaNuocSX", "TenNuocSX");
                 cboNuocSX.SelectedIndex = -1;
+            cboNuocSX.DropDownStyle = ComboBoxStyle.DropDownList;
 
-                ResetValues();
+            ResetValues();
             
         }
 
@@ -560,6 +567,47 @@ namespace QLCHBanXeMay.form
         }
 
         private void dgvSanPham_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void txtSoLuong_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (((e.KeyChar >= '0') && (e.KeyChar <= '9')) || (e.KeyChar == '-') ||
+  (e.KeyChar == '.') || (Convert.ToInt32(e.KeyChar) == 8) || (Convert.ToInt32(e.KeyChar) == 13))
+                e.Handled = false;
+            else
+                e.Handled = true;
+        }
+
+        private void txtDonGiaNhap_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (((e.KeyChar >= '0') && (e.KeyChar <= '9')) || (e.KeyChar == '-') ||
+  (e.KeyChar == '.') || (Convert.ToInt32(e.KeyChar) == 8) || (Convert.ToInt32(e.KeyChar) == 13))
+                e.Handled = false;
+            else
+                e.Handled = true;
+        }
+
+        private void txtDonGiaBan_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (((e.KeyChar >= '0') && (e.KeyChar <= '9')) || (e.KeyChar == '-') ||
+  (e.KeyChar == '.') || (Convert.ToInt32(e.KeyChar) == 8) || (Convert.ToInt32(e.KeyChar) == 13))
+                e.Handled = false;
+            else
+                e.Handled = true;
+        }
+
+        private void txtThoiGianBH_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (((e.KeyChar >= '0') && (e.KeyChar <= '9')) || (e.KeyChar == '-') ||
+  (e.KeyChar == '.') || (Convert.ToInt32(e.KeyChar) == 8) || (Convert.ToInt32(e.KeyChar) == 13))
+                e.Handled = false;
+            else
+                e.Handled = true;
+        }
+
+        private void txtSoLuong_TextChanged(object sender, EventArgs e)
         {
 
         }

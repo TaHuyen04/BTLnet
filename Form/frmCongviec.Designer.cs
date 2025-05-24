@@ -51,6 +51,7 @@
             this.txtLuongthang.Name = "txtLuongthang";
             this.txtLuongthang.Size = new System.Drawing.Size(100, 22);
             this.txtLuongthang.TabIndex = 43;
+            this.txtLuongthang.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtLuongthang_KeyPress);
             // 
             // label4
             // 

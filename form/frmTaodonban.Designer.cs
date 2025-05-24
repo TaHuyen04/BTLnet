@@ -231,6 +231,7 @@
             this.txtDongiaban.Name = "txtDongiaban";
             this.txtDongiaban.Size = new System.Drawing.Size(124, 22);
             this.txtDongiaban.TabIndex = 18;
+            this.txtDongiaban.TextChanged += new System.EventHandler(this.txtDongiaban_TextChanged);
             // 
             // txtTenSP
             // 

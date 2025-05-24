@@ -209,6 +209,7 @@
             this.txtTongtienden.Size = new System.Drawing.Size(115, 22);
             this.txtTongtienden.TabIndex = 40;
             this.txtTongtienden.TextChanged += new System.EventHandler(this.txtTongtienden_TextChanged);
+            this.txtTongtienden.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtTongtienden_KeyPress);
             // 
             // txtTongtientu
             // 
@@ -217,6 +218,7 @@
             this.txtTongtientu.Size = new System.Drawing.Size(116, 22);
             this.txtTongtientu.TabIndex = 38;
             this.txtTongtientu.TextChanged += new System.EventHandler(this.txtTongtientu_TextChanged);
+            this.txtTongtientu.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtTongtientu_KeyPress);
             // 
             // label6
             // 

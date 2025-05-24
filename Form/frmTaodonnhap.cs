@@ -41,17 +41,18 @@ namespace QLCHBanXeMay.form
             string sqlNhanVien = "SELECT MaNV FROM tblNhanVien";
             Class.Functions.FillCombo(sqlNhanVien, cboMaNV, "MaNV", "MaNV");
             cboMaNV.SelectedIndex = -1;
-
+            cboMaNV.DropDownStyle = ComboBoxStyle.DropDownList;
             // Load ComboBox Mã nhà cung cấp 
             string sqlNCC = "SELECT MaNCC FROM tblNhaCungCap";
             Class.Functions.FillCombo(sqlNCC, cboMaNCC, "MaNCC", "MaNCC");
             cboMaNCC.SelectedIndex = -1;
-
+            cboMaNCC.DropDownStyle = ComboBoxStyle.DropDownList;
             // Load ComboBox Mã sản phẩm 
             string sqlSP = "SELECT MaHang FROM tblDMHang";
             Class.Functions.FillCombo(sqlSP, cboMaSP, "MaHang", "MaHang");
             cboMaSP.SelectedIndex = -1;
-;
+            cboMaSP.DropDownStyle = ComboBoxStyle.DropDownList;
+
 
             // Tự sinh mã hóa đơn
             txtMaHDN.Text = GenerateNewInvoiceCode();
