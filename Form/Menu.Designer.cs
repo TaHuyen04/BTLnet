@@ -162,7 +162,7 @@
             this.btnTaoDB.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.btnTaoDB.Location = new System.Drawing.Point(6, 57);
             this.btnTaoDB.Name = "btnTaoDB";
-            this.btnTaoDB.Size = new System.Drawing.Size(146, 29);
+            this.btnTaoDB.Size = new System.Drawing.Size(153, 29);
             this.btnTaoDB.TabIndex = 1;
             this.btnTaoDB.Text = "Tạo đơn bán";
             this.btnTaoDB.UseVisualStyleBackColor = false;
@@ -174,7 +174,7 @@
             this.btnDSB.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.btnDSB.Location = new System.Drawing.Point(6, 21);
             this.btnDSB.Name = "btnDSB";
-            this.btnDSB.Size = new System.Drawing.Size(146, 30);
+            this.btnDSB.Size = new System.Drawing.Size(153, 30);
             this.btnDSB.TabIndex = 0;
             this.btnDSB.Text = "DS hóa đơn bán";
             this.btnDSB.UseVisualStyleBackColor = false;
@@ -199,7 +199,7 @@
             this.btnTaoDN.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.btnTaoDN.Location = new System.Drawing.Point(6, 56);
             this.btnTaoDN.Name = "btnTaoDN";
-            this.btnTaoDN.Size = new System.Drawing.Size(146, 30);
+            this.btnTaoDN.Size = new System.Drawing.Size(153, 30);
             this.btnTaoDN.TabIndex = 1;
             this.btnTaoDN.Text = "Tạo đơn nhập";
             this.btnTaoDN.UseVisualStyleBackColor = false;
@@ -211,7 +211,7 @@
             this.btnDSN.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.btnDSN.Location = new System.Drawing.Point(6, 21);
             this.btnDSN.Name = "btnDSN";
-            this.btnDSN.Size = new System.Drawing.Size(146, 29);
+            this.btnDSN.Size = new System.Drawing.Size(153, 29);
             this.btnDSN.TabIndex = 0;
             this.btnDSN.Text = "DS hóa đơn nhập";
             this.btnDSN.UseVisualStyleBackColor = false;

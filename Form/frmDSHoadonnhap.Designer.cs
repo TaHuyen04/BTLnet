@@ -272,7 +272,7 @@
             this.label7.Size = new System.Drawing.Size(406, 33);
             this.label7.TabIndex = 39;
             this.label7.Text = "DANH SÁCH HÓA ĐƠN NHẬP";
-            this.label7.Click += new System.EventHandler(this.label7_Click);
+//            this.label7.Click += new System.EventHandler(this.label7_Click);
             // 
             // frmDSHoadonnhap
             // 

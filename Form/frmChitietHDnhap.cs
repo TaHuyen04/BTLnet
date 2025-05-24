@@ -110,7 +110,6 @@ namespace QLCHBanXeMay.form
                     sumTongtien += thanhTien;
             }
 
-            lblTongSP.Text = "Số lượng sản phẩm: " + sumSoluongSP;
             lblSoluongSP.Text = "Số sản phẩm: " + sumSP;
             lblTongtien.Text = "Tổng tiền: " + sumTongtien.ToString("N0") + " VNĐ";
             lblBangchu.Text = "Tổng tiền (bằng chữ): " + Functions.ChuyenSoSangChu(sumTongtien.ToString());
@@ -239,7 +238,7 @@ namespace QLCHBanXeMay.form
             // Tổng kết
             int endRow = startRow + dgridDanhsachSP.Rows.Count + 1;
             xlSheet.Cells[endRow, 4] = "Tổng SL:";
-            xlSheet.Cells[endRow, 5] = lblTongSP.Text.Replace("Tổng số lượng sản phẩm: ", "");
+            xlSheet.Cells[endRow, 5] = lblSoluongSP.Text.Replace("Tổng số lượng sản phẩm: ", "");
 
             xlSheet.Cells[endRow + 1, 4] = "Tổng tiền:";
             xlSheet.Cells[endRow + 1, 5] = lblSoluongSP.Text.Replace("Tổng tiền: ", "");
