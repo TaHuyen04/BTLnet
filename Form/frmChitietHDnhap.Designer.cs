@@ -51,7 +51,6 @@
             this.qlcH_BanXeDataSet12 = new QLCHBanXeMay.QLCH_BanXeDataSet1();
             this.dgridDanhsachSP = new System.Windows.Forms.DataGridView();
             this.label9 = new System.Windows.Forms.Label();
-            this.lblTongSP = new System.Windows.Forms.Label();
             this.lblSoluongSP = new System.Windows.Forms.Label();
             this.lblTongtien = new System.Windows.Forms.Label();
             this.lblBangchu = new System.Windows.Forms.Label();
@@ -272,16 +271,6 @@
             this.label9.TabIndex = 2;
             this.label9.Text = "Danh Sách Sản Phẩm";
             // 
-            // lblTongSP
-            // 
-            this.lblTongSP.AutoSize = true;
-            this.lblTongSP.Location = new System.Drawing.Point(532, 433);
-            this.lblTongSP.Name = "lblTongSP";
-            this.lblTongSP.Size = new System.Drawing.Size(119, 16);
-            this.lblTongSP.TabIndex = 3;
-            this.lblTongSP.Text = "Tổng số sản phẩm";
-            this.lblTongSP.Click += new System.EventHandler(this.label10_Click);
-            // 
             // lblSoluongSP
             // 
             this.lblSoluongSP.AutoSize = true;
@@ -369,7 +358,6 @@
             this.Controls.Add(this.lblBangchu);
             this.Controls.Add(this.lblTongtien);
             this.Controls.Add(this.lblSoluongSP);
-            this.Controls.Add(this.lblTongSP);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.dgridDanhsachSP);
             this.Controls.Add(this.groupBox1);
@@ -414,7 +402,6 @@
         private QLCH_BanXeDataSet1 qlcH_BanXeDataSet12;
         private System.Windows.Forms.DataGridView dgridDanhsachSP;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label lblTongSP;
         private System.Windows.Forms.Label lblSoluongSP;
         private System.Windows.Forms.Label lblTongtien;
         private System.Windows.Forms.Label lblBangchu;
